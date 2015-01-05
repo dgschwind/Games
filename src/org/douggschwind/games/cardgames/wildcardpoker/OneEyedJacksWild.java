@@ -12,30 +12,31 @@ import org.douggschwind.games.cardgames.common.Card.Kind;
 import org.douggschwind.games.cardgames.common.DeckFactory;
 import org.douggschwind.games.cardgames.common.Player;
 import org.douggschwind.games.cardgames.poker.common.Flush;
-import org.douggschwind.games.cardgames.poker.common.FourOfAKind;
 import org.douggschwind.games.cardgames.poker.common.HandStrength;
 import org.douggschwind.games.cardgames.poker.common.HighCard;
 import org.douggschwind.games.cardgames.poker.common.Pair;
 import org.douggschwind.games.cardgames.poker.common.TwoPair;
 
 /**
- * This is a 5 card draw poker game where all four deuces in the deck
- * are each considered a wild card. For the purposes of this game,
- * the drawing part of the game is ignored in favor of simply dealing
- * with the 5 cards dealt to each player.
+ * This is a 5 card draw poker game where the Jack of Spades and the
+ * Jack of Hearts, the "one eyed" Jacks are wild. The Jack of Clubs
+ * and the Jack of Diamonds are not considered wild cards.
+ * For the purposes of this game, the drawing part of the game is ignored
+ * in favor of simply dealing with the 5 cards dealt to each player.
  * @author Doug Gschwind
  */
-public class DeucesWild extends WildCardGame {
+public class OneEyedJacksWild extends WildCardGame {
+	
+	private static final Card JACK_OF_SPADES = new Card(Card.Kind.Jack, Card.Suit.Spades);
+	private static final Card JACK_OF_HEARTS = new Card(Card.Kind.Jack, Card.Suit.Hearts);
 
-	public DeucesWild() {
+	public OneEyedJacksWild() {
 		super(DeckFactory.createStandardDeck());
 		// Since Card instances are essentially ValueObjects, just create
 		// new Card instances to specify wild cards, rather than trying
 		// to obtain the correct Card references out of the deck.
-		addWildCard(new Card(Card.Kind.Two, Card.Suit.Spades));
-		addWildCard(new Card(Card.Kind.Two, Card.Suit.Clubs));
-		addWildCard(new Card(Card.Kind.Two, Card.Suit.Hearts));
-		addWildCard(new Card(Card.Kind.Two, Card.Suit.Diamonds));
+		addWildCard(JACK_OF_SPADES);
+		addWildCard(JACK_OF_HEARTS);
 	}
 
 	@Override
@@ -52,11 +53,17 @@ public class DeucesWild extends WildCardGame {
 		}
 		
 		final Map<Card.Kind, Integer> numKindOccurrencesMap = determineNumKindOccurrencesInHand(player.getHand());
-		
+			
 		// Now that we know the non-zero number of wild cards in the player's hand
 		// we can remove Card.Kind.Two from the map.
 		Map<Card.Kind, Integer> numNonWildKindOccurrencesMap = new HashMap<>(numKindOccurrencesMap);
-		numNonWildKindOccurrencesMap.remove(Card.Kind.Two);
+		Integer numberOfJacksInHand = numNonWildKindOccurrencesMap.get(Card.Kind.Jack);
+		int numberOfNonWildJacksInHand = numberOfJacksInHand.intValue() - numberOfWildCardsInHand;
+		if (numberOfNonWildJacksInHand == 0) {
+			numNonWildKindOccurrencesMap.remove(Card.Kind.Jack);
+		} else {
+			numNonWildKindOccurrencesMap.put(Card.Kind.Jack, numberOfNonWildJacksInHand);
+		}
 		
 		List<Card> sortedNonWildCards = eliminateWildCards(player.getHand());
 		// Sort the natural non wild cards into descending order.
@@ -75,8 +82,7 @@ public class DeucesWild extends WildCardGame {
 		return ((playerHandStrength instanceof HighCard) ||
 				(playerHandStrength instanceof Pair) ||
 				(playerHandStrength instanceof TwoPair) ||
-				(playerHandStrength instanceof Flush) ||
-				(playerHandStrength instanceof FourOfAKind));
+				(playerHandStrength instanceof Flush));
 	}
 	
 	/**

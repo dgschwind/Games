@@ -1,6 +1,7 @@
 package org.douggschwind.games.cardgames.wildcardpoker;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -31,6 +32,24 @@ public abstract class WildCardGame extends StandardDeckCardGame {
 	
 	private boolean isWildCard(Card card) {
 		return wildCards.contains(card);
+	}
+	
+	/**
+	 * Determines the number of wild cards present in the given Collection
+	 * of Cards present in a player's hand.
+	 * @param playersHand Must be non-null and expected to be non-empty.
+	 * @return Will be non-negative.
+	 */
+	protected int determineNumberOfWildCardsInPlayersHand(Collection<Card> playersHand) {
+		int result = 0;
+		
+		for (Card cardInHand : playersHand) {
+			if (isWildCard(cardInHand)) {
+				result++;
+			}
+		}
+		
+		return result;
 	}
 	
 	protected List<Card> eliminateWildCards(List<Card> cards) {
