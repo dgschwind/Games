@@ -133,8 +133,10 @@ public class TexasHoldEm extends StandardDeckCardGame {
 	
 	@Override
 	protected final boolean canPlayersHandHoldTiebreakerCards(HandStrength playerHandStrength) {
-		//TODO
-		return true;
+		return ((playerHandStrength instanceof HighCard) ||
+				(playerHandStrength instanceof Pair) ||
+				(playerHandStrength instanceof TwoPair) ||
+				(playerHandStrength instanceof Flush));
 	}
 
 	/* (non-Javadoc)
