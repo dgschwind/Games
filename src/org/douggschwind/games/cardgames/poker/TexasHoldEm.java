@@ -138,13 +138,4 @@ public class TexasHoldEm extends StandardDeckCardGame {
 				(playerHandStrength instanceof TwoPair) ||
 				(playerHandStrength instanceof Flush));
 	}
-
-	/* (non-Javadoc)
-	 * @see org.douggschwind.games.cardgames.common.CardGame#determineWinners()
-	 */
-	@Override
-	public Set<Player> determineWinners() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
