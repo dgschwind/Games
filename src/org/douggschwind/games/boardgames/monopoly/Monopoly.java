@@ -17,6 +17,7 @@ import org.douggschwind.games.boardgames.monopoly.spaces.IncomeTaxSpace;
 import org.douggschwind.games.boardgames.monopoly.spaces.LuxuryTaxSpace;
 import org.douggschwind.games.boardgames.monopoly.spaces.MonopolyDefinition;
 import org.douggschwind.games.boardgames.monopoly.spaces.MonopolyDefinition.ColorDesignator;
+import org.douggschwind.games.boardgames.monopoly.spaces.PrivateBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.spaces.PropertyBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.spaces.RailroadBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.spaces.UtilityBoardSpace;
@@ -118,6 +119,18 @@ public class Monopoly {
 		return null;
 	}
 	
+	private int computeOwedRent(PrivateBoardSpace boardSpace, Player spaceOwner, int diceRollTotal) {
+		if (boardSpace.isProperty()) {
+			PropertyBoardSpace propertyBoardSpace = (PropertyBoardSpace) boardSpace;
+			return propertyBoardSpace.computeRent(spaceOwner);
+		} else if (boardSpace.isRailroad()) {
+			return ((RailroadBoardSpace) boardSpace).computeRent(spaceOwner.getNumberOwnedRailroads());
+		} else {
+			// It is a Utility
+			return ((UtilityBoardSpace) boardSpace).computeRent(spaceOwner.getNumberOwnedUtilities(), diceRollTotal);
+		}
+	}
+	
 	public void playGame() {
 		for (Player player : players) {
 			Integer playerCurrentPosition = playerBoardPositions.get(player);
@@ -140,16 +153,26 @@ public class Monopoly {
 			// determining all that can or must happen as a result.
 			BoardSpace playerLandedOn = gameBoard.get(playerCurrentPosition);
 			if (playerLandedOn.isPubliclyHeld()) {
+				// This space not capable of being bought or sold.
 				playerLandedOn.takeAction(player);
 			} else {
+				// This space capable of being bought or sold.
+				PrivateBoardSpace privateBoardSpace = (PrivateBoardSpace) playerLandedOn;
 				Player spaceOwner = computeOwner(playerLandedOn);
 				if (spaceOwner == null) {
-					// space can be purchased.
+					// space can be purchased by Player
+					boolean playerWouldLikeToPurchase = player.wouldYouLikeToPurchase(privateBoardSpace);
+					if (playerWouldLikeToPurchase) {
+						player.payBill(privateBoardSpace.getCostToPurchase());
+						player.acceptOwnership(privateBoardSpace);
+					}
 				} else {
 					if (spaceOwner.equals(player)) {
 						// The player owns the space, do nothing.
 					} else {
 						// The player owes rent to the owner.
+						int playerOwedRent = computeOwedRent(privateBoardSpace, spaceOwner, diceRollTotal);
+						player.payBill(playerOwedRent);
 					}
 				}
 			}

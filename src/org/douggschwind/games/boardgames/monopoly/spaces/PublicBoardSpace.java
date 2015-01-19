@@ -15,9 +15,4 @@ public abstract class PublicBoardSpace extends BoardSpace {
 	public final boolean isPubliclyHeld() {
 		return true;
 	}
-	
-	@Override
-	public final boolean canBeBoughtOrSold() {
-		return false;
-	}
 }

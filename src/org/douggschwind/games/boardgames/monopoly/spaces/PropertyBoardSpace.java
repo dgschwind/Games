@@ -97,9 +97,10 @@ public class PropertyBoardSpace extends PrivateBoardSpace {
 		return player.hasMonopoly(this);
 	}
 
-	public int computeRent(int numberOfHotelsOnProperty, int numberOfHousesOnProperty, Player guest) {
-		int result = (numberOfHotelsOnProperty * getPerHotelRentCost());
-		switch (numberOfHousesOnProperty) {
+	public int computeRent(Player owner) {
+		final int numberHotelsOnProperty = owner.getNumberHotelsOnProperty(this);
+		int result = (numberHotelsOnProperty * getCostPerHotel());
+		switch (owner.getNumberHousesOnProperty(this)) {
 			case 4:
 				result += getFourHouseRentCost();
 				break;
@@ -114,8 +115,8 @@ public class PropertyBoardSpace extends PrivateBoardSpace {
 				break;
 			case 0:
 			default:
-				if (numberOfHotelsOnProperty == 0) {
-					if (guest.hasMonopoly(this)) {
+				if (numberHotelsOnProperty == 0) {
+					if (owner.hasMonopoly(this)) {
 						result = getMonopolizedRentCost();
 					} else {
 						result = getUnmonopolizedRentCost();

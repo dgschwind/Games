@@ -1,6 +1,7 @@
 package org.douggschwind.games.boardgames.monopoly.spaces;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -46,7 +47,7 @@ public class MonopolyDefinition {
 	 * @param playerOwnedProperties
 	 * @return true if so, false otherwise.
 	 */
-	public boolean containsMonopoly(List<PropertyBoardSpace> playerOwnedProperties) {
+	public boolean containsMonopoly(Collection<PropertyBoardSpace> playerOwnedProperties) {
 		for (BoardSpace propertyThatMustBeOwned : monopoly) {
 			if (!playerOwnedProperties.contains(propertyThatMustBeOwned)) {
 				return false;

@@ -28,21 +28,6 @@ public abstract class BoardSpace {
 		return false;
 	}
 	
-	public abstract boolean canBeBoughtOrSold();
-	
-	
-	public boolean isProperty() {
-		return false;
-	}
-	
-	public boolean isRailwayStation() {
-		return false;
-	}
-	
-	public boolean isUtility() {
-		return false;
-	}
-	
 	public boolean isChance() {
 		return false;
 	}

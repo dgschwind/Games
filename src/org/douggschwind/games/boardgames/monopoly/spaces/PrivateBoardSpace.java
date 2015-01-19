@@ -21,12 +21,19 @@ public abstract class PrivateBoardSpace extends BoardSpace {
 		return true;
 	}
 	
-	@Override
-	public final boolean canBeBoughtOrSold() {
-		return true;
+	public boolean allowsHousesOrHotelsToBeBuiltUponIt() {
+		return false;
 	}
 	
-	public boolean allowsHousesOrHotelsToBeBuiltUponIt() {
+	public boolean isProperty() {
+		return false;
+	}
+	
+	public boolean isRailroad() {
+		return false;
+	}
+	
+	public boolean isUtility() {
 		return false;
 	}
 
