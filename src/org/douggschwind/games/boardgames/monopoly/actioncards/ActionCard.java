@@ -1,6 +1,6 @@
 package org.douggschwind.games.boardgames.monopoly.actioncards;
 
-import org.douggschwind.games.boardgames.monopoly.BoardSpace;
+import org.douggschwind.games.boardgames.monopoly.spaces.BoardSpace;
 import org.douggschwind.games.common.AbstractCard;
 
 /**

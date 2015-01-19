@@ -1,4 +1,6 @@
-package org.douggschwind.games.boardgames.monopoly;
+package org.douggschwind.games.boardgames.monopoly.spaces;
+
+import org.douggschwind.games.boardgames.monopoly.Player;
 
 /**
  * The Monopoly gameboard consists of 40 spaces containing 28 properties (22 colored streets, four railway stations and two utilities), three Chance spaces,
@@ -8,10 +10,14 @@ package org.douggschwind.games.boardgames.monopoly;
  * @author Doug Gschwind
  */
 public abstract class BoardSpace {
-	private String name;
+	private final String name;
 	
 	protected BoardSpace(String name) {
 		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public boolean isProperty() {
@@ -56,5 +62,13 @@ public abstract class BoardSpace {
 	
 	public boolean isGoToJail() {
 		return false;
+	}
+	
+	/**
+	 * Takes action now that it is known that the given Player has landed on
+	 * this given instance.
+	 * @param hasLanded
+	 */
+	public void takeAction(Player hasLanded) {
 	}
 }

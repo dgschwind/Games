@@ -1,0 +1,17 @@
+package org.douggschwind.games.boardgames.monopoly.spaces;
+
+/**
+ * Represents a Community Chest space on the Monopoly board.
+ * @author Doug Gschwind
+ */
+public class CommunityChestSpace extends BoardSpace {
+
+	public CommunityChestSpace() {
+		super("Community Chest");
+	}
+
+	@Override
+	public final boolean isCommunityChest() {
+		return true;
+	}
+}

@@ -7,9 +7,10 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * A Deck contains some number of ActionCard instances.
+ * A DeckOfCards contains some number of AbstractCard instances. This abstraction
+ * can support games like Poker, Uno, Euchre, Monopoly, etc.
  * @author Doug Gschwind
- * @param T Must be a Card.
+ * @param T Must be an AbstractCard.
  */
 public class DeckOfCards <T extends AbstractCard> {
 	
