@@ -7,11 +7,9 @@ import org.douggschwind.games.boardgames.monopoly.Player;
  * houses and hotels may be built, and rent may be charged.
  * @author Doug Gschwind
  */
-public class PropertyBoardSpace extends BoardSpace {
+public class PropertyBoardSpace extends PrivateBoardSpace {
 	private final MonopolyDefinition monopolyDefinition;
-	private final int costToPurchase;
-	private final int costPerHouse;
-	private final int costPerHotel;
+	private final int buildingCost;
 	private final int unmonopolizedRentCost;
 	private final int monopolizedRentCost; // No houses
 	private final int oneHouseRentCost;
@@ -19,26 +17,21 @@ public class PropertyBoardSpace extends BoardSpace {
 	private final int threeHouseRentCost;
 	private final int fourHouseRentCost;
 	private final int perHotelRentCost;
-	private final int mortgageValue;
 
 	public PropertyBoardSpace(MonopolyDefinition monopolyDefinition,
 			                  String spaceName,
 			                  int costToPurchase,
-			                  int costPerHouse,
-			                  int costPerHotel,
+			                  int buildingCost,
 			                  int unmonopolizedRentCost,
 			                  int monopolizedRentCost,
 			                  int oneHouseRentCost,
 			                  int twoHouseRentCost,
 			                  int threeHouseRentCost,
 			                  int fourHouseRentCost,
-			                  int perHotelRentCost,
-			                  int mortgageValue) {
-		super(spaceName);
+			                  int perHotelRentCost) {
+		super(spaceName, costToPurchase);
 		this.monopolyDefinition = monopolyDefinition;
-		this.costToPurchase = costToPurchase;
-		this.costPerHouse = costPerHouse;
-		this.costPerHotel = costPerHotel;
+		this.buildingCost = buildingCost;
 		this.unmonopolizedRentCost = unmonopolizedRentCost;
 		this.monopolizedRentCost = monopolizedRentCost;
 		this.oneHouseRentCost = oneHouseRentCost;
@@ -46,7 +39,6 @@ public class PropertyBoardSpace extends BoardSpace {
 		this.threeHouseRentCost = threeHouseRentCost;
 		this.fourHouseRentCost = fourHouseRentCost;
 		this.perHotelRentCost = perHotelRentCost;
-		this.mortgageValue = mortgageValue;
 		
 		monopolyDefinition.addBoardSpace(this);
 	}
@@ -60,16 +52,12 @@ public class PropertyBoardSpace extends BoardSpace {
 		return monopolyDefinition;
 	}
 
-	public int getCostToPurchase() {
-		return costToPurchase;
-	}
-
 	public int getCostPerHouse() {
-		return costPerHouse;
+		return buildingCost;
 	}
 
 	public int getCostPerHotel() {
-		return costPerHotel;
+		return buildingCost;
 	}
 
 	public int getUnmonopolizedRentCost() {
@@ -100,10 +88,6 @@ public class PropertyBoardSpace extends BoardSpace {
 		return perHotelRentCost;
 	}
 
-	public int getMortgageValue() {
-		return mortgageValue;
-	}
-	
 	/**
 	 * Determines if the given Player can buy one or more houses or hotels to
 	 * place on this property.
@@ -113,7 +97,7 @@ public class PropertyBoardSpace extends BoardSpace {
 		return player.hasMonopoly(this);
 	}
 
-	public int computeRentCost(int numberOfHotelsOnProperty, int numberOfHousesOnProperty, Player guest) {
+	public int computeRent(int numberOfHotelsOnProperty, int numberOfHousesOnProperty, Player guest) {
 		int result = (numberOfHotelsOnProperty * getPerHotelRentCost());
 		switch (numberOfHousesOnProperty) {
 			case 4:

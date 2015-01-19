@@ -6,7 +6,7 @@ import org.douggschwind.games.boardgames.monopoly.Player;
  * When a Player lands on this space, they must simply pay $200.
  * @author Doug Gschwind
  */
-public class IncomeTaxSpace extends BoardSpace {
+public class IncomeTaxSpace extends PublicBoardSpace {
 
 	public IncomeTaxSpace() {
 		super("Income Tax");

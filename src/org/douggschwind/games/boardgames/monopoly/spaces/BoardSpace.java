@@ -20,6 +20,17 @@ public abstract class BoardSpace {
 		return name;
 	}
 	
+	public boolean canBePrivatelyHeld() {
+		return false;
+	}
+	
+	public boolean isPubliclyHeld() {
+		return false;
+	}
+	
+	public abstract boolean canBeBoughtOrSold();
+	
+	
 	public boolean isProperty() {
 		return false;
 	}

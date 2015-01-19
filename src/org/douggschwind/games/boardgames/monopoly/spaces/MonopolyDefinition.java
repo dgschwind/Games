@@ -30,6 +30,10 @@ public class MonopolyDefinition {
 		this.colorDesignator = colorDesignator;
 	}
 	
+	public ColorDesignator getColorDesignator() {
+		return colorDesignator;
+	}
+
 	public void addBoardSpace(BoardSpace boardSpace) {
 		if (boardSpace != null) {
 			monopoly.add(boardSpace);
@@ -42,7 +46,7 @@ public class MonopolyDefinition {
 	 * @param playerOwnedProperties
 	 * @return true if so, false otherwise.
 	 */
-	public boolean containsMonopoly(List<BoardSpace> playerOwnedProperties) {
+	public boolean containsMonopoly(List<PropertyBoardSpace> playerOwnedProperties) {
 		for (BoardSpace propertyThatMustBeOwned : monopoly) {
 			if (!playerOwnedProperties.contains(propertyThatMustBeOwned)) {
 				return false;

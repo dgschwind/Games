@@ -6,6 +6,8 @@ import java.util.Random;
 
 import org.douggschwind.games.boardgames.monopoly.spaces.BoardSpace;
 import org.douggschwind.games.boardgames.monopoly.spaces.PropertyBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.spaces.RailroadBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.spaces.UtilityBoardSpace;
 
 /**
  * An instance of this class houses the state of the game for any given Player of the game.
@@ -24,9 +26,9 @@ public class Player {
 	private final String name;
 	private final Avatar avatar; // aka token
 	private int bankAccountBalance;
-	private final List<BoardSpace> ownedProperties = new ArrayList<>();
-	private final List<BoardSpace> ownedRailroads = new ArrayList<>();
-	private final List<BoardSpace> ownedUtilities = new ArrayList<>();
+	private final List<PropertyBoardSpace> ownedProperties = new ArrayList<>();
+	private final List<RailroadBoardSpace> ownedRailroads = new ArrayList<>();
+	private final List<UtilityBoardSpace> ownedUtilities = new ArrayList<>();
 	
 	public Player(String name, Avatar avatar) {
 		this.name = name;
@@ -58,11 +60,11 @@ public class Player {
 		return avatar;
 	}
 
-	public List<BoardSpace> getOwnedProperties() {
+	public List<PropertyBoardSpace> getOwnedProperties() {
 		return ownedProperties;
 	}
 	
-	public void addOwnedProperty(BoardSpace property) {
+	public void addOwnedProperty(PropertyBoardSpace property) {
 		getOwnedProperties().add(property);
 	}
 	
@@ -70,11 +72,17 @@ public class Player {
 		return propertyBoardSpace.getMonopolyDefinition().containsMonopoly(getOwnedProperties());
 	}
 
-	public List<BoardSpace> getOwnedRailroads() {
+	public List<RailroadBoardSpace> getOwnedRailroads() {
 		return ownedRailroads;
 	}
 
-	public List<BoardSpace> getOwnedUtilities() {
+	public List<UtilityBoardSpace> getOwnedUtilities() {
 		return ownedUtilities;
+	}
+	
+	public boolean isOwner(BoardSpace boardSpace) {
+		return getOwnedProperties().contains(boardSpace) ||
+				getOwnedRailroads().contains(boardSpace) ||
+				getOwnedUtilities().contains(boardSpace);
 	}
 }
