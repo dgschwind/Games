@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.douggschwind.games.cardgames.common.Card;
-import org.douggschwind.games.cardgames.common.Deck;
 import org.douggschwind.games.cardgames.common.StandardDeckCardGame;
+import org.douggschwind.games.common.DeckOfCards;
 
 /**
  * This is a 5 card draw poker game where all four deuces in the deck
@@ -20,7 +20,7 @@ public abstract class WildCardGame extends StandardDeckCardGame {
 	
 	private Set<Card> wildCards = new HashSet<>();
 
-	protected WildCardGame(Deck deck) {
+	protected WildCardGame(DeckOfCards<Card> deck) {
 		super(deck);
 	}
 	

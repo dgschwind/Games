@@ -1,4 +1,4 @@
-package org.douggschwind.games.cardgames.common;
+package org.douggschwind.games.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,16 +7,17 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * A Deck contains some number of Card instances.
+ * A Deck contains some number of ActionCard instances.
  * @author Doug Gschwind
+ * @param T Must be a Card.
  */
-public class Deck {
+public class DeckOfCards <T extends AbstractCard> {
 	
-	private final List<Card> cards = new ArrayList<>();
-	private final Map<Card, Boolean> dealtCards = new HashMap<>();
+	private final List<T> cards = new ArrayList<>();
+	private final Map<T, Boolean> dealtCards = new HashMap<>();
 	private Random random;
 	
-	void addCard(Card toAdd) {
+	public void addCard(T toAdd) {
 		if (toAdd != null) {
 			cards.add(toAdd);
 			dealtCards.put(toAdd, false);
@@ -25,18 +26,18 @@ public class Deck {
 	
 	public void shuffle() {
 		random = new Random();
-		for (Card key : dealtCards.keySet()) {
+		for (T key : dealtCards.keySet()) {
 			dealtCards.put(key, false);
 		}
 	}
 	
-	private boolean hasCardBeenDealt(Card card) {
+	private boolean hasCardBeenDealt(AbstractCard card) {
 		return (dealtCards.get(card) == true);
 	}
 	
-	private Card getRandomCardNotYetDealt() {
+	private T getRandomCardNotYetDealt() {
 		final int randomlySelectedCardIndex = random.nextInt(cards.size());
-		Card randomlySelectedCard = cards.get(randomlySelectedCardIndex);
+		T randomlySelectedCard = cards.get(randomlySelectedCardIndex);
 		if (!hasCardBeenDealt(randomlySelectedCard)) {
 			return randomlySelectedCard;
 		}
@@ -67,7 +68,7 @@ public class Deck {
 	}
 	
 	private boolean haveAllCardsBeenDealt() {
-		for (Card card : cards) {
+		for (T card : cards) {
 			if (!hasCardBeenDealt(card)) {
 				return false;
 			}
@@ -76,11 +77,11 @@ public class Deck {
 		return true;
 	}
 	
-	public Card dealCard() {
+	public T dealCard() {
 		if (haveAllCardsBeenDealt()) {
 			throw new IllegalStateException("All cards have already been dealt!");
 		}
-		Card randomlySelectedCard = getRandomCardNotYetDealt();
+		T randomlySelectedCard = getRandomCardNotYetDealt();
 		dealtCards.put(randomlySelectedCard, true);
 		return randomlySelectedCard;
 	}

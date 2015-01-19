@@ -1,14 +1,15 @@
 package org.douggschwind.games.cardgames.common;
 
 import org.douggschwind.games.cardgames.common.Card.Kind;
+import org.douggschwind.games.common.DeckOfCards;
 
 /**
  * @author Doug Gschwind
  */
 public class DeckFactory {
 	
-	public static Deck createStandardDeck() {
-		Deck result = new Deck();
+	public static DeckOfCards<Card> createStandardDeck() {
+		DeckOfCards<Card> result = new DeckOfCards<Card>();
 		for (Card.Kind kind : Card.Kind.values()) {
 			for (Card.Suit suit : Card.Suit.values()) {
 				result.addCard(new Card(kind, suit));
@@ -17,8 +18,8 @@ public class DeckFactory {
 		return result;
 	}
 	
-	public static Deck createEuchreDeck() {
-		Deck result = new Deck();
+	public static DeckOfCards<Card> createEuchreDeck() {
+		DeckOfCards<Card> result = new DeckOfCards<Card>();
 		for (Card.Suit suit : Card.Suit.values()) {
 			result.addCard(new Card(Kind.Ace, suit));
 			result.addCard(new Card(Kind.King, suit));

@@ -20,6 +20,7 @@ import org.douggschwind.games.cardgames.poker.common.Straight;
 import org.douggschwind.games.cardgames.poker.common.StraightFlush;
 import org.douggschwind.games.cardgames.poker.common.ThreeOfAKind;
 import org.douggschwind.games.cardgames.poker.common.TwoPair;
+import org.douggschwind.games.common.DeckOfCards;
 
 /**
  * An instance of this class assumes one standard deck of 52 total cards,
@@ -28,14 +29,14 @@ import org.douggschwind.games.cardgames.poker.common.TwoPair;
  */
 public abstract class StandardDeckCardGame {
 	
-	private final Deck deck;
+	private final DeckOfCards<Card> deck;
 	private final List<Player> players = new ArrayList<>();
 	
-	protected StandardDeckCardGame(Deck deck) {
+	protected StandardDeckCardGame(DeckOfCards<Card> deck) {
 		this.deck = deck;
 	}
 	
-	public Deck getDeck() {
+	public DeckOfCards<Card> getDeck() {
 		return deck;
 	}
 	

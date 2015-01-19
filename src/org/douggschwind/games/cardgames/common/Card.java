@@ -5,10 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.douggschwind.games.common.AbstractCard;
+
 /**
  * @author Doug Gschwind
  */
-public class Card implements Comparable<Card> {
+public class Card implements AbstractCard, Comparable<Card> {
 	
 	public enum Kind implements Comparator<Kind> {
 		Ace(1, "A"), King(2, "K"), Queen(3, "Q"), Jack(4, "J"), Ten(5, "10"), Nine(6, "9"), Eight(7, "8"), Seven(8, "7"), Six(9, "6"), Five(10, "5"), Four(11, "4"), Three(12, "3"), Two(13, "2");
