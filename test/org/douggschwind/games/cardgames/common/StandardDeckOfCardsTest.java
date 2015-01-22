@@ -7,7 +7,7 @@ import org.douggschwind.games.common.DeckOfCards;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class DeckTest {
+public class StandardDeckOfCardsTest {
 
 	@Test
 	public void testFullDeck() {

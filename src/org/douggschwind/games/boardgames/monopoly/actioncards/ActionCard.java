@@ -1,6 +1,5 @@
 package org.douggschwind.games.boardgames.monopoly.actioncards;
 
-import org.douggschwind.games.boardgames.monopoly.spaces.BoardSpace;
 import org.douggschwind.games.common.AbstractCard;
 
 /**
@@ -9,19 +8,9 @@ import org.douggschwind.games.common.AbstractCard;
  */
 public abstract class ActionCard implements AbstractCard {
 	private final String cardName; // e.g. Go to Jail
-	private final boolean advanceToWellKnownSpace;
-	private final BoardSpace advanceToSpace; // non-null if known
 	
 	protected ActionCard(String cardName) {
-		this(cardName, false, null);
-	}
-	
-	protected ActionCard(String cardName,
-			             boolean advanceToWellKnownSpace,
-			             BoardSpace advanceToSpace) {
 		this.cardName = cardName;
-		this.advanceToWellKnownSpace = advanceToWellKnownSpace;
-		this.advanceToSpace = advanceToSpace;
 	}
 	
 	public String getCardName() {
@@ -36,11 +25,7 @@ public abstract class ActionCard implements AbstractCard {
 		return false;
 	}
 
-	public boolean isAdvanceToWellKnownSpace() {
-		return advanceToWellKnownSpace;
-	}
-
-	public BoardSpace getAdvanceToSpace() {
-		return advanceToSpace;
+	public boolean isAdvanceToSpace() {
+		return false;
 	}
 }

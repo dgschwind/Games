@@ -1,7 +1,8 @@
 package org.douggschwind.games.boardgames.monopoly.actioncards;
 
 /**
- * When dealt this card, the player must pay some amount per House and some amount per Hotel.
+ * When dealt this card, the player must pay some amount per House and some amount per Hotel
+ * to the bank.
  * @author Doug Gschwind
  */
 public class PerPropertyDebitCard extends ActionCard {
