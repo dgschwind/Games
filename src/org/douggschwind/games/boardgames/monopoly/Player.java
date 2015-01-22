@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.douggschwind.games.boardgames.monopoly.spaces.BoardSpace;
-import org.douggschwind.games.boardgames.monopoly.spaces.PrivateBoardSpace;
-import org.douggschwind.games.boardgames.monopoly.spaces.PropertyBoardSpace;
-import org.douggschwind.games.boardgames.monopoly.spaces.RailroadBoardSpace;
-import org.douggschwind.games.boardgames.monopoly.spaces.UtilityBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.space.BoardSpace;
+import org.douggschwind.games.boardgames.monopoly.space.PrivateBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.space.PropertyBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.space.RailroadBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.space.UtilityBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.titledeed.TitleDeed;
 
 /**
  * An instance of this class houses the state of the game for any given Player of the game.
@@ -30,7 +31,7 @@ public class Player {
 	private final String name;
 	private final Avatar avatar; // aka token
 	private int bankAccountBalance;
-	private final Map<PropertyBoardSpace, BuildingSummary> ownedPropertiesMap = new HashMap<>();
+	private final Map<TitleDeed, BuildingSummary> ownedPropertiesMap = new HashMap<>();
 	private final List<RailroadBoardSpace> ownedRailroads = new ArrayList<>();
 	private final List<UtilityBoardSpace> ownedUtilities = new ArrayList<>();
 	
@@ -52,8 +53,12 @@ public class Player {
 		bankAccountBalance += creditedAmount;
 	}
 	
-	public void payBill(int debitedAmount) {
-		bankAccountBalance -= debitedAmount;
+	public boolean canPayBillWithCash(int billAmount) {
+		return getBankAccountBalance() > billAmount;
+	}
+	
+	public void payBill(int billedAmount) {
+		bankAccountBalance -= billedAmount;
 		//TODO. May need to sell off properties to raise enough funds
 		// to not be bankrupted. If that cannot be done, may make
 		// sense to throw BankruptedException or the like.
@@ -74,7 +79,7 @@ public class Player {
 	
 	public void acceptOwnership(PrivateBoardSpace privateBoardSpace) {
 		if (privateBoardSpace.isProperty()) {
-			addOwnedProperty((PropertyBoardSpace) privateBoardSpace);
+			addOwnedProperty(((PropertyBoardSpace) privateBoardSpace).getTitleDeed());
 		} else if (privateBoardSpace.isRailroad()) {
 			getOwnedRailroads().add((RailroadBoardSpace) privateBoardSpace);
 		} else if (privateBoardSpace.isUtility()) {
@@ -82,28 +87,24 @@ public class Player {
 		}
 	}
 
-	public Collection<PropertyBoardSpace> getOwnedProperties() {
+	public Collection<TitleDeed> getOwnedProperties() {
 		return ownedPropertiesMap.keySet();
 	}
 	
-	private void addOwnedProperty(PropertyBoardSpace property) {
+	private void addOwnedProperty(TitleDeed property) {
 		ownedPropertiesMap.put(property, new BuildingSummary());
 	}
 	
-	public int getNumberHousesOnProperty(PropertyBoardSpace propertyBoardSpace) {
-		BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(propertyBoardSpace);
+	public int getNumberHousesOnProperty(TitleDeed titleDeed) {
+		BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(titleDeed);
 		return (propertyBuildingSummary == null) ? 0 : propertyBuildingSummary.getNumberHouses();
 	}
 	
-	public int getNumberHotelsOnProperty(PropertyBoardSpace propertyBoardSpace) {
-		BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(propertyBoardSpace);
+	public int getNumberHotelsOnProperty(TitleDeed titleDeed) {
+		BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(titleDeed);
 		return (propertyBuildingSummary == null) ? 0 : propertyBuildingSummary.getNumberHotels();
 	}
 	
-	public boolean hasMonopoly(PropertyBoardSpace propertyBoardSpace) {
-		return propertyBoardSpace.getMonopolyDefinition().containsMonopoly(getOwnedProperties());
-	}
-
 	public List<RailroadBoardSpace> getOwnedRailroads() {
 		return ownedRailroads;
 	}
