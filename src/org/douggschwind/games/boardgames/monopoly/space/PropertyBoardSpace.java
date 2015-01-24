@@ -1,19 +1,17 @@
 package org.douggschwind.games.boardgames.monopoly.space;
 
 import org.douggschwind.games.boardgames.monopoly.Player;
-import org.douggschwind.games.boardgames.monopoly.titledeed.TitleDeed;
+import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
 
 /**
  * An instance of this class is a property that can be owned, upon which
  * houses and hotels may be built, and rent may be charged.
  * @author Doug Gschwind
  */
-public class PropertyBoardSpace extends PrivateBoardSpace {
-	private final TitleDeed titleDeed;
+public class PropertyBoardSpace extends PrivateBoardSpace<TitleDeed> {
 
 	public PropertyBoardSpace(TitleDeed titleDeed) {
-		super(titleDeed.getPropertyName(), titleDeed.getCostToPurchase());
-		this.titleDeed = titleDeed;
+		super(titleDeed);
 	}
 	
 	@Override
@@ -21,51 +19,47 @@ public class PropertyBoardSpace extends PrivateBoardSpace {
 		return true;
 	}
 	
-	public TitleDeed getTitleDeed() {
-		return titleDeed;
-	}
-
 	public int getCostPerHouse() {
-		return getTitleDeed().getCostPerHouse();
+		return getTitle().getCostPerHouse();
 	}
 
 	public int getCostPerHotel() {
-		return getTitleDeed().getCostPerHotel();
+		return getTitle().getCostPerHotel();
 	}
 
 	public int getUnmonopolizedRentCost() {
-		return getTitleDeed().getUnmonopolizedRentCost();
+		return getTitle().getUnmonopolizedRentCost();
 	}
 
 	public int getMonopolizedRentCost() {
-		return getTitleDeed().getMonopolizedRentCost();
+		return getTitle().getMonopolizedRentCost();
 	}
 
 	public int getOneHouseRentCost() {
-		return getTitleDeed().getOneHouseRentCost();
+		return getTitle().getOneHouseRentCost();
 	}
 
 	public int getTwoHouseRentCost() {
-		return getTitleDeed().getTwoHouseRentCost();
+		return getTitle().getTwoHouseRentCost();
 	}
 
 	public int getThreeHouseRentCost() {
-		return getTitleDeed().getThreeHouseRentCost();
+		return getTitle().getThreeHouseRentCost();
 	}
 
 	public int getFourHouseRentCost() {
-		return getTitleDeed().getFourHouseRentCost();
+		return getTitle().getFourHouseRentCost();
 	}
 
 	public int getPerHotelRentCost() {
-		return getTitleDeed().getPerHotelRentCost();
+		return getTitle().getPerHotelRentCost();
 	}
 
 	public int computeRent(Player player) {
-		if (!getTitleDeed().hasOwner()) {
+		if (!getTitle().hasOwner()) {
 			// No owner, Free Rent!
 			return 0;
 		}
-		return getTitleDeed().computeRent(player);
+		return getTitle().computeRent(player);
 	}
 }

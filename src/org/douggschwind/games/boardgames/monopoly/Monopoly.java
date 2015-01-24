@@ -12,6 +12,7 @@ import org.douggschwind.games.boardgames.monopoly.space.PrivateBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.PropertyBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.RailroadBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.UtilityBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.title.Title;
 import org.douggschwind.games.common.DeckOfCards;
 
 /**
@@ -47,16 +48,12 @@ public class Monopoly {
 		}
 	}
 	
-	private Player computeOwner(BoardSpace boardSpace) {
-		for (Player player : players) {
-			if (player.isOwner(boardSpace)) {
-				return player;
-			}
-		}
-		return null;
+	private Player getOwner(BoardSpace boardSpace) {
+		Title title = ((PrivateBoardSpace<? extends Title>) boardSpace).getTitle();
+		return title.getOwner();
 	}
 	
-	private int computeOwedRent(PrivateBoardSpace boardSpace, Player spaceOwner, int diceRollTotal) {
+	private int computeOwedRent(PrivateBoardSpace<? extends Title> boardSpace, Player spaceOwner, int diceRollTotal) {
 		if (boardSpace.isProperty()) {
 			PropertyBoardSpace propertyBoardSpace = (PropertyBoardSpace) boardSpace;
 			return propertyBoardSpace.computeRent(spaceOwner);
@@ -94,13 +91,13 @@ public class Monopoly {
 				playerLandedOn.takeAction(player);
 			} else {
 				// This space capable of being bought or sold.
-				PrivateBoardSpace privateBoardSpace = (PrivateBoardSpace) playerLandedOn;
-				Player spaceOwner = computeOwner(playerLandedOn);
+				PrivateBoardSpace<? extends Title> privateBoardSpace = (PrivateBoardSpace<? extends Title>) playerLandedOn;
+				Player spaceOwner = getOwner(playerLandedOn);
 				if (spaceOwner == null) {
 					// space can be purchased by Player
 					boolean playerWouldLikeToPurchase = player.wouldYouLikeToPurchase(privateBoardSpace);
 					if (playerWouldLikeToPurchase) {
-						player.payBill(privateBoardSpace.getCostToPurchase());
+						player.payBill(privateBoardSpace.getPurchasePrice());
 						player.acceptOwnership(privateBoardSpace);
 					}
 				} else {

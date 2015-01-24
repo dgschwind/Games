@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.douggschwind.games.boardgames.monopoly.space.BoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.PrivateBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.PropertyBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.RailroadBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.UtilityBoardSpace;
-import org.douggschwind.games.boardgames.monopoly.titledeed.TitleDeed;
+import org.douggschwind.games.boardgames.monopoly.title.Title;
+import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
 
 /**
  * An instance of this class houses the state of the game for any given Player of the game.
@@ -32,13 +32,31 @@ public class Player {
 	private final Avatar avatar; // aka token
 	private int bankAccountBalance;
 	private final Map<TitleDeed, BuildingSummary> ownedPropertiesMap = new HashMap<>();
-	private final List<RailroadBoardSpace> ownedRailroads = new ArrayList<>();
-	private final List<UtilityBoardSpace> ownedUtilities = new ArrayList<>();
+	private final List<Title> ownedRailroads = new ArrayList<>();
+	private final List<Title> ownedUtilities = new ArrayList<>();
 	
 	public Player(String name, Avatar avatar) {
 		this.name = name;
 		this.avatar = avatar;
 		bankAccountBalance = 1500;
+	}
+	
+	@Override
+	public boolean equals(Object that) {
+		if (that == null) {
+			return false;
+		}
+		
+		if (!this.getClass().equals(that.getClass())) {
+			return false;
+		}
+		
+		return this.getName().equals(((Player) that).getName());
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
 	}
 	
 	public int rollDice() {
@@ -72,18 +90,18 @@ public class Player {
 		return avatar;
 	}
 	
-	public boolean wouldYouLikeToPurchase(PrivateBoardSpace privateBoardSpace) {
+	public boolean wouldYouLikeToPurchase(PrivateBoardSpace<? extends Title> privateBoardSpace) {
 		// TODO. Add more sophistication here later.
-		return privateBoardSpace.getCostToPurchase() < getBankAccountBalance();
+		return privateBoardSpace.getPurchasePrice() < getBankAccountBalance();
 	}
 	
-	public void acceptOwnership(PrivateBoardSpace privateBoardSpace) {
+	public void acceptOwnership(PrivateBoardSpace<? extends Title> privateBoardSpace) {
 		if (privateBoardSpace.isProperty()) {
-			addOwnedProperty(((PropertyBoardSpace) privateBoardSpace).getTitleDeed());
+			addOwnedProperty(((PropertyBoardSpace) privateBoardSpace).getTitle());
 		} else if (privateBoardSpace.isRailroad()) {
-			getOwnedRailroads().add((RailroadBoardSpace) privateBoardSpace);
+			getOwnedRailroads().add(((RailroadBoardSpace) privateBoardSpace).getTitle());
 		} else if (privateBoardSpace.isUtility()) {
-			getOwnedUtilities().add((UtilityBoardSpace) privateBoardSpace);
+			getOwnedUtilities().add(((UtilityBoardSpace) privateBoardSpace).getTitle());
 		}
 	}
 
@@ -105,7 +123,7 @@ public class Player {
 		return (propertyBuildingSummary == null) ? 0 : propertyBuildingSummary.getNumberHotels();
 	}
 	
-	public List<RailroadBoardSpace> getOwnedRailroads() {
+	public List<Title> getOwnedRailroads() {
 		return ownedRailroads;
 	}
 	
@@ -113,17 +131,11 @@ public class Player {
 		return getOwnedRailroads().size();
 	}
 	
-	public List<UtilityBoardSpace> getOwnedUtilities() {
+	public List<Title> getOwnedUtilities() {
 		return ownedUtilities;
 	}
 	
 	public int getNumberOwnedUtilities() {
 		return getOwnedUtilities().size();
-	}
-	
-	public boolean isOwner(BoardSpace boardSpace) {
-		return getOwnedProperties().contains(boardSpace) ||
-				getOwnedRailroads().contains(boardSpace) ||
-				getOwnedUtilities().contains(boardSpace);
 	}
 }

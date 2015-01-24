@@ -1,13 +1,15 @@
 package org.douggschwind.games.boardgames.monopoly.space;
 
+import org.douggschwind.games.boardgames.monopoly.title.Title;
+
 /**
  * An instance of this class represents one of the two Utilities available in the game.
  * @author Doug Gschwind
  */
-public class UtilityBoardSpace extends PrivateBoardSpace {
+public class UtilityBoardSpace extends PrivateBoardSpace<Title> {
 
-	public UtilityBoardSpace(String utilityName, int costToPurchase, int mortgageValue) {
-		super(utilityName, costToPurchase);
+	public UtilityBoardSpace(Title title) {
+		super(title);
 	}
 	
 	public int computeRent(int numberOfUtilitiesOwned, int valueOfDiceRoll) {

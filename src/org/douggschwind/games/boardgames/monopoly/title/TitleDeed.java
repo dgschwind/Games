@@ -1,4 +1,4 @@
-package org.douggschwind.games.boardgames.monopoly.titledeed;
+package org.douggschwind.games.boardgames.monopoly.title;
 
 import org.douggschwind.games.boardgames.monopoly.Player;
 
@@ -7,10 +7,7 @@ import org.douggschwind.games.boardgames.monopoly.Player;
  * houses and hotels may be built, and rent may be charged.
  * @author Doug Gschwind
  */
-public class TitleDeed {
-	private final MonopolyDefinition monopolyDefinition;
-	private final String propertyName;
-	private final int costToPurchase;
+public class TitleDeed extends Title {
 	private final int buildingCost;
 	private final int unmonopolizedRentCost;
 	private final int monopolizedRentCost; // No houses
@@ -20,12 +17,9 @@ public class TitleDeed {
 	private final int fourHouseRentCost;
 	private final int perHotelRentCost;
 	
-	private Player owner;
-	private boolean mortgaged;
-
 	public TitleDeed(MonopolyDefinition monopolyDefinition,
 			                  String propertyName,
-			                  int costToPurchase,
+			                  int purchasePrice,
 			                  int buildingCost,
 			                  int unmonopolizedRentCost,
 			                  int monopolizedRentCost,
@@ -34,9 +28,7 @@ public class TitleDeed {
 			                  int threeHouseRentCost,
 			                  int fourHouseRentCost,
 			                  int perHotelRentCost) {
-		this.monopolyDefinition = monopolyDefinition;
-		this.propertyName = propertyName;
-		this.costToPurchase = costToPurchase;
+		super(monopolyDefinition, propertyName, purchasePrice);
 		this.buildingCost = buildingCost;
 		this.unmonopolizedRentCost = unmonopolizedRentCost;
 		this.monopolizedRentCost = monopolizedRentCost;
@@ -47,18 +39,6 @@ public class TitleDeed {
 		this.perHotelRentCost = perHotelRentCost;
 	}
 	
-	public MonopolyDefinition getMonopolyDefinition() {
-		return monopolyDefinition;
-	}
-	
-	public String getPropertyName() {
-		return propertyName;
-	}
-	
-	public int getCostToPurchase() {
-		return costToPurchase;
-	}
-
 	public int getBuildingCost() {
 		return buildingCost;
 	}
@@ -155,36 +135,7 @@ public class TitleDeed {
 		return result;
 	}
 
-	public Player getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Player owner) {
-		this.owner = owner;
-	}
-	
-	public boolean hasOwner() {
-		return (getOwner() != null);
-	}
-	
-	/**
-	 * Determines whether or not the given Player is the owner of this Property.
-	 * @param player Expected to be non-null.
-	 * @return true if so, false otherwise.
-	 */
-	public boolean isOwner(Player player) {
-		return ((getOwner() != null) && (getOwner().equals(player)));
-	}
-	
 	public boolean isPartOfMonopoly() {
 		return getMonopolyDefinition().hasBeenMonopolized();
-	}
-
-	public boolean isMortgaged() {
-		return mortgaged;
-	}
-
-	public void setMortgaged(boolean mortgaged) {
-		this.mortgaged = mortgaged;
 	}
 }

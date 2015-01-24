@@ -1,19 +1,20 @@
 package org.douggschwind.games.boardgames.monopoly.space;
 
+import org.douggschwind.games.boardgames.monopoly.title.Title;
+
 /**
  * Instances of this class represent board spaces that can be privately held and thus
  * purchased or sold by a player. One of the properties, railroads, or utilities.
  * @author Doug Gschwind
+ * @param T Identifies the type of Title.
  */
-public abstract class PrivateBoardSpace extends BoardSpace {
+public abstract class PrivateBoardSpace<T extends Title> extends BoardSpace {
 	
-	private final int costToPurchase;
-	private final int mortgageValue;
+	private final T title;
 
-	protected PrivateBoardSpace(String spaceName, int costToPurchase) {
-		super(spaceName);
-		this.costToPurchase = costToPurchase;
-		this.mortgageValue = costToPurchase/2;
+	protected PrivateBoardSpace(T title) {
+		super(title.getName());
+		this.title = title;
 	}
 	
 	@Override
@@ -23,6 +24,18 @@ public abstract class PrivateBoardSpace extends BoardSpace {
 	
 	public boolean allowsHousesOrHotelsToBeBuiltUponIt() {
 		return false;
+	}
+	
+	public final T getTitle() {
+		return title;
+	}
+	
+	public int getPurchasePrice() {
+		return getTitle().getPurchasePrice();
+	}
+	
+	public int getMortgageValue() {
+		return getTitle().getMortgageValue();
 	}
 	
 	public boolean isProperty() {
@@ -35,13 +48,5 @@ public abstract class PrivateBoardSpace extends BoardSpace {
 	
 	public boolean isUtility() {
 		return false;
-	}
-
-	public int getCostToPurchase() {
-		return costToPurchase;
-	}
-
-	public int getMortgageValue() {
-		return mortgageValue;
 	}
 }
