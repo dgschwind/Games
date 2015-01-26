@@ -1,5 +1,8 @@
 package org.douggschwind.games.boardgames.monopoly.actioncard;
 
+import org.douggschwind.games.boardgames.monopoly.Monopoly;
+import org.douggschwind.games.boardgames.monopoly.Player;
+
 /**
  * When dealt this card, the player must pay some amount per House and some amount per Hotel
  * to the bank.
@@ -22,5 +25,10 @@ public class PerPropertyDebitCard extends ActionCard {
 
 	public int getPerHotelAmount() {
 		return perHotelAmount;
+	}
+	
+	@Override
+	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
+		gameInProgress.playerIsAssessedAmountPerBuilding(player, getPerHouseAmount(), getPerHotelAmount());
 	}
 }

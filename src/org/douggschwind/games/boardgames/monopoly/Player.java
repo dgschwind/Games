@@ -34,6 +34,8 @@ public class Player {
 	private final Map<TitleDeed, BuildingSummary> ownedPropertiesMap = new HashMap<>();
 	private final List<Title> ownedRailroads = new ArrayList<>();
 	private final List<Title> ownedUtilities = new ArrayList<>();
+	private boolean holdingGetOutOfJailFreeCard;
+	private boolean bankrupt;
 	
 	public Player(String name, Avatar avatar) {
 		this.name = name;
@@ -75,7 +77,7 @@ public class Player {
 		return getBankAccountBalance() > billAmount;
 	}
 	
-	public void payBill(int billedAmount) {
+	public void makePayment(int billedAmount) {
 		bankAccountBalance -= billedAmount;
 		//TODO. May need to sell off properties to raise enough funds
 		// to not be bankrupted. If that cannot be done, may make
@@ -118,9 +120,27 @@ public class Player {
 		return (propertyBuildingSummary == null) ? 0 : propertyBuildingSummary.getNumberHouses();
 	}
 	
+	public int getNumberHousesOnAllProperties() {
+		int result = 0;
+		for (TitleDeed titleDeed : ownedPropertiesMap.keySet()) {
+			BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(titleDeed);
+			result += propertyBuildingSummary.getNumberHouses();
+		}
+		return result;
+	}
+	
 	public int getNumberHotelsOnProperty(TitleDeed titleDeed) {
 		BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(titleDeed);
 		return (propertyBuildingSummary == null) ? 0 : propertyBuildingSummary.getNumberHotels();
+	}
+	
+	public int getNumberHotelsOnAllProperties() {
+		int result = 0;
+		for (TitleDeed titleDeed : ownedPropertiesMap.keySet()) {
+			BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(titleDeed);
+			result += propertyBuildingSummary.getNumberHotels();
+		}
+		return result;
 	}
 	
 	public List<Title> getOwnedRailroads() {
@@ -137,5 +157,21 @@ public class Player {
 	
 	public int getNumberOwnedUtilities() {
 		return getOwnedUtilities().size();
+	}
+
+	public boolean isHoldingGetOutOfJailFreeCard() {
+		return holdingGetOutOfJailFreeCard;
+	}
+
+	public void setHoldingGetOutOfJailFreeCard(boolean newValue) {
+		holdingGetOutOfJailFreeCard = newValue;
+	}
+
+	public boolean isBankrupt() {
+		return bankrupt;
+	}
+
+	public void setBankrupt(boolean bankrupt) {
+		this.bankrupt = bankrupt;
 	}
 }

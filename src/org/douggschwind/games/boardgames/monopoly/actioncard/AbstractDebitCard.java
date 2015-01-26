@@ -5,7 +5,7 @@ package org.douggschwind.games.boardgames.monopoly.actioncard;
  * that the Player must pay.
  * @author Doug Gschwind
  */
-public class AbstractDebitCard extends InvariantAmountActionCard {
+public abstract class AbstractDebitCard extends InvariantAmountActionCard {
 	public AbstractDebitCard(String cardName, int amount) {
 		super(cardName, amount);
 	}

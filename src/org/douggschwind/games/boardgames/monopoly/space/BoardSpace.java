@@ -1,5 +1,6 @@
 package org.douggschwind.games.boardgames.monopoly.space;
 
+import org.douggschwind.games.boardgames.monopoly.Monopoly;
 import org.douggschwind.games.boardgames.monopoly.Player;
 
 /**
@@ -59,8 +60,9 @@ public abstract class BoardSpace {
 	/**
 	 * Takes action now that it is known that the given Player has landed on
 	 * this given instance.
-	 * @param hasLanded
+	 * @param gameInProgress Must be non-null.
+	 * @param hasLanded Must be non-null.
 	 */
-	public void takeAction(Player hasLanded) {
+	public void takeAction(Monopoly gameInProgress, Player hasLanded, int playerDiceRollTotal) {
 	}
 }

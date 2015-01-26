@@ -1,5 +1,7 @@
 package org.douggschwind.games.boardgames.monopoly.actioncard;
 
+import org.douggschwind.games.boardgames.monopoly.Monopoly;
+import org.douggschwind.games.boardgames.monopoly.Player;
 import org.douggschwind.games.common.AbstractCard;
 
 /**
@@ -28,4 +30,6 @@ public abstract class ActionCard implements AbstractCard {
 	public boolean isAdvanceToSpace() {
 		return false;
 	}
+	
+	public abstract void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal);
 }

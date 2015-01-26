@@ -1,5 +1,6 @@
 package org.douggschwind.games.boardgames.monopoly.space;
 
+import org.douggschwind.games.boardgames.monopoly.Monopoly;
 import org.douggschwind.games.boardgames.monopoly.Player;
 
 /**
@@ -14,7 +15,7 @@ public class FreeParkingSpace extends PublicBoardSpace {
 	}
 	
 	@Override
-	public void takeAction(Player hasLanded) {
+	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		// Do nothing.
 	}
 }

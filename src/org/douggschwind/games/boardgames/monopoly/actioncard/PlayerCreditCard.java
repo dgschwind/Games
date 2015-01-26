@@ -1,5 +1,8 @@
 package org.douggschwind.games.boardgames.monopoly.actioncard;
 
+import org.douggschwind.games.boardgames.monopoly.Monopoly;
+import org.douggschwind.games.boardgames.monopoly.Player;
+
 /**
  * An instance of this class represents an amount that is known a priori,
  * that the Player will be paid from game's bank.
@@ -13,5 +16,10 @@ public class PlayerCreditCard extends AbstractCreditCard {
 	@Override
 	public final boolean appliesToPlayer() {
 		return true;
+	}
+	
+	@Override
+	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
+		gameInProgress.payPlayerFromBank(player, getAmount());
 	}
 }

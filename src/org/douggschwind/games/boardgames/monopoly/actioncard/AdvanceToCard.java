@@ -1,5 +1,8 @@
 package org.douggschwind.games.boardgames.monopoly.actioncard;
 
+import org.douggschwind.games.boardgames.monopoly.Monopoly;
+import org.douggschwind.games.boardgames.monopoly.Player;
+
 /**
  * Instances of this class indicate a board space on the game board which a player
  * must advance to.
@@ -47,5 +50,10 @@ public class AdvanceToCard extends ActionCard {
 	@Override
 	public final boolean isAdvanceToSpace() {
 		return true;
+	}
+	
+	@Override
+	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
+		gameInProgress.advancePlayerToBoardLocation(player, getLocation(), playerDiceRollTotal);
 	}
 }

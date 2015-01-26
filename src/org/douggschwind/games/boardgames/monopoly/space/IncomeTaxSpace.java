@@ -1,5 +1,6 @@
 package org.douggschwind.games.boardgames.monopoly.space;
 
+import org.douggschwind.games.boardgames.monopoly.Monopoly;
 import org.douggschwind.games.boardgames.monopoly.Player;
 
 /**
@@ -18,7 +19,7 @@ public class IncomeTaxSpace extends PublicBoardSpace {
 	}
 
 	@Override
-	public void takeAction(Player hasLanded) {
-		hasLanded.payBill(200);
+	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
+		gameInProgress.playerLandedOnIncomeTaxSpace(player);
 	}
 }

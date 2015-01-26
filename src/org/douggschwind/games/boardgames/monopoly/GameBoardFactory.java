@@ -29,6 +29,20 @@ public class GameBoardFactory {
 	
 	static final int NUM_BOARD_SPACES_TOTAL = 40;
 	
+	static final int GO_SPACE_INDEX = 0;
+	static final int READING_RAILROAD_SPACE_INDEX = 5;
+	static final int JAIL_SPACE_INDEX = 10;
+	static final int ST_CHARLES_PLACE_SPACE_INDEX = 11;
+	static final int ELECTRIC_COMPANY_SPACE_INDEX = 12;
+	static final int PENNSYLVANIA_RAILROAD_SPACE_INDEX = 15;
+	static final int FREE_PARKING_SPACE_INDEX = 20;
+	static final int ILLINOIS_AVENUE_SPACE_INDEX = 24;
+	static final int B_O_RAILROAD_SPACE_INDEX = 25;
+	static final int WATER_WORKS_SPACE_INDEX = 28;
+	static final int GO_DIRECTLY_TO_JAIL_SPACE_INDEX = 30;
+	static final int SHORT_LINE_RAILROAD_SPACE_INDEX = 35;
+	static final int BOARDWALK_SPACE_INDEX = 39;
+	
 	private static final MonopolyDefinition BROWN_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Brown);
 	private static final MonopolyDefinition LIGHT_BLUE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.LightBlue);
 	private static final MonopolyDefinition PURPLE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Purple);
