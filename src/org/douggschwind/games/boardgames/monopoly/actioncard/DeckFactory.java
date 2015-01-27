@@ -41,7 +41,7 @@ public class DeckFactory {
 		result.addCard(new AdvanceToCard(Location.NearestRailroad, true));
 		result.addCard(new PlayerCreditCard("Bank Dividend", 50));
 		result.addCard(new GetOutOfJailFreeCard());
-		result.addCard(new AdvanceToCard(Location.GoBackThreeSpaces, true));
+		result.addCard(new AdvanceToCard(Location.GoBackThreeSpaces, false));
 		result.addCard(new AdvanceToCard(Location.Jail, false));
 		result.addCard(new PerPropertyDebitCard("Make general repairs on all your property", 25, 100));
 		result.addCard(new PlayerDebitCard("Poor Tax", 15));

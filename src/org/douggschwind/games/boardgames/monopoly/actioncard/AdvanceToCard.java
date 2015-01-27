@@ -54,6 +54,6 @@ public class AdvanceToCard extends ActionCard {
 	
 	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
-		gameInProgress.advancePlayerToBoardLocation(player, getLocation(), playerDiceRollTotal);
+		gameInProgress.advancePlayerToBoardLocation(player, this, playerDiceRollTotal);
 	}
 }

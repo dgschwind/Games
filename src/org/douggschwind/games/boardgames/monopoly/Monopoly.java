@@ -127,40 +127,53 @@ public class Monopoly {
 		}
 	}
 	
-	public final void advancePlayerToBoardLocation(Player player, AdvanceToCard.Location location, int playerDiceRollTotal) {
-		int newPlayerBoardSpaceIndex = getPlayerBoardSpaceIndex(player);
+	public final void advancePlayerToBoardLocation(Player player, AdvanceToCard advanceToCard, int playerDiceRollTotal) {
+		int currentPlayerBoardSpaceIndex = getPlayerBoardSpaceIndex(player);
+		int newPlayerBoardSpaceIndex;
+		boolean playerPassedGo = false;
 		
-		switch (location) {
+		switch (advanceToCard.getLocation()) {
 			case Go:
 				newPlayerBoardSpaceIndex = GameBoardFactory.GO_SPACE_INDEX;
 				break;
 			case IllinoisAve:
 				newPlayerBoardSpaceIndex = GameBoardFactory.ILLINOIS_AVENUE_SPACE_INDEX;
+				playerPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
 				break;
 			case StCharlesPlace:
 				newPlayerBoardSpaceIndex = GameBoardFactory.ST_CHARLES_PLACE_SPACE_INDEX;
+				playerPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
 				break;
 			case NearestUtility:
-				newPlayerBoardSpaceIndex = computeBoardSpaceIndexOfNearestUtility(newPlayerBoardSpaceIndex);
+				newPlayerBoardSpaceIndex = computeBoardSpaceIndexOfNearestUtility(currentPlayerBoardSpaceIndex);
+				playerPassedGo = (currentPlayerBoardSpaceIndex == GameBoardFactory.GO_SPACE_INDEX);
 				break;
 			case NearestRailroad:
-				newPlayerBoardSpaceIndex = computeBoardSpaceIndexOfNearestRailroad(newPlayerBoardSpaceIndex);
+				newPlayerBoardSpaceIndex = computeBoardSpaceIndexOfNearestRailroad(currentPlayerBoardSpaceIndex);
+				playerPassedGo = (currentPlayerBoardSpaceIndex == GameBoardFactory.GO_SPACE_INDEX);
 				break;
 			case GoBackThreeSpaces:
-				newPlayerBoardSpaceIndex -= 3;
+				newPlayerBoardSpaceIndex = currentPlayerBoardSpaceIndex - 3;
 				if (newPlayerBoardSpaceIndex < 0) {
 					newPlayerBoardSpaceIndex = GameBoardFactory.NUM_BOARD_SPACES_TOTAL + newPlayerBoardSpaceIndex;
 				}
 				break;
 			case ReadingRailroad:
 				newPlayerBoardSpaceIndex = GameBoardFactory.READING_RAILROAD_SPACE_INDEX;
+				playerPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
 				break;
 			case Boardwalk:
 				newPlayerBoardSpaceIndex = GameBoardFactory.BOARDWALK_SPACE_INDEX;
+				playerPassedGo = (currentPlayerBoardSpaceIndex == GameBoardFactory.GO_SPACE_INDEX);
 				break;
 			case Jail:
+			default:
 				newPlayerBoardSpaceIndex = GameBoardFactory.JAIL_SPACE_INDEX;
 				break;
+		}
+		
+		if ((playerPassedGo) && (advanceToCard.isHolderToReceive200DollarsIfPassingGo())) {
+			player.receivePayment(200);
 		}
 		
 		setPlayerBoardSpaceIndex(player, newPlayerBoardSpaceIndex);
