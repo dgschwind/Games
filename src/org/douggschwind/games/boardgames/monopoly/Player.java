@@ -23,9 +23,12 @@ public class Player {
 	public enum Avatar {
 		Car,
 		Dog,
-		Hat,
+		TopHat,
 		Iron,
-		Thimble;
+		Ship,
+		Shoe,
+		Thimble,
+		Wheelbarrow;
 	}
 	
 	private final String name;
@@ -61,8 +64,10 @@ public class Player {
 		return getName().hashCode();
 	}
 	
-	public int rollDice() {
-		return 2 + new Random().nextInt(6) + new Random().nextInt(6);
+	public DiceRollResult rollDice() {
+		int die1Value = new Random().nextInt(6); // 0 to 5
+		int die2Value = new Random().nextInt(6); // 0 to 5
+		return new DiceRollResult(2 + die1Value + die2Value, die1Value == die2Value);
 	}
 
 	public int getBankAccountBalance() {

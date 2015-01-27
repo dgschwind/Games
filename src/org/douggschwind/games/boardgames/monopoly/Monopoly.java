@@ -283,11 +283,33 @@ public class Monopoly {
 		}
 	}
 	
+	private DiceRollResult playerTakingTurn(Player player) {
+		int playerCurrentPosition = getPlayerBoardSpaceIndex(player);
+		DiceRollResult diceRollResult = player.rollDice();
+		int diceRollTotal = diceRollResult.getDiceRollTotal();
+		int newBoardPosition = playerCurrentPosition + diceRollTotal;
+		if (newBoardPosition > NUM_BOARD_SPACES_TOTAL) {
+			// Player passed Go!
+			newBoardPosition = (newBoardPosition % NUM_BOARD_SPACES_TOTAL);
+			player.receivePayment(200);
+		}
+		playerCurrentPosition = newBoardPosition;
+		setPlayerBoardSpaceIndex(player, playerCurrentPosition);
+		
+		// Now we know what Space the player has landed on, lets go about
+		// determining all that can or must happen as a result.
+		BoardSpace playerLandedOn = gameBoard.get(playerCurrentPosition);
+		playerHasLandedOnBoardSpace(player, playerLandedOn, diceRollTotal);
+		return diceRollResult;
+	}
+	
 	public void playGame() {
 		for (Player player : players) {
 			// Each player starts at Go.
 			setPlayerBoardSpaceIndex(player, GameBoardFactory.GO_SPACE_INDEX);
 		}
+		
+		final BoardSpace jailBoardSpace = gameBoard.get(GameBoardFactory.JAIL_SPACE_INDEX);
 		
 		// Now they each take a turn in succession until only one player
 		// is not yet bankrupt.
@@ -297,21 +319,21 @@ public class Monopoly {
 				continue;
 			}
 			
-			int playerCurrentPosition = getPlayerBoardSpaceIndex(player);
-			int diceRollTotal = player.rollDice();
-			int newBoardPosition = playerCurrentPosition + diceRollTotal;
-			if (newBoardPosition > NUM_BOARD_SPACES_TOTAL) {
-				// Player passed Go!
-				newBoardPosition = (newBoardPosition % NUM_BOARD_SPACES_TOTAL);
-				player.receivePayment(200);
-			}
-			playerCurrentPosition = newBoardPosition;
-			setPlayerBoardSpaceIndex(player, playerCurrentPosition);
+			int numberTimesPlayerHasRolledDoublesThisTurn = 0;
 			
-			// Now we know what Space the player has landed on, lets go about
-			// determining all that can or must happen as a result.
-			BoardSpace playerLandedOn = gameBoard.get(playerCurrentPosition);
-			playerHasLandedOnBoardSpace(player, playerLandedOn, diceRollTotal);
+			DiceRollResult diceRollResult = playerTakingTurn(player);
+			while (diceRollResult.wereDoublesRolled()) {
+				// Player rolls again! However, if the players rolls doubles
+				// three times in a row, they go directly to Jail!
+				numberTimesPlayerHasRolledDoublesThisTurn++;
+				
+				if (numberTimesPlayerHasRolledDoublesThisTurn == 3) {
+					playerHasLandedOnBoardSpace(player, jailBoardSpace, 0);
+					break;
+				} else {
+					diceRollResult = playerTakingTurn(player);
+				}
+			}
 			
 			// After each player's turn, if that Player went bankrupt as a result of their
 			// turn, check to see if there is only one Player left that is not bankrupt.
