@@ -37,6 +37,7 @@ public class Player {
 	private final Map<TitleDeed, BuildingSummary> ownedPropertiesMap = new HashMap<>();
 	private final List<Title> ownedRailroads = new ArrayList<>();
 	private final List<Title> ownedUtilities = new ArrayList<>();
+	private boolean inJail;
 	private boolean holdingGetOutOfJailFreeCard;
 	private boolean bankrupt;
 	
@@ -162,6 +163,14 @@ public class Player {
 	
 	public int getNumberOwnedUtilities() {
 		return getOwnedUtilities().size();
+	}
+	
+	public boolean isInJail() {
+		return inJail;
+	}
+
+	public void setInJail(boolean newValue) {
+		inJail = newValue;
 	}
 
 	public boolean isHoldingGetOutOfJailFreeCard() {

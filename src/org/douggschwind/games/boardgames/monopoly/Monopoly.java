@@ -26,7 +26,7 @@ public class Monopoly {
 	
 	private static final int NUM_BOARD_SPACES_TOTAL = 40;
 	
-	private final List<BoardSpace> gameBoard;
+	private static final List<BoardSpace> gameBoard = GameBoardFactory.createGameBoard();
 	private DeckOfCards<ActionCard> chanceDeck;
 	private DeckOfCards<ActionCard> communityChestDeck;
 	
@@ -36,7 +36,6 @@ public class Monopoly {
 	public Monopoly() {
 		super();
 		
-		gameBoard = GameBoardFactory.createGameBoard();
 		chanceDeck = DeckFactory.createChanceDeck();
 		chanceDeck.shuffle();
 		communityChestDeck = DeckFactory.createCommunityChestDeck();
@@ -130,27 +129,26 @@ public class Monopoly {
 	public final void advancePlayerToBoardLocation(Player player, AdvanceToCard advanceToCard, int playerDiceRollTotal) {
 		int currentPlayerBoardSpaceIndex = getPlayerBoardSpaceIndex(player);
 		int newPlayerBoardSpaceIndex;
-		boolean playerPassedGo = false;
+		boolean playerReachedOrPassedGo = false;
 		
 		switch (advanceToCard.getLocation()) {
 			case Go:
 				newPlayerBoardSpaceIndex = GameBoardFactory.GO_SPACE_INDEX;
+				playerReachedOrPassedGo = true;
 				break;
 			case IllinoisAve:
 				newPlayerBoardSpaceIndex = GameBoardFactory.ILLINOIS_AVENUE_SPACE_INDEX;
-				playerPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
+				playerReachedOrPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
 				break;
 			case StCharlesPlace:
 				newPlayerBoardSpaceIndex = GameBoardFactory.ST_CHARLES_PLACE_SPACE_INDEX;
-				playerPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
+				playerReachedOrPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
 				break;
 			case NearestUtility:
 				newPlayerBoardSpaceIndex = computeBoardSpaceIndexOfNearestUtility(currentPlayerBoardSpaceIndex);
-				playerPassedGo = (currentPlayerBoardSpaceIndex == GameBoardFactory.GO_SPACE_INDEX);
 				break;
 			case NearestRailroad:
 				newPlayerBoardSpaceIndex = computeBoardSpaceIndexOfNearestRailroad(currentPlayerBoardSpaceIndex);
-				playerPassedGo = (currentPlayerBoardSpaceIndex == GameBoardFactory.GO_SPACE_INDEX);
 				break;
 			case GoBackThreeSpaces:
 				newPlayerBoardSpaceIndex = currentPlayerBoardSpaceIndex - 3;
@@ -160,19 +158,19 @@ public class Monopoly {
 				break;
 			case ReadingRailroad:
 				newPlayerBoardSpaceIndex = GameBoardFactory.READING_RAILROAD_SPACE_INDEX;
-				playerPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
+				playerReachedOrPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
 				break;
 			case Boardwalk:
 				newPlayerBoardSpaceIndex = GameBoardFactory.BOARDWALK_SPACE_INDEX;
-				playerPassedGo = (currentPlayerBoardSpaceIndex == GameBoardFactory.GO_SPACE_INDEX);
+				playerReachedOrPassedGo = (currentPlayerBoardSpaceIndex == GameBoardFactory.GO_SPACE_INDEX);
 				break;
 			case Jail:
 			default:
-				newPlayerBoardSpaceIndex = GameBoardFactory.JAIL_SPACE_INDEX;
-				break;
+				sendPlayerToJail(player);
+				return;
 		}
 		
-		if ((playerPassedGo) && (advanceToCard.isHolderToReceive200DollarsIfPassingGo())) {
+		if ((playerReachedOrPassedGo) && (advanceToCard.isHolderToReceive200DollarsIfReachingOrPassingGo())) {
 			player.receivePayment(200);
 		}
 		
@@ -217,8 +215,13 @@ public class Monopoly {
 		takeAction(player, communityChestCard, playerDiceRollTotal);
 	}
 	
+	private void sendPlayerToJail(Player player) {
+		setPlayerBoardSpaceIndex(player, GameBoardFactory.JAIL_SPACE_INDEX);
+		player.setInJail(true);
+	}
+	
 	public void playerLandedOnGoToJailSpace(Player player) {
-		
+		sendPlayerToJail(player);
 	}
 	
 	public void playerLandedOnIncomeTaxSpace(Player player) {
@@ -286,6 +289,15 @@ public class Monopoly {
 	private DiceRollResult playerTakingTurn(Player player) {
 		int playerCurrentPosition = getPlayerBoardSpaceIndex(player);
 		DiceRollResult diceRollResult = player.rollDice();
+		if (player.isInJail()) {
+			if (diceRollResult.wereDoublesRolled()) {
+				// Doubles were rolled, Player is out of Jail!
+				player.setInJail(false);
+			} else {
+				// Player's turn is over
+				return diceRollResult;
+			}
+		}
 		int diceRollTotal = diceRollResult.getDiceRollTotal();
 		int newBoardPosition = playerCurrentPosition + diceRollTotal;
 		if (newBoardPosition > NUM_BOARD_SPACES_TOTAL) {
@@ -309,8 +321,6 @@ public class Monopoly {
 			setPlayerBoardSpaceIndex(player, GameBoardFactory.GO_SPACE_INDEX);
 		}
 		
-		final BoardSpace jailBoardSpace = gameBoard.get(GameBoardFactory.JAIL_SPACE_INDEX);
-		
 		// Now they each take a turn in succession until only one player
 		// is not yet bankrupt.
 		for (Player player : players) {
@@ -320,15 +330,23 @@ public class Monopoly {
 			}
 			
 			int numberTimesPlayerHasRolledDoublesThisTurn = 0;
+			boolean playerStartedTurnInJail = player.isInJail();
+			
+			if (playerStartedTurnInJail && player.isHoldingGetOutOfJailFreeCard()) {
+				// TODO : Consider policy of using a Get Out Of Jail Free
+				// card if the player has one in their possession.
+				player.setHoldingGetOutOfJailFreeCard(false);
+				playerStartedTurnInJail = false;
+			}
 			
 			DiceRollResult diceRollResult = playerTakingTurn(player);
-			while (diceRollResult.wereDoublesRolled()) {
+			while (diceRollResult.wereDoublesRolled() && !playerStartedTurnInJail) {
 				// Player rolls again! However, if the players rolls doubles
 				// three times in a row, they go directly to Jail!
 				numberTimesPlayerHasRolledDoublesThisTurn++;
 				
 				if (numberTimesPlayerHasRolledDoublesThisTurn == 3) {
-					playerHasLandedOnBoardSpace(player, jailBoardSpace, 0);
+					sendPlayerToJail(player);
 					break;
 				} else {
 					diceRollResult = playerTakingTurn(player);

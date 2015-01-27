@@ -101,8 +101,7 @@ public class TitleDeed extends Title {
 		}
 		
 		if (isMortgaged()) {
-			//TODO : Verify that the rent cost for any mortgaged
-			// property is zero.
+			// The rent cost for any mortgaged property is zero.
 			return 0;
 		}
 		

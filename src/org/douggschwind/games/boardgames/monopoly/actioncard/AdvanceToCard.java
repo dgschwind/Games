@@ -38,7 +38,7 @@ public class AdvanceToCard extends ActionCard {
 		return location;
 	}
 
-	public boolean isHolderToReceive200DollarsIfPassingGo() {
+	public boolean isHolderToReceive200DollarsIfReachingOrPassingGo() {
 		return holderToReceive200DollarsIfPassingGo;
 	}
 	
