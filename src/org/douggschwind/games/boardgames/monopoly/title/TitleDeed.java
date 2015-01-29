@@ -8,7 +8,8 @@ import org.douggschwind.games.boardgames.monopoly.Player;
  * @author Doug Gschwind
  */
 public class TitleDeed extends Title {
-	private final int buildingCost;
+	private final int playerBuildingPurchasePrice;
+	private final int bankBuildingBuybackPrice;
 	private final int unmonopolizedRentCost;
 	private final int monopolizedRentCost; // No houses
 	private final int oneHouseRentCost;
@@ -20,7 +21,7 @@ public class TitleDeed extends Title {
 	public TitleDeed(MonopolyDefinition monopolyDefinition,
 			                  String propertyName,
 			                  int purchasePrice,
-			                  int buildingCost,
+			                  int playerBuildingPurchasePrice,
 			                  int unmonopolizedRentCost,
 			                  int monopolizedRentCost,
 			                  int oneHouseRentCost,
@@ -29,7 +30,8 @@ public class TitleDeed extends Title {
 			                  int fourHouseRentCost,
 			                  int perHotelRentCost) {
 		super(monopolyDefinition, propertyName, purchasePrice);
-		this.buildingCost = buildingCost;
+		this.playerBuildingPurchasePrice = playerBuildingPurchasePrice;
+		this.bankBuildingBuybackPrice = playerBuildingPurchasePrice / 2;
 		this.unmonopolizedRentCost = unmonopolizedRentCost;
 		this.monopolizedRentCost = monopolizedRentCost;
 		this.oneHouseRentCost = oneHouseRentCost;
@@ -39,16 +41,22 @@ public class TitleDeed extends Title {
 		this.perHotelRentCost = perHotelRentCost;
 	}
 	
-	public int getBuildingCost() {
-		return buildingCost;
+	@Override
+	public final boolean isTitleDeed() {
+		return true;
 	}
-
-	public int getCostPerHouse() {
-		return buildingCost;
+	
+	public int getPlayerBuildingPurchasePrice() {
+		return playerBuildingPurchasePrice;
 	}
-
-	public int getCostPerHotel() {
-		return buildingCost;
+	
+	public int getBankHouseBuybackPrice() {
+		return bankBuildingBuybackPrice;
+	}
+	
+	public int getBankHotelBuybackPrice() {
+		// 5 houses = one hotel
+		return 5 * getBankHouseBuybackPrice();
 	}
 
 	public int getUnmonopolizedRentCost() {
@@ -106,7 +114,7 @@ public class TitleDeed extends Title {
 		}
 		
 		final int numberHotelsOnProperty = owner.getNumberHotelsOnProperty(this);
-		int result = (numberHotelsOnProperty * getCostPerHotel());
+		int result = numberHotelsOnProperty * getPerHotelRentCost();
 		switch (owner.getNumberHousesOnProperty(this)) {
 			case 4:
 				result += getFourHouseRentCost();

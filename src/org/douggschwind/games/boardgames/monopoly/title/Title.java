@@ -24,6 +24,10 @@ public class Title {
 		this.mortgageValue = purchasePrice / 2;
 	}
 	
+	public boolean isTitleDeed() {
+		return false;
+	}
+	
 	public MonopolyDefinition getMonopolyDefinition() {
 		return monopolyDefinition;
 	}

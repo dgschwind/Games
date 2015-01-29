@@ -20,6 +20,6 @@ public class PlayerDebitCard extends AbstractDebitCard {
 	
 	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
-		gameInProgress.playerPaysToBank(player, getAmount());
+		gameInProgress.playerMakesPaymentToBank(player, getAmount());
 	}
 }

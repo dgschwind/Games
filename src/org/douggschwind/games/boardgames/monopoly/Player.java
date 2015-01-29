@@ -13,6 +13,7 @@ import org.douggschwind.games.boardgames.monopoly.space.RailroadBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.UtilityBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.title.Title;
 import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
+import org.douggschwind.games.boardgames.policy.AssetLiquidationPolicy;
 
 /**
  * An instance of this class houses the state of the game for any given Player of the game.
@@ -33,6 +34,7 @@ public class Player {
 	
 	private final String name;
 	private final Avatar avatar; // aka token
+	private final AssetLiquidationPolicy assetLiquidationPolicy;
 	private int bankAccountBalance;
 	private final Map<TitleDeed, BuildingSummary> ownedPropertiesMap = new HashMap<>();
 	private final List<Title> ownedRailroads = new ArrayList<>();
@@ -41,9 +43,10 @@ public class Player {
 	private boolean holdingGetOutOfJailFreeCard;
 	private boolean bankrupt;
 	
-	public Player(String name, Avatar avatar) {
+	public Player(String name, Avatar avatar, AssetLiquidationPolicy assetLiquidationPolicy) {
 		this.name = name;
 		this.avatar = avatar;
+		this.assetLiquidationPolicy = assetLiquidationPolicy;
 		bankAccountBalance = 1500;
 	}
 	
@@ -75,6 +78,14 @@ public class Player {
 		return bankAccountBalance;
 	}
 	
+	private void setBankAccountBalance(int newValue) {
+		bankAccountBalance = newValue;
+	}
+	
+	public AssetLiquidationPolicy getAssetLiquidationPolicy() {
+		return assetLiquidationPolicy;
+	}
+
 	public void receivePayment(int creditedAmount) {
 		bankAccountBalance += creditedAmount;
 	}
@@ -83,11 +94,78 @@ public class Player {
 		return getBankAccountBalance() > billAmount;
 	}
 	
-	public void makePayment(int billedAmount) {
-		bankAccountBalance -= billedAmount;
-		//TODO. May need to sell off properties to raise enough funds
-		// to not be bankrupted. If that cannot be done, may make
-		// sense to throw BankruptedException or the like.
+	/**
+	 * Since a Player can sell houses or hotels back to the Bank
+	 * or mortgage a property at any time, those assets are included
+	 * in the result. Mortgaged properties are ignored since those
+	 * can only be sold to other Players.
+	 * @return Will be non-negative.
+	 */
+	private int computePlayerLiquidWorth() {
+		int result = getBankAccountBalance();
+		for (TitleDeed titleDeed : getOwnedProperties()) {
+			if (titleDeed.isMortgaged()) {
+				// This does not contribute to liquid worth.
+				continue;
+			}
+			int numberHousesOnProperty = getNumberHousesOnProperty(titleDeed);
+			result += (numberHousesOnProperty * titleDeed.getBankHouseBuybackPrice());
+			int numberHotelsOnProperty = getNumberHotelsOnProperty(titleDeed);
+			result += (numberHotelsOnProperty * titleDeed.getBankHotelBuybackPrice());
+		}
+		
+		for (Title railroadTitle : getOwnedRailroads()) {
+			if (railroadTitle.isMortgaged()) {
+				// This does not contribute to liquid worth.
+			}
+			result += railroadTitle.getMortgageValue();
+		}
+		
+		for (Title utilityTitle : getOwnedUtilities()) {
+			if (utilityTitle.isMortgaged()) {
+				// This does not contribute to liquid worth.
+			}
+			result += utilityTitle.getMortgageValue();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * This method resolves any amount that the Player owes to another
+	 * Player or the Bank.
+	 * @param billedAmount The amount of the payment to be made.
+	 * @return true if the payment could be made, false if the payment
+	 * would bankrupt the Player.
+	 */
+	boolean makePayment(int billedAmount) {
+		if (computePlayerLiquidWorth() < billedAmount) {
+			return false;
+		}
+		if (billedAmount <= getBankAccountBalance()) {
+			setBankAccountBalance(getBankAccountBalance() - billedAmount);
+		} else {
+			int liquidValue = getBankAccountBalance();
+			//TODO: Must sell off Hotels, Houses, mortgage
+			// properties to pay the bill. Consider Strategy
+			// pattern here where some players sell off their
+			// lower valued assets where others sell off their
+			// higher valued assets.
+			List<Title> titlesToMortgage = new ArrayList<>();
+			while (liquidValue < billedAmount) {
+				Title titleToMortgage = getAssetLiquidationPolicy().identifyNextTitleToLiquidate(this);
+				titlesToMortgage.add(titleToMortgage);
+				//TODO: What about the buildings on this property?
+				liquidValue += titleToMortgage.getMortgageValue();
+			}
+			
+			for (Title titleToMortgage : titlesToMortgage) {
+				titleToMortgage.setMortgaged(true);
+			}
+			
+			setBankAccountBalance(liquidValue - billedAmount);
+		}
+		return true;
 	}
 
 	public String getName() {
@@ -179,6 +257,32 @@ public class Player {
 
 	public void setHoldingGetOutOfJailFreeCard(boolean newValue) {
 		holdingGetOutOfJailFreeCard = newValue;
+	}
+	
+	public int computeLiquidationValue(Title title) {
+		if (title.isTitleDeed()) {
+			TitleDeed titleDeed = (TitleDeed) title;
+			return titleDeed.getMortgageValue() +
+					(getNumberHousesOnProperty(titleDeed) * titleDeed.getBankHouseBuybackPrice()) +
+					(getNumberHotelsOnProperty(titleDeed) * titleDeed.getBankHotelBuybackPrice());
+			
+		} else {
+			// Its a railroad or utility
+			for (Title railroadTitle : getOwnedRailroads()) {
+				if (railroadTitle == title) {
+					return railroadTitle.getMortgageValue();
+				}
+			}
+			
+			for (Title utilityTitle : getOwnedUtilities()) {
+				if (utilityTitle == title) {
+					return utilityTitle.getMortgageValue();
+				}
+			}
+		}
+		
+		// Should never get here
+		return 0;
 	}
 
 	public boolean isBankrupt() {

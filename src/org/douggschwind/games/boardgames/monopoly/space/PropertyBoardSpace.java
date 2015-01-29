@@ -19,14 +19,6 @@ public class PropertyBoardSpace extends PrivateBoardSpace<TitleDeed> {
 		return true;
 	}
 	
-	public int getCostPerHouse() {
-		return getTitle().getCostPerHouse();
-	}
-
-	public int getCostPerHotel() {
-		return getTitle().getCostPerHotel();
-	}
-
 	public int getUnmonopolizedRentCost() {
 		return getTitle().getUnmonopolizedRentCost();
 	}

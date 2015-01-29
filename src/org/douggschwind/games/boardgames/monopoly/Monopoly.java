@@ -70,8 +70,27 @@ public class Monopoly {
 		player.receivePayment(amountToBePaid);
 	}
 	
-	public void playerPaysToBank(Player player, int amountToBePaid) {
-		player.makePayment(amountToBePaid);
+	/**
+	 * This method handles the case when one Player owes money to another Player or the Bank.
+	 * @param toMakePayment The Player that owes money.
+	 * @param amountToBePaid The amount owed.
+	 * @param toReceivePayment The Player that is to receive the amount owed. If null, this
+	 * means the payment is being made to the bank, and we largely don't care about that.
+	 */
+	private void playerMakesPaymentToOpponent(Player toMakePayment, int amountToBePaid, Player toReceivePayment) {
+		if (toMakePayment.makePayment(amountToBePaid)) {
+			if (toReceivePayment != null) {
+				toReceivePayment.receivePayment(amountToBePaid);
+			}
+		} else {
+			// Player could not make payment. Bankrupt!
+			toMakePayment.setBankrupt(true);
+			//TODO : Transfer assets from toMakePayment to toReceivePayment or to the Bank
+		}
+	}
+	
+	public void playerMakesPaymentToBank(Player toMakePayment, int amountToBePaid) {
+		playerMakesPaymentToOpponent(toMakePayment, amountToBePaid, null);
 	}
 	
 	public void payPlayerFromEachOpponent(Player playerToBePaid, int amountToBePaid) {
@@ -80,19 +99,17 @@ public class Monopoly {
 				continue;
 			}
 			
-			opponent.makePayment(amountToBePaid);
-			playerToBePaid.receivePayment(amountToBePaid);
+			playerMakesPaymentToOpponent(opponent, amountToBePaid, playerToBePaid);
 		}
 	}
 	
-	public void playerPaysToEachOpponent(Player playerToPay, int amountToBePaid) {
+	public void playerPaysToEachOpponent(Player playerThatMustMakePayment, int amountToBePaid) {
 		for (Player opponent : determineSolventPlayers()) {
-			if (opponent.equals(playerToPay)) {
+			if (opponent.equals(playerThatMustMakePayment)) {
 				continue;
 			}
 			
-			playerToPay.makePayment(amountToBePaid);
-			opponent.receivePayment(amountToBePaid);
+			playerMakesPaymentToOpponent(playerThatMustMakePayment, amountToBePaid, opponent);
 		}
 	}
 	
@@ -107,7 +124,7 @@ public class Monopoly {
 	public void playerIsAssessedAmountPerBuilding(Player player, int costPerHouse, int costPerHotel) {
 		int assessmentAmount = (player.getNumberHousesOnAllProperties() * costPerHouse) + 
 				               (player.getNumberHotelsOnAllProperties() * costPerHotel);
-		player.makePayment(assessmentAmount);
+		playerMakesPaymentToBank(player, assessmentAmount);
 	}
 	
 	private int computeBoardSpaceIndexOfNearestUtility(int boardSpaceIndex) {
@@ -225,11 +242,11 @@ public class Monopoly {
 	}
 	
 	public void playerLandedOnIncomeTaxSpace(Player player) {
-		player.makePayment(200);
+		playerMakesPaymentToBank(player, 200);
 	}
 	
 	public void playerLandedOnLuxuryTaxSpace(Player player) {
-		player.makePayment(100);
+		playerMakesPaymentToBank(player, 100);
 	}
 	
 	/**
@@ -267,7 +284,7 @@ public class Monopoly {
 				// space can be purchased by Player
 				boolean playerWouldLikeToPurchase = player.wouldYouLikeToPurchase(privateBoardSpace);
 				if (playerWouldLikeToPurchase) {
-					player.makePayment(privateBoardSpace.getPurchasePrice());
+					playerMakesPaymentToBank(player, privateBoardSpace.getPurchasePrice());
 					player.acceptOwnership(privateBoardSpace);
 				}
 			} else {
@@ -275,12 +292,8 @@ public class Monopoly {
 					// The player owns the space, do nothing.
 				} else {
 					// The player owes rent to the owner.
-					int playerOwedRent = computeOwedRent(privateBoardSpace, spaceOwner, playerDiceRollTotal);
-					if (player.canPayBillWithCash(playerOwedRent)) {
-						player.makePayment(playerOwedRent);
-					} else {
-						
-					}
+					int rentAmountOwed = computeOwedRent(privateBoardSpace, spaceOwner, playerDiceRollTotal);
+					playerMakesPaymentToOpponent(player, rentAmountOwed, spaceOwner);
 				}
 			}
 		}
