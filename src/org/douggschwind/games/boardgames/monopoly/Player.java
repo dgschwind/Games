@@ -154,6 +154,11 @@ public class Player {
 			List<Title> titlesToMortgage = new ArrayList<>();
 			while (liquidValue < billedAmount) {
 				Title titleToMortgage = getAssetLiquidationPolicy().identifyNextTitleToLiquidate(this);
+				if (titleToMortgage == null) {
+					// Huh? How could this happen? If we get here,
+					// this is entirely unexpected.
+					return false;
+				}
 				titlesToMortgage.add(titleToMortgage);
 				//TODO: What about the buildings on this property?
 				liquidValue += titleToMortgage.getMortgageValue();
