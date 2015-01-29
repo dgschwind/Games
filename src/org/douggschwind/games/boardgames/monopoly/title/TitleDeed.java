@@ -142,7 +142,14 @@ public class TitleDeed extends Title {
 		return result;
 	}
 
+	@Override
 	public boolean isPartOfMonopoly() {
 		return getMonopolyDefinition().hasBeenMonopolized();
+	}
+	
+	@Override
+	public final int computeBuildingsLiquidationValue(int numberHousesOnProperty, int numberHotelsOnProperty) {
+		return (numberHousesOnProperty * getBankHouseBuybackPrice()) +
+			   (numberHotelsOnProperty * getBankHotelBuybackPrice());
 	}
 }

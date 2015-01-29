@@ -14,15 +14,36 @@ public class BuildingSummary {
 		return numberHouses;
 	}
 
-	public void setNumberHouses(int numberHouses) {
-		this.numberHouses = numberHouses;
+	public void setNumberHouses(int newValue) {
+		numberHouses = newValue;
 	}
-
+	
+	public void addHouse() {
+		numberHouses++;
+	}
+	
+	public void removeHouse() {
+		numberHouses--;
+	}
+	
 	public int getNumberHotels() {
 		return numberHotels;
 	}
-
-	public void setNumberHotels(int numberHotels) {
-		this.numberHotels = numberHotels;
+	
+	public void addHotel() {
+		numberHotels++;
+	}
+	
+	public void removeHotel() {
+		numberHotels--;
+	}
+	
+	public void clear() {
+		numberHouses = 0;
+		numberHotels = 0;
+	}
+	
+	public int computeDifferenceInNumberOfHouses(int input) {
+		return ((5 * getNumberHotels()) + getNumberHouses()) - input;
 	}
 }

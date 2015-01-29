@@ -132,6 +132,54 @@ public class Player {
 	}
 	
 	/**
+	 * Liquidate houses, hotels, titles as needed to make the necessary payment
+	 * @param billedAmount
+	 * @return The amount in dollars of titles that have been liquidated.
+	 */
+	private int liquidateTitlesToGenerateCash(int billedAmount) {
+		int liquidatedValue = 0;
+		while (liquidatedValue + getBankAccountBalance() < billedAmount) {
+			Title titleToLiquidate = getAssetLiquidationPolicy().identifyNextTitleToLiquidate(this);
+			if (titleToLiquidate == null) {
+				// Huh? How could this happen? If we get here,
+				// this is entirely unexpected.
+				return 0;
+			}
+			
+			if (titleToLiquidate.isTitleDeed()) {
+				TitleDeed titleDeedToLiquidate = (TitleDeed) titleToLiquidate;
+				int buildingsLiquidationValue = titleToLiquidate.computeBuildingsLiquidationValue(getNumberHousesOnProperty(titleDeedToLiquidate), getNumberHotelsOnProperty(titleDeedToLiquidate));
+				if ((liquidatedValue + getBankAccountBalance() + buildingsLiquidationValue) >= billedAmount) {
+					// We don't need to mortgage the Title, but rather just sell
+					// off at least one house that has been used to improve the
+					// TitleDeed.
+					int amountExceeded = (liquidatedValue + getBankAccountBalance() + buildingsLiquidationValue) - billedAmount;
+					int numberOfHousesThatCanBeRetained = (amountExceeded / titleDeedToLiquidate.getBankHouseBuybackPrice());
+					if (numberOfHousesThatCanBeRetained >= 1) {
+						BuildingSummary buildingSummary = getBuildingSummary(titleDeedToLiquidate);
+						int numberOfHousesLiquidated = buildingSummary.computeDifferenceInNumberOfHouses(numberOfHousesThatCanBeRetained);
+						buildingSummary.clear();
+						buildingSummary.setNumberHouses(numberOfHousesThatCanBeRetained);
+						liquidatedValue += (numberOfHousesLiquidated * titleDeedToLiquidate.getBankHouseBuybackPrice());
+					}
+					
+					return liquidatedValue;
+				} else {
+					// Have to sell off all the buildings as well as mortgage the Title
+					BuildingSummary buildingSummary = getBuildingSummary((TitleDeed) titleToLiquidate);
+					buildingSummary.clear();
+					liquidatedValue += buildingsLiquidationValue;
+				}
+			}
+			
+			titleToLiquidate.setMortgaged(true);
+			liquidatedValue += titleToLiquidate.getMortgageValue();
+		}
+		
+		return liquidatedValue;
+	}
+	
+	/**
 	 * This method resolves any amount that the Player owes to another
 	 * Player or the Bank.
 	 * @param billedAmount The amount of the payment to be made.
@@ -145,30 +193,8 @@ public class Player {
 		if (billedAmount <= getBankAccountBalance()) {
 			setBankAccountBalance(getBankAccountBalance() - billedAmount);
 		} else {
-			int liquidValue = getBankAccountBalance();
-			//TODO: Must sell off Hotels, Houses, mortgage
-			// properties to pay the bill. Consider Strategy
-			// pattern here where some players sell off their
-			// lower valued assets where others sell off their
-			// higher valued assets.
-			List<Title> titlesToMortgage = new ArrayList<>();
-			while (liquidValue < billedAmount) {
-				Title titleToMortgage = getAssetLiquidationPolicy().identifyNextTitleToLiquidate(this);
-				if (titleToMortgage == null) {
-					// Huh? How could this happen? If we get here,
-					// this is entirely unexpected.
-					return false;
-				}
-				titlesToMortgage.add(titleToMortgage);
-				//TODO: What about the buildings on this property?
-				liquidValue += titleToMortgage.getMortgageValue();
-			}
-			
-			for (Title titleToMortgage : titlesToMortgage) {
-				titleToMortgage.setMortgaged(true);
-			}
-			
-			setBankAccountBalance(liquidValue - billedAmount);
+			int liquidatedValue = liquidateTitlesToGenerateCash(billedAmount);
+			setBankAccountBalance((getBankAccountBalance() + liquidatedValue) - billedAmount);
 		}
 		return true;
 	}
@@ -204,29 +230,38 @@ public class Player {
 		ownedPropertiesMap.put(property, new BuildingSummary());
 	}
 	
+	private BuildingSummary getBuildingSummary(TitleDeed titleDeed) {
+		return ownedPropertiesMap.get(titleDeed);
+	}
+	
 	public int getNumberHousesOnProperty(TitleDeed titleDeed) {
-		BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(titleDeed);
+		BuildingSummary propertyBuildingSummary = getBuildingSummary(titleDeed);
 		return (propertyBuildingSummary == null) ? 0 : propertyBuildingSummary.getNumberHouses();
 	}
 	
 	public int getNumberHousesOnAllProperties() {
 		int result = 0;
 		for (TitleDeed titleDeed : ownedPropertiesMap.keySet()) {
-			BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(titleDeed);
+			BuildingSummary propertyBuildingSummary = getBuildingSummary(titleDeed);
 			result += propertyBuildingSummary.getNumberHouses();
 		}
 		return result;
 	}
 	
+	public void addHouseOnProperty(TitleDeed titleDeed) {
+		BuildingSummary propertyBuildingSummary = getBuildingSummary(titleDeed);
+		propertyBuildingSummary.addHouse();
+	}
+	
 	public int getNumberHotelsOnProperty(TitleDeed titleDeed) {
-		BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(titleDeed);
+		BuildingSummary propertyBuildingSummary = getBuildingSummary(titleDeed);
 		return (propertyBuildingSummary == null) ? 0 : propertyBuildingSummary.getNumberHotels();
 	}
 	
 	public int getNumberHotelsOnAllProperties() {
 		int result = 0;
 		for (TitleDeed titleDeed : ownedPropertiesMap.keySet()) {
-			BuildingSummary propertyBuildingSummary = ownedPropertiesMap.get(titleDeed);
+			BuildingSummary propertyBuildingSummary = getBuildingSummary(titleDeed);
 			result += propertyBuildingSummary.getNumberHotels();
 		}
 		return result;
@@ -267,10 +302,7 @@ public class Player {
 	public int computeLiquidationValue(Title title) {
 		if (title.isTitleDeed()) {
 			TitleDeed titleDeed = (TitleDeed) title;
-			return titleDeed.getMortgageValue() +
-					(getNumberHousesOnProperty(titleDeed) * titleDeed.getBankHouseBuybackPrice()) +
-					(getNumberHotelsOnProperty(titleDeed) * titleDeed.getBankHotelBuybackPrice());
-			
+			return titleDeed.getMortgageValue() + titleDeed.computeBuildingsLiquidationValue(getNumberHousesOnProperty(titleDeed), getNumberHotelsOnProperty(titleDeed));
 		} else {
 			// Its a railroad or utility
 			for (Title railroadTitle : getOwnedRailroads()) {

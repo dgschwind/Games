@@ -76,4 +76,8 @@ public class Title {
 	public void setMortgaged(boolean mortgaged) {
 		this.mortgaged = mortgaged;
 	}
+	
+	public int computeBuildingsLiquidationValue(int numberHousesOnProperty, int numberHotelsOnProperty) {
+		return 0;
+	}
 }
