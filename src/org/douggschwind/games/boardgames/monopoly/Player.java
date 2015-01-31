@@ -60,12 +60,12 @@ public class Player {
 			return false;
 		}
 		
-		return this.getName().equals(((Player) that).getName());
+		return this.getAvatar().equals(((Player) that).getAvatar());
 	}
 	
 	@Override
 	public int hashCode() {
-		return getName().hashCode();
+		return getAvatar().hashCode();
 	}
 	
 	public DiceRollResult rollDice() {
