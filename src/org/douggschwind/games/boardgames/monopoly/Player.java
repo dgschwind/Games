@@ -39,6 +39,7 @@ public class Player {
 	private final List<Title> ownedRailroads = new ArrayList<>();
 	private final List<Title> ownedUtilities = new ArrayList<>();
 	private boolean inJail;
+	private int numFailedAttemptsToGetOutOfJail;
 	private boolean holdingGetOutOfJailFreeCard;
 	private boolean bankrupt;
 	
@@ -63,12 +64,12 @@ public class Player {
 			return false;
 		}
 		
-		return this.getAvatar().equals(((Player) that).getAvatar());
+		return this.getName().equals(((Player) that).getName());
 	}
 	
 	@Override
 	public int hashCode() {
-		return getAvatar().hashCode();
+		return getName().hashCode();
 	}
 	
 	public DiceRollResult rollDice() {
@@ -296,6 +297,17 @@ public class Player {
 
 	public void setInJail(boolean newValue) {
 		inJail = newValue;
+		if (newValue == false) {
+			numFailedAttemptsToGetOutOfJail = 0;
+		}
+	}
+
+	public int getNumFailedAttemptsToGetOutOfJail() {
+		return numFailedAttemptsToGetOutOfJail;
+	}
+
+	public void incrementNumFailedAttemptsToGetOutOfJail() {
+		numFailedAttemptsToGetOutOfJail++;
 	}
 
 	public boolean isHoldingGetOutOfJailFreeCard() {

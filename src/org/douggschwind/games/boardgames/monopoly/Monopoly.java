@@ -302,7 +302,7 @@ public class Monopoly {
 		int playerCurrentPosition = getPlayerBoardSpaceIndex(player);
 		DiceRollResult diceRollResult = player.rollDice();
 		System.out.println("--------------------------------------------------------------------------------------");
-		System.out.println("Player : " + player.getName() + " starting on space : " + gameBoard.get(playerCurrentPosition).getName() + " with $" + player.getBankAccountBalance() + " cash");
+		System.out.println("Player " + player.getName() + " starting on space : " + gameBoard.get(playerCurrentPosition).getName() + " with $" + player.getBankAccountBalance() + " cash");
 		System.out.print("Player has rolled a " + diceRollResult.getDiceRollTotal());
 		System.out.print(diceRollResult.wereDoublesRolled() ? " with doubles" : "");
 		if (player.isInJail()) {
@@ -310,9 +310,19 @@ public class Monopoly {
 				// Doubles were rolled, Player is out of Jail!
 				player.setInJail(false);
 			} else {
-				// Player's turn is over
-				System.out.println(", but doubles were not rolled so " + player.getName() + " remains in Jail!");
-				return diceRollResult;
+				player.incrementNumFailedAttemptsToGetOutOfJail();
+				if (player.getNumFailedAttemptsToGetOutOfJail() < 3) {
+					// Player's turn is over
+					System.out.println(", but doubles were not rolled so " + player.getName() + " remains in Jail!");
+					return diceRollResult;
+				} else {
+					// Otherwise, the Player must pay a fine of $50 and advance
+					// the number of spots on the dice they have thrown.
+					playerMakesPaymentToBank(player, 50);
+					player.setInJail(false);
+					System.out.println();
+					System.out.println("Player " + player.getName() + " fined $50 for failing to get out of Jail after 3 attempts");
+				}
 			}
 		}
 		int diceRollTotal = diceRollResult.getDiceRollTotal();
@@ -357,6 +367,7 @@ public class Monopoly {
 		// is not yet bankrupt.
 		boolean doWeHaveAWinner = false;
 		while (doWeHaveAWinner == false) {
+			System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
 			for (Player player : players) {
 				// Skip bankrupt players.
 				if (player.isBankrupt()) {
