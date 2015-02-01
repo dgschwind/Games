@@ -11,6 +11,7 @@ import org.douggschwind.games.boardgames.monopoly.space.PrivateBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.title.Title;
 import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
 import org.douggschwind.games.boardgames.policy.AssetLiquidationPolicy;
+import org.douggschwind.games.boardgames.policy.UseOfGetOutOfJailFreeCardPolicy;
 
 /**
  * An instance of this class houses the state of the game for any given Player of the game.
@@ -31,6 +32,7 @@ public class Player {
 	
 	private final String name;
 	private final Avatar avatar; // aka token
+	private final UseOfGetOutOfJailFreeCardPolicy useOfGetOutOfJailFreeCardPolicy;
 	private final AssetLiquidationPolicy assetLiquidationPolicy;
 	private int bankAccountBalance;
 	private final Map<TitleDeed, BuildingSummary> ownedPropertiesMap = new HashMap<>();
@@ -40,9 +42,13 @@ public class Player {
 	private boolean holdingGetOutOfJailFreeCard;
 	private boolean bankrupt;
 	
-	public Player(String name, Avatar avatar, AssetLiquidationPolicy assetLiquidationPolicy) {
+	public Player(String name,
+			      Avatar avatar,
+			      UseOfGetOutOfJailFreeCardPolicy useOfGetOutOfJailFreeCardPolicy,
+			      AssetLiquidationPolicy assetLiquidationPolicy) {
 		this.name = name;
 		this.avatar = avatar;
+		this.useOfGetOutOfJailFreeCardPolicy = useOfGetOutOfJailFreeCardPolicy;
 		this.assetLiquidationPolicy = assetLiquidationPolicy;
 		bankAccountBalance = 1500;
 	}
@@ -77,6 +83,10 @@ public class Player {
 	
 	private void setBankAccountBalance(int newValue) {
 		bankAccountBalance = newValue;
+	}
+	
+	public UseOfGetOutOfJailFreeCardPolicy getUseOfGetOutOfJailFreeCardPolicy() {
+		return useOfGetOutOfJailFreeCardPolicy;
 	}
 	
 	public AssetLiquidationPolicy getAssetLiquidationPolicy() {

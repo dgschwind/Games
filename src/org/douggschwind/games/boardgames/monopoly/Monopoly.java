@@ -115,10 +115,6 @@ public class Monopoly {
 		player.setHoldingGetOutOfJailFreeCard(true);
 	}
 	
-	private void playerHasUsedGetOutOfJailFreeCard(Player player) {
-		player.setHoldingGetOutOfJailFreeCard(false);
-	}
-	
 	public void playerIsAssessedAmountPerBuilding(Player player, int costPerHouse, int costPerHotel) {
 		int assessmentAmount = (player.getNumberHousesOnAllProperties() * costPerHouse) + 
 				               (player.getNumberHotelsOnAllProperties() * costPerHotel);
@@ -326,6 +322,19 @@ public class Monopoly {
 		return diceRollResult;
 	}
 	
+	private int computeNumberTitlesAvailableForPurchase() {
+		int result = 0;
+		for (BoardSpace boardSpace : gameBoard) {
+			if (boardSpace.canBePrivatelyHeld()) {
+				Title title = ((PrivateBoardSpace<? extends Title>) boardSpace).getTitle();
+				if (title.isBankOwned()) {
+					result++;
+				}
+			}
+		}
+		return result;
+	}
+	
 	public void playGame() {
 		for (Player player : players) {
 			// Each player starts at Go.
@@ -344,10 +353,11 @@ public class Monopoly {
 			boolean playerStartedTurnInJail = player.isInJail();
 			
 			if (playerStartedTurnInJail && player.isHoldingGetOutOfJailFreeCard()) {
-				// TODO : Consider policy of using a Get Out Of Jail Free
-				// card if the player has one in their possession.
-				player.setHoldingGetOutOfJailFreeCard(false);
-				playerStartedTurnInJail = false;
+				boolean shouldUseGetOutOfJailFreeCard = player.getUseOfGetOutOfJailFreeCardPolicy().shouldUseGetOutOfJailFreeCard(player, computeNumberTitlesAvailableForPurchase());
+				if (shouldUseGetOutOfJailFreeCard) {
+					player.setHoldingGetOutOfJailFreeCard(false);
+					playerStartedTurnInJail = false;
+				}
 			}
 			
 			DiceRollResult diceRollResult = playerTakingTurn(player);
