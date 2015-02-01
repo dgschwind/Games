@@ -1,7 +1,6 @@
 package org.douggschwind.games.boardgames.monopoly.title;
 
 import org.douggschwind.games.boardgames.monopoly.Player;
-import org.douggschwind.games.boardgames.monopoly.title.MonopolyDefinition.Type;
 
 /**
  * An instance of this class represents something that can be purchased and owned by
@@ -13,6 +12,7 @@ public class Title {
 	private final String name;
 	private final int purchasePrice;
 	private final int mortgageValue;
+	private final int mortgageLiftingPrice;
 	private Player owner;
 	private boolean mortgaged;
 	
@@ -23,6 +23,7 @@ public class Title {
 		this.name = name;
 		this.purchasePrice = purchasePrice;
 		this.mortgageValue = purchasePrice / 2;
+		this.mortgageLiftingPrice = (int) (mortgageValue * 1.1); // 10% above mortgageValue
 	}
 	
 	public boolean isTitleDeed() {
@@ -55,6 +56,10 @@ public class Title {
 
 	public int getMortgageValue() {
 		return mortgageValue;
+	}
+	
+	public int getMortgageLiftingPrice() {
+		return mortgageLiftingPrice;
 	}
 
 	public Player getOwner() {
