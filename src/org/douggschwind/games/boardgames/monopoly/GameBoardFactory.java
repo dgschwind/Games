@@ -17,6 +17,7 @@ import org.douggschwind.games.boardgames.monopoly.space.RailroadBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.UtilityBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.title.MonopolyDefinition;
 import org.douggschwind.games.boardgames.monopoly.title.MonopolyDefinition.Identifier;
+import org.douggschwind.games.boardgames.monopoly.title.MonopolyDefinition.Type;
 import org.douggschwind.games.boardgames.monopoly.title.Title;
 import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
 
@@ -43,16 +44,16 @@ public class GameBoardFactory {
 	static final int SHORT_LINE_RAILROAD_SPACE_INDEX = 35;
 	static final int BOARDWALK_SPACE_INDEX = 39;
 	
-	private static final MonopolyDefinition BROWN_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Brown);
-	private static final MonopolyDefinition LIGHT_BLUE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.LightBlue);
-	private static final MonopolyDefinition PURPLE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Purple);
-	private static final MonopolyDefinition ORANGE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Orange);
-	private static final MonopolyDefinition RED_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Red);
-	private static final MonopolyDefinition YELLOW_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Yellow);
-	private static final MonopolyDefinition GREEN_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Green);
-	private static final MonopolyDefinition BLUE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Blue);
-	private static final MonopolyDefinition RAILROADS_DEFINITION = new MonopolyDefinition(Identifier.Railroads);
-	private static final MonopolyDefinition UTILITIES_DEFINITION = new MonopolyDefinition(Identifier.Utilities);
+	private static final MonopolyDefinition BROWN_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Brown, Type.Property);
+	private static final MonopolyDefinition LIGHT_BLUE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.LightBlue, Type.Property);
+	private static final MonopolyDefinition PURPLE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Purple, Type.Property);
+	private static final MonopolyDefinition ORANGE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Orange, Type.Property);
+	private static final MonopolyDefinition RED_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Red, Type.Property);
+	private static final MonopolyDefinition YELLOW_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Yellow, Type.Property);
+	private static final MonopolyDefinition GREEN_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Green, Type.Property);
+	private static final MonopolyDefinition BLUE_MONOPOLY_DEFINITION = new MonopolyDefinition(Identifier.Blue, Type.Property);
+	private static final MonopolyDefinition RAILROADS_DEFINITION = new MonopolyDefinition(Identifier.Railroads, Type.Railroad);
+	private static final MonopolyDefinition UTILITIES_DEFINITION = new MonopolyDefinition(Identifier.Utilities, Type.Utility);
 	
 	private static final TitleDeed MEDITERRANEAN_AVENUE = new TitleDeed(BROWN_MONOPOLY_DEFINITION, "Mediterranean Avenue", 60, 50, 2, 4, 10, 30, 90, 160, 250);
 	private static final TitleDeed BALTIC_AVENUE = new TitleDeed(BROWN_MONOPOLY_DEFINITION, "Baltic Avenue", 60, 50, 4, 8, 20, 60, 180, 320, 450);

@@ -33,16 +33,40 @@ public class MonopolyDefinition {
 		Utilities;
 	}
 	
+	public enum Type {
+		Property,
+		Railroad,
+		Utility;
+	}
+	
 	private final Identifier identifier;
+	private final Type type;
 	
 	private final List<Title> titles = new ArrayList<>();
 
-	public MonopolyDefinition(Identifier identifier) {
+	public MonopolyDefinition(Identifier identifier, Type type) {
 		this.identifier = identifier;
+		this.type = type;
 	}
 	
 	public Identifier getIdentifier() {
 		return identifier;
+	}
+	
+	private Type getType() {
+		return type;
+	}
+	
+	public boolean isProperty() {
+		return getType() == Type.Property;
+	}
+	
+	public boolean isRailroad() {
+		return getType() == Type.Railroad;
+	}
+	
+	public boolean isUtility() {
+		return getType() == Type.Utility;
 	}
 
 	public void addTitle(Title title) {

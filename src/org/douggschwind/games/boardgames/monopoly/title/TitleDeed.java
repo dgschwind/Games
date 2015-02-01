@@ -97,7 +97,7 @@ public class TitleDeed extends Title {
 	}
 
 	public int computeRent(Player guest) {
-		if (!hasOwner()) {
+		if (isBankOwned()) {
 			// No one owns this property as yet. Free Rent!
 			return 0;
 		}

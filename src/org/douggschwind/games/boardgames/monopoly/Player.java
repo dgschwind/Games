@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Random;
 
 import org.douggschwind.games.boardgames.monopoly.space.PrivateBoardSpace;
-import org.douggschwind.games.boardgames.monopoly.space.PropertyBoardSpace;
-import org.douggschwind.games.boardgames.monopoly.space.RailroadBoardSpace;
-import org.douggschwind.games.boardgames.monopoly.space.UtilityBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.title.Title;
 import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
 import org.douggschwind.games.boardgames.policy.AssetLiquidationPolicy;
@@ -212,13 +209,13 @@ public class Player {
 		return privateBoardSpace.getPurchasePrice() < getBankAccountBalance();
 	}
 	
-	public void acceptOwnership(PrivateBoardSpace<? extends Title> privateBoardSpace) {
-		if (privateBoardSpace.isProperty()) {
-			addOwnedProperty(((PropertyBoardSpace) privateBoardSpace).getTitle());
-		} else if (privateBoardSpace.isRailroad()) {
-			getOwnedRailroads().add(((RailroadBoardSpace) privateBoardSpace).getTitle());
-		} else if (privateBoardSpace.isUtility()) {
-			getOwnedUtilities().add(((UtilityBoardSpace) privateBoardSpace).getTitle());
+	public void acceptOwnership(Title title) {
+		if (title.isProperty()) {
+			addOwnedProperty((TitleDeed) title);
+		} else if (title.isRailroad()) {
+			getOwnedRailroads().add(title);
+		} else if (title.isUtility()) {
+			getOwnedUtilities().add(title);
 		}
 	}
 
@@ -321,12 +318,42 @@ public class Player {
 		// Should never get here
 		return 0;
 	}
+	
+	/**
+	 * Transfers all assets from this Player to the recipient. This method
+	 * only called when this Player has been bankrupted.
+	 * @param recipient Can be null to indicate the new owner is actually
+	 * the Bank again.
+	 */
+	public void transferAssetsToPlayer(Player recipient) {
+		for (TitleDeed titleDeed : this.getOwnedProperties()) {
+			titleDeed.setOwner(recipient);
+		}
+		for (Title railroadTitle : this.getOwnedRailroads()) {
+			railroadTitle.setOwner(recipient);
+		}
+		for (Title utilityTitle : this.getOwnedUtilities()) {
+			utilityTitle.setOwner(recipient);
+		}
+		
+		if (recipient != null) {
+			// Allow the acquiring Player to make decisions about "lifting" the
+			// mortgage on any newly acquired mortgaged properties.
+			recipient.receivePayment(this.getBankAccountBalance());
+		}
+	}
 
 	public boolean isBankrupt() {
 		return bankrupt;
 	}
-
-	public void setBankrupt(boolean bankrupt) {
-		this.bankrupt = bankrupt;
+	
+	public void setBankrupt() {
+		// A Player cannot recover from bankruptcy, so when this method is called
+		// the Player is bankrupt and no longer active in the game.
+		ownedPropertiesMap.clear();
+		ownedRailroads.clear();
+		ownedUtilities.clear();
+		setBankAccountBalance(0);
+		bankrupt = true;
 	}
 }

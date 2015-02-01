@@ -1,6 +1,7 @@
 package org.douggschwind.games.boardgames.monopoly.title;
 
 import org.douggschwind.games.boardgames.monopoly.Player;
+import org.douggschwind.games.boardgames.monopoly.title.MonopolyDefinition.Type;
 
 /**
  * An instance of this class represents something that can be purchased and owned by
@@ -32,6 +33,18 @@ public class Title {
 		return monopolyDefinition;
 	}
 	
+	public boolean isProperty() {
+		return getMonopolyDefinition().isProperty();
+	}
+	
+	public boolean isRailroad() {
+		return getMonopolyDefinition().isRailroad();
+	}
+	
+	public boolean isUtility() {
+		return getMonopolyDefinition().isUtility();
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -50,10 +63,17 @@ public class Title {
 
 	public void setOwner(Player owner) {
 		this.owner = owner;
+		if (owner == null) {
+			// Ownership is changing back to the Bank, thus
+			// this Title is no longer mortgaged.
+			setMortgaged(false);
+		} else {
+			owner.acceptOwnership(this);
+		}
 	}
 	
-	public boolean hasOwner() {
-		return (getOwner() != null);
+	public boolean isBankOwned() {
+		return (getOwner() == null);
 	}
 	
 	/**

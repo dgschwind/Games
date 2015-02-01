@@ -48,10 +48,6 @@ public class PropertyBoardSpace extends PrivateBoardSpace<TitleDeed> {
 	}
 
 	public int computeRent(Player player) {
-		if (!getTitle().hasOwner()) {
-			// No owner, Free Rent!
-			return 0;
-		}
 		return getTitle().computeRent(player);
 	}
 }

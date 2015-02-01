@@ -49,11 +49,6 @@ public class Monopoly {
 		}
 	}
 	
-	private Player getOwner(BoardSpace boardSpace) {
-		Title title = ((PrivateBoardSpace<? extends Title>) boardSpace).getTitle();
-		return title.getOwner();
-	}
-	
 	private int computeOwedRent(PrivateBoardSpace<? extends Title> boardSpace, Player spaceOwner, int diceRollTotal) {
 		if (boardSpace.isProperty()) {
 			PropertyBoardSpace propertyBoardSpace = (PropertyBoardSpace) boardSpace;
@@ -75,7 +70,8 @@ public class Monopoly {
 	 * @param toMakePayment The Player that owes money.
 	 * @param amountToBePaid The amount owed.
 	 * @param toReceivePayment The Player that is to receive the amount owed. If null, this
-	 * means the payment is being made to the bank, and we largely don't care about that.
+	 * means the payment is being made to the bank, and we ignore cash being paid to the Bank
+	 * as this software assumes the Bank has unlimited cash reserves.
 	 */
 	private void playerMakesPaymentToOpponent(Player toMakePayment, int amountToBePaid, Player toReceivePayment) {
 		if (toMakePayment.makePayment(amountToBePaid)) {
@@ -84,8 +80,10 @@ public class Monopoly {
 			}
 		} else {
 			// Player could not make payment. Bankrupt!
-			toMakePayment.setBankrupt(true);
-			//TODO : Transfer assets from toMakePayment to toReceivePayment or to the Bank
+			toMakePayment.transferAssetsToPlayer(toReceivePayment);
+			// TODO : Allow receiving Player the opportunity to immediately
+			// lift the mortgage on any mortgaged Titles just acquired.
+			toMakePayment.setBankrupt();
 		}
 	}
 	
@@ -279,13 +277,13 @@ public class Monopoly {
 		} else {
 			// This space capable of being bought or sold.
 			PrivateBoardSpace<? extends Title> privateBoardSpace = (PrivateBoardSpace<? extends Title>) landingSpace;
-			Player spaceOwner = getOwner(landingSpace);
+			Player spaceOwner = privateBoardSpace.getTitle().getOwner();
 			if (spaceOwner == null) {
 				// space can be purchased by Player
 				boolean playerWouldLikeToPurchase = player.wouldYouLikeToPurchase(privateBoardSpace);
 				if (playerWouldLikeToPurchase) {
 					playerMakesPaymentToBank(player, privateBoardSpace.getPurchasePrice());
-					player.acceptOwnership(privateBoardSpace);
+					player.acceptOwnership(privateBoardSpace.getTitle());
 				}
 			} else {
 				if (spaceOwner.equals(player)) {
