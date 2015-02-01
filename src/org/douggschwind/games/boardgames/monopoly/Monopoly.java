@@ -84,6 +84,9 @@ public class Monopoly {
 			// TODO : Allow receiving Player the opportunity to immediately
 			// lift the mortgage on any mortgaged Titles just acquired.
 			toMakePayment.setBankrupt();
+			System.out.println("!!! Bankrupt Alert Bankrupt Alert Bankrupt Alert Bankrupt Alert !!!");
+			System.out.println("Player " + toMakePayment.getName() + " has been Bankrupted and is eliminated from the game!");
+			System.out.println("!!! Bankrupt Alert Bankrupt Alert Bankrupt Alert Bankrupt Alert !!!");
 		}
 	}
 	
@@ -203,9 +206,7 @@ public class Monopoly {
 			chanceCard = chanceDeck.dealCard();
 		}
 		
-		if (chanceCard == null) {
-			// Oops! Should never get here.
-		}
+		System.out.println("Player has been dealt " + chanceCard.getCardName() + " Chance card");
 		
 		takeAction(player, chanceCard, playerDiceRollTotal);
 	}
@@ -219,9 +220,7 @@ public class Monopoly {
 			communityChestCard = communityChestDeck.dealCard();
 		}
 		
-		if (communityChestCard == null) {
-			// Oops! Should never get here.
-		}
+		System.out.println("Player has been dealt " + communityChestCard.getCardName() + " Community Chest card");
 		
 		takeAction(player, communityChestCard, playerDiceRollTotal);
 	}
@@ -233,6 +232,7 @@ public class Monopoly {
 	
 	public void playerLandedOnGoToJailSpace(Player player) {
 		sendPlayerToJail(player);
+		System.out.println("Player " + player.getName() + " has been sent to Jail!");
 	}
 	
 	public void playerLandedOnIncomeTaxSpace(Player player) {
@@ -279,7 +279,11 @@ public class Monopoly {
 				boolean playerWouldLikeToPurchase = player.wouldYouLikeToPurchase(privateBoardSpace);
 				if (playerWouldLikeToPurchase) {
 					playerMakesPaymentToBank(player, privateBoardSpace.getPurchasePrice());
-					player.acceptOwnership(privateBoardSpace.getTitle());
+					privateBoardSpace.getTitle().setOwner(player);
+					System.out.println("Player " + player.getName() + " has purchased " + privateBoardSpace.getName() + " for $" + privateBoardSpace.getPurchasePrice());
+					if (privateBoardSpace.getTitle().isPartOfMonopoly()) {
+						System.out.println("Player has monopolized set of Titles that contains " + privateBoardSpace.getName());
+					}
 				}
 			} else {
 				if (spaceOwner.equals(player)) {
@@ -288,6 +292,7 @@ public class Monopoly {
 					// The player owes rent to the owner.
 					int rentAmountOwed = computeOwedRent(privateBoardSpace, spaceOwner, playerDiceRollTotal);
 					playerMakesPaymentToOpponent(player, rentAmountOwed, spaceOwner);
+					System.out.println("Player " + player.getName() + " paid rent in the amount of $" + rentAmountOwed + " to " + spaceOwner.getName());
 				}
 			}
 		}
@@ -296,18 +301,23 @@ public class Monopoly {
 	private DiceRollResult playerTakingTurn(Player player) {
 		int playerCurrentPosition = getPlayerBoardSpaceIndex(player);
 		DiceRollResult diceRollResult = player.rollDice();
+		System.out.println("--------------------------------------------------------------------------------------");
+		System.out.println("Player : " + player.getName() + " starting on space : " + gameBoard.get(playerCurrentPosition).getName() + " with $" + player.getBankAccountBalance() + " cash");
+		System.out.print("Player has rolled a " + diceRollResult.getDiceRollTotal());
+		System.out.print(diceRollResult.wereDoublesRolled() ? " with doubles" : "");
 		if (player.isInJail()) {
 			if (diceRollResult.wereDoublesRolled()) {
 				// Doubles were rolled, Player is out of Jail!
 				player.setInJail(false);
 			} else {
 				// Player's turn is over
+				System.out.println(", but doubles were not rolled so " + player.getName() + " remains in Jail!");
 				return diceRollResult;
 			}
 		}
 		int diceRollTotal = diceRollResult.getDiceRollTotal();
 		int newBoardPosition = playerCurrentPosition + diceRollTotal;
-		if (newBoardPosition > NUM_BOARD_SPACES_TOTAL) {
+		if (newBoardPosition >= NUM_BOARD_SPACES_TOTAL) {
 			// Player passed Go!
 			newBoardPosition = (newBoardPosition % NUM_BOARD_SPACES_TOTAL);
 			player.receivePayment(200);
@@ -318,7 +328,9 @@ public class Monopoly {
 		// Now we know what Space the player has landed on, lets go about
 		// determining all that can or must happen as a result.
 		BoardSpace playerLandedOn = gameBoard.get(playerCurrentPosition);
+		System.out.println(" and has landed on " + playerLandedOn.getName());
 		playerHasLandedOnBoardSpace(player, playerLandedOn, diceRollTotal);
+		System.out.println("Player finishes turn with $" + player.getBankAccountBalance() + " cash");
 		return diceRollResult;
 	}
 	
@@ -343,43 +355,51 @@ public class Monopoly {
 		
 		// Now they each take a turn in succession until only one player
 		// is not yet bankrupt.
-		for (Player player : players) {
-			// Skip bankrupt players.
-			if (player.isBankrupt()) {
-				continue;
-			}
-			
-			int numberTimesPlayerHasRolledDoublesThisTurn = 0;
-			boolean playerStartedTurnInJail = player.isInJail();
-			
-			if (playerStartedTurnInJail && player.isHoldingGetOutOfJailFreeCard()) {
-				boolean shouldUseGetOutOfJailFreeCard = player.getUseOfGetOutOfJailFreeCardPolicy().shouldUseGetOutOfJailFreeCard(player, computeNumberTitlesAvailableForPurchase());
-				if (shouldUseGetOutOfJailFreeCard) {
-					player.setHoldingGetOutOfJailFreeCard(false);
-					playerStartedTurnInJail = false;
+		boolean doWeHaveAWinner = false;
+		while (doWeHaveAWinner == false) {
+			for (Player player : players) {
+				// Skip bankrupt players.
+				if (player.isBankrupt()) {
+					continue;
 				}
-			}
-			
-			DiceRollResult diceRollResult = playerTakingTurn(player);
-			while (diceRollResult.wereDoublesRolled() && !playerStartedTurnInJail) {
-				// Player rolls again! However, if the players rolls doubles
-				// three times in a row, they go directly to Jail!
-				numberTimesPlayerHasRolledDoublesThisTurn++;
 				
-				if (numberTimesPlayerHasRolledDoublesThisTurn == 3) {
-					sendPlayerToJail(player);
-					break;
-				} else {
-					diceRollResult = playerTakingTurn(player);
+				int numberTimesPlayerHasRolledDoublesThisTurn = 0;
+				boolean playerStartedTurnInJail = player.isInJail();
+				
+				if (playerStartedTurnInJail && player.isHoldingGetOutOfJailFreeCard()) {
+					boolean shouldUseGetOutOfJailFreeCard = player.getUseOfGetOutOfJailFreeCardPolicy().shouldUseGetOutOfJailFreeCard(player, computeNumberTitlesAvailableForPurchase());
+					if (shouldUseGetOutOfJailFreeCard) {
+						player.setHoldingGetOutOfJailFreeCard(false);
+						playerStartedTurnInJail = false;
+					}
 				}
-			}
-			
-			// After each player's turn, if that Player went bankrupt as a result of their
-			// turn, check to see if there is only one Player left that is not bankrupt.
-			// In that case, that remaining Player is the winner of the game!
-			List<Player> solventPlayers = determineSolventPlayers();
-			if (solventPlayers.size() == 1) {
-				// We have a winner!
+				
+				DiceRollResult diceRollResult = playerTakingTurn(player);
+				while (diceRollResult.wereDoublesRolled() && !playerStartedTurnInJail && !player.isInJail()) {
+					// Player rolls again! However, if the players rolls doubles
+					// three times in a row, they go directly to Jail!
+					numberTimesPlayerHasRolledDoublesThisTurn++;
+					
+					if (numberTimesPlayerHasRolledDoublesThisTurn == 3) {
+						sendPlayerToJail(player);
+						break;
+					} else {
+						diceRollResult = playerTakingTurn(player);
+					}
+				}
+				
+				// After each player's turn, if that Player went bankrupt as a result of their
+				// turn, check to see if there is only one Player left that is not bankrupt.
+				// In that case, that remaining Player is the winner of the game!
+				List<Player> solventPlayers = determineSolventPlayers();
+				if (solventPlayers.size() == 1) {
+					// We have a winner!
+					doWeHaveAWinner = true;
+					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					System.out.println("Player : " + solventPlayers.get(0).getName() + " is declared the Winner!");
+					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					break;
+				}
 			}
 		}
 	}

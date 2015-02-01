@@ -12,6 +12,11 @@ public class UtilityBoardSpace extends PrivateBoardSpace<Title> {
 		super(title);
 	}
 	
+	@Override
+	public final boolean isUtility() {
+		return true;
+	}
+	
 	public int computeRent(int numberOfUtilitiesOwned, int valueOfDiceRoll) {
 		int multiplier = 0;
 		if (numberOfUtilitiesOwned == 2) {

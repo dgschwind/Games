@@ -12,6 +12,11 @@ public class RailroadBoardSpace extends PrivateBoardSpace<Title> {
 		super(title);
 	}
 	
+	@Override
+	public final boolean isRailroad() {
+		return true;
+	}
+	
 	public int computeRent(int numberOfRailroadsOwned) {
 		switch (numberOfRailroadsOwned) {
 			case 4:

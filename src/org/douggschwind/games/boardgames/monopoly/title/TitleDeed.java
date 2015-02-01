@@ -102,20 +102,14 @@ public class TitleDeed extends Title {
 			return 0;
 		}
 		
-		Player owner = getOwner();
-		if (owner.equals(guest)) {
-			// Owner is never charged rent to visit their own property!
-			return 0;
-		}
-		
 		if (isMortgaged()) {
 			// The rent cost for any mortgaged property is zero.
 			return 0;
 		}
 		
-		final int numberHotelsOnProperty = owner.getNumberHotelsOnProperty(this);
+		final int numberHotelsOnProperty = getOwner().getNumberHotelsOnProperty(this);
 		int result = numberHotelsOnProperty * getPerHotelRentCost();
-		switch (owner.getNumberHousesOnProperty(this)) {
+		switch (getOwner().getNumberHousesOnProperty(this)) {
 			case 4:
 				result += getFourHouseRentCost();
 				break;
