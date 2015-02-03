@@ -19,17 +19,5 @@ public abstract class ActionCard implements AbstractCard {
 		return cardName;
 	}
 	
-	public boolean isGoDirectlyToJail() {
-		return false;
-	}
-
-	public boolean isGetOutOfJailFree() {
-		return false;
-	}
-
-	public boolean isAdvanceToSpace() {
-		return false;
-	}
-	
 	public abstract void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal);
 }

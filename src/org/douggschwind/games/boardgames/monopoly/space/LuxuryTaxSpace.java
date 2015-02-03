@@ -14,11 +14,6 @@ public class LuxuryTaxSpace extends PublicBoardSpace {
 	}
 	
 	@Override
-	public final boolean isLuxuryTax() {
-		return true;
-	}
-
-	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		gameInProgress.playerLandedOnLuxuryTaxSpace(player);
 	}

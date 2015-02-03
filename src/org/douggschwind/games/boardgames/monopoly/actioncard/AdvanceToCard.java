@@ -29,7 +29,7 @@ public class AdvanceToCard extends ActionCard {
 	 * @param location Expected to be non-null.
 	 */
 	public AdvanceToCard(Location location, boolean holderToReceive200DollarsIfPassingGo) {
-		super("Advance to...");
+		super("Advance to " + location.name());
 		this.location = location;
 		this.holderToReceive200DollarsIfPassingGo = holderToReceive200DollarsIfPassingGo;
 	}
@@ -41,17 +41,7 @@ public class AdvanceToCard extends ActionCard {
 	public boolean isHolderToReceive200DollarsIfReachingOrPassingGo() {
 		return holderToReceive200DollarsIfPassingGo;
 	}
-	
-	@Override
-	public boolean isGoDirectlyToJail() {
-		return (getLocation() == Location.Jail);
-	}
 
-	@Override
-	public final boolean isAdvanceToSpace() {
-		return true;
-	}
-	
 	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		gameInProgress.advancePlayerToBoardLocation(player, this, playerDiceRollTotal);

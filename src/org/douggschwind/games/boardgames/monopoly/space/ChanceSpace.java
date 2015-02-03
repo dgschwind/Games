@@ -14,11 +14,6 @@ public class ChanceSpace extends PublicBoardSpace {
 	}
 
 	@Override
-	public final boolean isChance() {
-		return true;
-	}
-	
-	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		gameInProgress.playerLandedOnChanceSpace(player, playerDiceRollTotal);
 	}

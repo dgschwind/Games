@@ -15,11 +15,6 @@ public class GetOutOfJailFreeCard extends ActionCard {
 	}
 
 	@Override
-	public final boolean isGetOutOfJailFree() {
-		return true;
-	}
-	
-	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		gameInProgress.playerHasAcquiredGetOutOfJailFreeCard(player);
 	}

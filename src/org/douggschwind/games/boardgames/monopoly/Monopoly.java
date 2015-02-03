@@ -304,7 +304,7 @@ public class Monopoly {
 		System.out.println("--------------------------------------------------------------------------------------");
 		System.out.println("Player " + player.getName() + " starting on space : " + gameBoard.get(playerCurrentPosition).getName() + " with $" + player.getBankAccountBalance() + " cash");
 		System.out.print("Player has rolled a " + diceRollResult.getDiceRollTotal());
-		System.out.print(diceRollResult.wereDoublesRolled() ? " with doubles" : "");
+		System.out.println(diceRollResult.wereDoublesRolled() ? " with doubles" : "");
 		if (player.isInJail()) {
 			if (diceRollResult.wereDoublesRolled()) {
 				// Doubles were rolled, Player is out of Jail!
@@ -320,7 +320,6 @@ public class Monopoly {
 					// the number of spots on the dice they have thrown.
 					playerMakesPaymentToBank(player, 50);
 					player.setInJail(false);
-					System.out.println();
 					System.out.println("Player " + player.getName() + " fined $50 for failing to get out of Jail after 3 attempts");
 				}
 			}
@@ -331,6 +330,7 @@ public class Monopoly {
 			// Player passed Go!
 			newBoardPosition = (newBoardPosition % NUM_BOARD_SPACES_TOTAL);
 			player.receivePayment(200);
+			System.out.println("Player " + player.getName() + " has landed on or passed Go and has been paid $200");
 		}
 		playerCurrentPosition = newBoardPosition;
 		setPlayerBoardSpaceIndex(player, playerCurrentPosition);
@@ -338,7 +338,8 @@ public class Monopoly {
 		// Now we know what Space the player has landed on, lets go about
 		// determining all that can or must happen as a result.
 		BoardSpace playerLandedOn = gameBoard.get(playerCurrentPosition);
-		System.out.println(" and has landed on " + playerLandedOn.getName());
+		
+		System.out.println("Player has landed on " + playerLandedOn.getName());
 		playerHasLandedOnBoardSpace(player, playerLandedOn, diceRollTotal);
 		System.out.println("Player finishes turn with $" + player.getBankAccountBalance() + " cash");
 		return diceRollResult;

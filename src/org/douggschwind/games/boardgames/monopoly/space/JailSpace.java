@@ -9,9 +9,4 @@ public class JailSpace extends PublicBoardSpace {
 	public JailSpace() {
 		super("Jail");
 	}
-
-	@Override
-	public final boolean isJail() {
-		return true;
-	}
 }

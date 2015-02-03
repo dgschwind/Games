@@ -10,9 +10,4 @@ public class GoSpace extends PublicBoardSpace {
 	public GoSpace() {
 		super("Go");
 	}
-
-	@Override
-	public final boolean isGo() {
-		return true;
-	}
 }

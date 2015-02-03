@@ -29,34 +29,6 @@ public abstract class BoardSpace {
 		return false;
 	}
 	
-	public boolean isChance() {
-		return false;
-	}
-	
-	public boolean isCommunityChest() {
-		return false;
-	}
-	
-	public boolean isLuxuryTax() {
-		return false;
-	}
-	
-	public boolean isIncomeTax() {
-		return false;
-	}
-	
-	public boolean isGo() {
-		return false;
-	}
-	
-	public boolean isJail() {
-		return false;
-	}
-	
-	public boolean isGoToJail() {
-		return false;
-	}
-	
 	/**
 	 * Takes action now that it is known that the given Player has landed on
 	 * this given instance.

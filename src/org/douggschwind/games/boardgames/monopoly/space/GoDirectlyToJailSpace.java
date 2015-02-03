@@ -15,11 +15,6 @@ public class GoDirectlyToJailSpace extends PublicBoardSpace {
 	}
 	
 	@Override
-	public final boolean isGoToJail() {
-		return true;
-	}
-	
-	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		gameInProgress.playerLandedOnGoToJailSpace(player);
 	}

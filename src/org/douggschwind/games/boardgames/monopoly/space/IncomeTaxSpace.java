@@ -14,11 +14,6 @@ public class IncomeTaxSpace extends PublicBoardSpace {
 	}
 	
 	@Override
-	public final boolean isIncomeTax() {
-		return true;
-	}
-
-	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		gameInProgress.playerLandedOnIncomeTaxSpace(player);
 	}

@@ -14,11 +14,6 @@ public class CommunityChestSpace extends PublicBoardSpace {
 	}
 
 	@Override
-	public final boolean isCommunityChest() {
-		return true;
-	}
-	
-	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		gameInProgress.playerLandedOnCommunityChestSpace(player, playerDiceRollTotal);
 	}
