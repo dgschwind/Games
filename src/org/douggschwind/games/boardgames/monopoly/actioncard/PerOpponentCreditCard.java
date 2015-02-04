@@ -14,11 +14,6 @@ public class PerOpponentCreditCard extends AbstractCreditCard {
 	}
 	
 	@Override
-	protected final boolean appliesToOpponents() {
-		return true;
-	}
-	
-	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		gameInProgress.payPlayerFromEachOpponent(player, getAmount());
 	}

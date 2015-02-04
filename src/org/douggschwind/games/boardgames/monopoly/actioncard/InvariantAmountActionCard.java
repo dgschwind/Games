@@ -14,23 +14,7 @@ public abstract class InvariantAmountActionCard extends ActionCard {
 		this.amount = amount;
 	}
 	
-	public int getAmount() {
+	public final int getAmount() {
 		return amount;
-	}
-	
-	protected boolean isCredit() {
-		return false;
-	}
-	
-	protected boolean isDebit() {
-		return false;
-	}
-	
-	protected boolean appliesToPlayer() {
-		return false;
-	}
-	
-	protected boolean appliesToOpponents() {
-		return false;
 	}
 }

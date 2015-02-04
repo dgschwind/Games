@@ -14,11 +14,6 @@ public class PlayerCreditCard extends AbstractCreditCard {
 	}
 	
 	@Override
-	public final boolean appliesToPlayer() {
-		return true;
-	}
-	
-	@Override
 	public final void takeAction(Monopoly gameInProgress, Player player, int playerDiceRollTotal) {
 		gameInProgress.payPlayerFromBank(player, getAmount());
 	}

@@ -9,9 +9,4 @@ public abstract class AbstractCreditCard extends InvariantAmountActionCard {
 	public AbstractCreditCard(String cardName, int amount) {
 		super(cardName, amount);
 	}
-	
-	@Override
-	public final boolean isCredit() {
-		return true;
-	}
 }
