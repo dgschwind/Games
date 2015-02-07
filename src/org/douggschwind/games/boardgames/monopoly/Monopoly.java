@@ -1,10 +1,8 @@
 package org.douggschwind.games.boardgames.monopoly;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.douggschwind.games.boardgames.monopoly.actioncard.ActionCard;
 import org.douggschwind.games.boardgames.monopoly.actioncard.AdvanceToCard;
@@ -24,18 +22,16 @@ import org.douggschwind.games.common.DeckOfCards;
  */
 public class Monopoly {
 	
-	private static final int NUM_BOARD_SPACES_TOTAL = 40;
-	
-	private static final List<BoardSpace> gameBoard = GameBoardFactory.createGameBoard();
+	private GameBoard gameBoard;
 	private DeckOfCards<ActionCard> chanceDeck;
 	private DeckOfCards<ActionCard> communityChestDeck;
 	
 	private final List<Player> players = new ArrayList<>();
-	private final Map<Player, Integer> playerBoardPositions = new HashMap<>();
 
 	public Monopoly() {
 		super();
 		
+		gameBoard = new GameBoard();
 		chanceDeck = DeckFactory.createChanceDeck();
 		chanceDeck.shuffle();
 		communityChestDeck = DeckFactory.createCommunityChestDeck();
@@ -45,7 +41,7 @@ public class Monopoly {
 	public void addPlayer(Player toAdd) {
 		if (toAdd != null) {
 			players.add(toAdd);
-			playerBoardPositions.put(toAdd, 0); // Everyone starts at Go
+			gameBoard.addPlayer(toAdd);
 		}
 	}
 	
@@ -124,59 +120,38 @@ public class Monopoly {
 		playerMakesPaymentToBank(player, assessmentAmount);
 	}
 	
-	private int computeBoardSpaceIndexOfNearestUtility(int boardSpaceIndex) {
-		return (boardSpaceIndex < GameBoardFactory.FREE_PARKING_SPACE_INDEX) ? GameBoardFactory.ELECTRIC_COMPANY_SPACE_INDEX : GameBoardFactory.WATER_WORKS_SPACE_INDEX;
-	}
-	
-	private int computeBoardSpaceIndexOfNearestRailroad(int boardSpaceIndex) {
-		if (boardSpaceIndex < GameBoardFactory.JAIL_SPACE_INDEX) {
-			return GameBoardFactory.READING_RAILROAD_SPACE_INDEX;
-		} else if (boardSpaceIndex < GameBoardFactory.FREE_PARKING_SPACE_INDEX) {
-			return GameBoardFactory.PENNSYLVANIA_RAILROAD_SPACE_INDEX;
-		} else if (boardSpaceIndex < GameBoardFactory.GO_DIRECTLY_TO_JAIL_SPACE_INDEX) {
-			return GameBoardFactory.B_O_RAILROAD_SPACE_INDEX;
-		} else {
-			return GameBoardFactory.SHORT_LINE_RAILROAD_SPACE_INDEX;
-		}
-	}
-	
 	public final void advancePlayerToBoardLocation(Player player, AdvanceToCard advanceToCard, int playerDiceRollTotal) {
-		int currentPlayerBoardSpaceIndex = getPlayerBoardSpaceIndex(player);
-		int newPlayerBoardSpaceIndex;
 		boolean playerReachedOrPassedGo = false;
+		BoardSpace playerLandedOn;
 		
 		switch (advanceToCard.getLocation()) {
 			case Go:
-				newPlayerBoardSpaceIndex = GameBoardFactory.GO_SPACE_INDEX;
+				playerLandedOn = gameBoard.getGoBoardSpace();
 				playerReachedOrPassedGo = true;
 				break;
 			case IllinoisAve:
-				newPlayerBoardSpaceIndex = GameBoardFactory.ILLINOIS_AVENUE_SPACE_INDEX;
-				playerReachedOrPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
+				playerLandedOn = gameBoard.getIllinoisAveBoardSpace();
+				playerReachedOrPassedGo = gameBoard.didPlayerLandOnOrPassGo(gameBoard.getPlayerBoardSpace(player), playerLandedOn);
 				break;
 			case StCharlesPlace:
-				newPlayerBoardSpaceIndex = GameBoardFactory.ST_CHARLES_PLACE_SPACE_INDEX;
-				playerReachedOrPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
+				playerLandedOn = gameBoard.getStCharlesPlaceBoardSpace();
+				playerReachedOrPassedGo = gameBoard.didPlayerLandOnOrPassGo(gameBoard.getPlayerBoardSpace(player), playerLandedOn);
 				break;
 			case NearestUtility:
-				newPlayerBoardSpaceIndex = computeBoardSpaceIndexOfNearestUtility(currentPlayerBoardSpaceIndex);
+				playerLandedOn = gameBoard.getNearestUtility(player);
 				break;
 			case NearestRailroad:
-				newPlayerBoardSpaceIndex = computeBoardSpaceIndexOfNearestRailroad(currentPlayerBoardSpaceIndex);
+				playerLandedOn = gameBoard.getNearestRailroad(player);
 				break;
 			case GoBackThreeSpaces:
-				newPlayerBoardSpaceIndex = currentPlayerBoardSpaceIndex - 3;
-				if (newPlayerBoardSpaceIndex < 0) {
-					newPlayerBoardSpaceIndex = GameBoardFactory.NUM_BOARD_SPACES_TOTAL + newPlayerBoardSpaceIndex;
-				}
+				playerLandedOn = gameBoard.goBackThreeSpaces(player);
 				break;
 			case ReadingRailroad:
-				newPlayerBoardSpaceIndex = GameBoardFactory.READING_RAILROAD_SPACE_INDEX;
-				playerReachedOrPassedGo = (newPlayerBoardSpaceIndex < currentPlayerBoardSpaceIndex);
+				playerLandedOn = gameBoard.getReadingRailroadBoardSpace();
+				playerReachedOrPassedGo = gameBoard.didPlayerLandOnOrPassGo(gameBoard.getPlayerBoardSpace(player), playerLandedOn);
 				break;
 			case Boardwalk:
-				newPlayerBoardSpaceIndex = GameBoardFactory.BOARDWALK_SPACE_INDEX;
-				playerReachedOrPassedGo = (currentPlayerBoardSpaceIndex == GameBoardFactory.GO_SPACE_INDEX);
+				playerLandedOn = gameBoard.getBoardwalkBoardSpace();
 				break;
 			case Jail:
 			default:
@@ -188,8 +163,6 @@ public class Monopoly {
 			player.receivePayment(200);
 		}
 		
-		setPlayerBoardSpaceIndex(player, newPlayerBoardSpaceIndex);
-		BoardSpace playerLandedOn = gameBoard.get(newPlayerBoardSpaceIndex);
 		playerHasLandedOnBoardSpace(player, playerLandedOn, playerDiceRollTotal);
 	}
 	
@@ -226,7 +199,7 @@ public class Monopoly {
 	}
 	
 	private void sendPlayerToJail(Player player) {
-		setPlayerBoardSpaceIndex(player, GameBoardFactory.JAIL_SPACE_INDEX);
+		gameBoard.sendPlayerToJail(player);
 		player.setInJail(true);
 	}
 	
@@ -258,17 +231,10 @@ public class Monopoly {
 		return result;
 	}
 	
-	private int getPlayerBoardSpaceIndex(Player player) {
-		return playerBoardPositions.get(player);
-	}
-	
-	private void setPlayerBoardSpaceIndex(Player player, int newIndex) {
-		playerBoardPositions.put(player, newIndex);
-	}
-	
 	private void playerHasLandedOnBoardSpace(Player player, BoardSpace landingSpace, int playerDiceRollTotal) {
+		gameBoard.setPlayerBoardSpace(player, landingSpace);
 		if (landingSpace.isPubliclyHeld()) {
-			// This space not capable of being bought or sold.
+			// This space not capable of being bought nor sold.
 			landingSpace.takeAction(this, player, playerDiceRollTotal);
 		} else {
 			// This space capable of being bought or sold.
@@ -299,10 +265,10 @@ public class Monopoly {
 	}
 	
 	private DiceRollResult playerTakingTurn(Player player) {
-		int playerCurrentPosition = getPlayerBoardSpaceIndex(player);
 		DiceRollResult diceRollResult = player.rollDice();
+		BoardSpace playerStartingBoardSpace = gameBoard.getPlayerBoardSpace(player);
 		System.out.println("--------------------------------------------------------------------------------------");
-		System.out.println("Player " + player.getName() + " starting on space : " + gameBoard.get(playerCurrentPosition).getName() + " with $" + player.getBankAccountBalance() + " cash");
+		System.out.println("Player " + player.getName() + " starting on space : " + playerStartingBoardSpace.getName() + " with $" + player.getBankAccountBalance() + " cash");
 		System.out.print("Player has rolled a " + diceRollResult.getDiceRollTotal());
 		System.out.println(diceRollResult.wereDoublesRolled() ? " with doubles" : "");
 		if (player.isInJail()) {
@@ -324,20 +290,15 @@ public class Monopoly {
 				}
 			}
 		}
+		// Now we know what Space the player has landed on, lets go about
+		// determining all that can or must happen as a result.
+		BoardSpace playerLandedOn = gameBoard.findBoardSpaceWherePlayerHasLanded(player, diceRollResult);
 		int diceRollTotal = diceRollResult.getDiceRollTotal();
-		int newBoardPosition = playerCurrentPosition + diceRollTotal;
-		if (newBoardPosition >= NUM_BOARD_SPACES_TOTAL) {
-			// Player passed Go!
-			newBoardPosition = (newBoardPosition % NUM_BOARD_SPACES_TOTAL);
+		if (gameBoard.didPlayerLandOnOrPassGo(playerStartingBoardSpace, playerLandedOn)) {
+			// Player landed on or passed Go!
 			player.receivePayment(200);
 			System.out.println("Player " + player.getName() + " has landed on or passed Go and has been paid $200");
 		}
-		playerCurrentPosition = newBoardPosition;
-		setPlayerBoardSpaceIndex(player, playerCurrentPosition);
-		
-		// Now we know what Space the player has landed on, lets go about
-		// determining all that can or must happen as a result.
-		BoardSpace playerLandedOn = gameBoard.get(playerCurrentPosition);
 		
 		System.out.println("Player has landed on " + playerLandedOn.getName());
 		playerHasLandedOnBoardSpace(player, playerLandedOn, diceRollTotal);
@@ -347,7 +308,7 @@ public class Monopoly {
 	
 	private int computeNumberTitlesAvailableForPurchase() {
 		int result = 0;
-		for (BoardSpace boardSpace : gameBoard) {
+		for (BoardSpace boardSpace : gameBoard.getBoardSpaces()) {
 			if (boardSpace.canBePrivatelyHeld()) {
 				Title title = ((PrivateBoardSpace<? extends Title>) boardSpace).getTitle();
 				if (title.isBankOwned()) {
@@ -359,11 +320,6 @@ public class Monopoly {
 	}
 	
 	public void playGame() {
-		for (Player player : players) {
-			// Each player starts at Go.
-			setPlayerBoardSpaceIndex(player, GameBoardFactory.GO_SPACE_INDEX);
-		}
-		
 		// Now they each take a turn in succession until only one player
 		// is not yet bankrupt.
 		boolean doWeHaveAWinner = false;
@@ -417,8 +373,8 @@ public class Monopoly {
 	}
 	
 	public void newGame() {
-		players.clear();
-		playerBoardPositions.clear();
+		// Assumes the same players will be playing again.
+		gameBoard.reset();
 		chanceDeck.shuffle();
 		communityChestDeck.shuffle();
 	}
