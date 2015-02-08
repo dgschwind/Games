@@ -1,5 +1,6 @@
 package org.douggschwind.games.boardgames.monopoly.space;
 
+import org.douggschwind.games.boardgames.monopoly.DiceRollResult;
 import org.douggschwind.games.boardgames.monopoly.Monopoly;
 import org.douggschwind.games.boardgames.monopoly.Player;
 
@@ -27,6 +28,16 @@ public abstract class BoardSpace {
 	
 	public boolean isPubliclyHeld() {
 		return false;
+	}
+	
+	public boolean canPlayerAdvance(Player player, DiceRollResult diceRollResult) {
+		return true;
+	}
+	
+	public void isDepartingThisSpace(Player player) {
+		// If the player can depart this space, they are obviously
+		// not in Jail.
+		player.setInJail(false);
 	}
 	
 	/**

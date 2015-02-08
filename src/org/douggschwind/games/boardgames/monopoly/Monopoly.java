@@ -240,25 +240,21 @@ public class Monopoly {
 		System.out.println("Player " + player.getName() + " starting on space : " + playerStartingBoardSpace.getName() + " with $" + player.getBankAccountBalance() + " cash");
 		System.out.print("Player has rolled a " + diceRollResult.getDiceRollTotal());
 		System.out.println(diceRollResult.wereDoublesRolled() ? " with doubles" : "");
-		if (player.isInJail()) {
-			if (diceRollResult.wereDoublesRolled()) {
-				// Doubles were rolled, Player is out of Jail!
-				player.setInJail(false);
+		if (!playerStartingBoardSpace.canPlayerAdvance(player, diceRollResult)) {
+			player.incrementNumFailedAttemptsToGetOutOfJail();
+			if (player.getNumFailedAttemptsToGetOutOfJail() < 3) {
+				// Player's turn is over
+				System.out.println(" ... but doubles were not rolled so " + player.getName() + " remains in Jail!");
+				return diceRollResult;
 			} else {
-				player.incrementNumFailedAttemptsToGetOutOfJail();
-				if (player.getNumFailedAttemptsToGetOutOfJail() < 3) {
-					// Player's turn is over
-					System.out.println(", but doubles were not rolled so " + player.getName() + " remains in Jail!");
-					return diceRollResult;
-				} else {
-					// Otherwise, the Player must pay a fine of $50 and advance
-					// the number of spots on the dice they have thrown.
-					playerMakesPaymentToBank(player, 50);
-					player.setInJail(false);
-					System.out.println("Player " + player.getName() + " fined $50 for failing to get out of Jail after 3 attempts");
-				}
+				// Otherwise, the Player must pay a fine of $50 and advance
+				// the number of spots on the dice they have thrown.
+				playerMakesPaymentToBank(player, 50);
+				System.out.println("Player " + player.getName() + " fined $50 for failing to get out of Jail after 3 attempts");
 			}
 		}
+		playerStartingBoardSpace.isDepartingThisSpace(player);
+		
 		// Now we know what Space the player has landed on, lets go about
 		// determining all that can or must happen as a result.
 		BoardSpace playerLandedOn = gameBoard.findBoardSpaceWherePlayerHasLanded(player, diceRollResult);
