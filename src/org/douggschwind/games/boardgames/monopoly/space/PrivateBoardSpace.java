@@ -22,10 +22,6 @@ public abstract class PrivateBoardSpace<T extends Title> extends BoardSpace {
 		return true;
 	}
 	
-	public boolean allowsHousesOrHotelsToBeBuiltUponIt() {
-		return false;
-	}
-	
 	public final T getTitle() {
 		return title;
 	}

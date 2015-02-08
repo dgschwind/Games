@@ -47,7 +47,7 @@ public class PropertyBoardSpace extends PrivateBoardSpace<TitleDeed> {
 		return getTitle().getPerHotelRentCost();
 	}
 
-	public int computeRent(Player player) {
-		return getTitle().computeRent(player);
+	public int computeRent(Player guest) {
+		return getTitle().computeRent(guest);
 	}
 }
