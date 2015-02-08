@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.douggschwind.games.boardgames.monopoly.actioncard.ActionCard;
+import org.douggschwind.games.boardgames.monopoly.actioncard.DeckFactory;
 import org.douggschwind.games.boardgames.monopoly.space.BoardSpace;
+import org.douggschwind.games.common.DeckOfCards;
 
 /**
  * This class houses the Collection of BoardSpace instances and their correct order as well
- * as each of the Player's position within the board.
+ * as each of the Player's position within the board, and the Chance and Community Chest
+ * decks of cards too.
  * @author Doug Gschwind
  */
 public class GameBoard {
@@ -16,6 +20,8 @@ public class GameBoard {
 	private static final List<BoardSpace> boardSpaces;
 	private static final Map<BoardSpace, Integer> boardSpacePositionMap = new HashMap<>();
 	private static final Map<Integer, BoardSpace> positionBoardSpaceMap = new HashMap<>();
+	private static final DeckOfCards<ActionCard> chanceDeck;
+	private static final DeckOfCards<ActionCard> communityChestDeck;
 	
 	static {
 		boardSpaces = GameBoardFactory.createGameBoard();
@@ -24,6 +30,9 @@ public class GameBoard {
 			boardSpacePositionMap.put(boardSpace, position);
 			positionBoardSpaceMap.put(position++, boardSpace);
 		}
+		
+		chanceDeck = DeckFactory.createChanceDeck();
+		communityChestDeck = DeckFactory.createCommunityChestDeck();
 	}
 	
 	private Map<Player, BoardSpace> playerBoardSpaceMap = new HashMap<>();
@@ -141,9 +150,33 @@ public class GameBoard {
 		setPlayerBoardSpace(player, boardSpaces.get(GameBoardFactory.JAIL_SPACE_INDEX));
 	}
 	
+	ActionCard dealChanceCard() {
+		ActionCard result = null;
+		try {
+			result = chanceDeck.dealCard();
+		} catch (IllegalStateException ignored) {
+			chanceDeck.shuffle();
+			result = chanceDeck.dealCard();
+		}
+		return result;
+	}
+	
+	ActionCard dealCommunityChestCard() {
+		ActionCard result = null;
+		try {
+			result = communityChestDeck.dealCard();
+		} catch (IllegalStateException ignored) {
+			communityChestDeck.shuffle();
+			result = communityChestDeck.dealCard();
+		}
+		return result;
+	}
+	
 	void reset() {
 		for (Player player : playerBoardSpaceMap.keySet()) {
 			setPlayerStartingPosition(player);
 		}
+		chanceDeck.shuffle();
+		communityChestDeck.shuffle();
 	}
 }

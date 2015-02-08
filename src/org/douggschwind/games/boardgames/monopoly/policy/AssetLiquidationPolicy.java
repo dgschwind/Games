@@ -1,4 +1,4 @@
-package org.douggschwind.games.boardgames.policy;
+package org.douggschwind.games.boardgames.monopoly.policy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

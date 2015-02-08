@@ -3,12 +3,12 @@ package org.douggschwind.games.boardgames.monopoly;
 import java.io.IOException;
 
 import org.douggschwind.games.boardgames.monopoly.Player.Avatar;
-import org.douggschwind.games.boardgames.policy.AggressiveUseOfGetOutOfJailFreeCardPolicy;
-import org.douggschwind.games.boardgames.policy.AssetLiquidationPolicy;
-import org.douggschwind.games.boardgames.policy.ConservativeUseOfGetOutOfJailFreeCardPolicy;
-import org.douggschwind.games.boardgames.policy.HighestValuedAssetLiquidationPolicy;
-import org.douggschwind.games.boardgames.policy.LowestValuedAssetLiquidationPolicy;
-import org.douggschwind.games.boardgames.policy.UseOfGetOutOfJailFreeCardPolicy;
+import org.douggschwind.games.boardgames.monopoly.policy.AggressiveUseOfGetOutOfJailFreeCardPolicy;
+import org.douggschwind.games.boardgames.monopoly.policy.AssetLiquidationPolicy;
+import org.douggschwind.games.boardgames.monopoly.policy.ConservativeUseOfGetOutOfJailFreeCardPolicy;
+import org.douggschwind.games.boardgames.monopoly.policy.HighestValuedAssetLiquidationPolicy;
+import org.douggschwind.games.boardgames.monopoly.policy.LowestValuedAssetLiquidationPolicy;
+import org.douggschwind.games.boardgames.monopoly.policy.UseOfGetOutOfJailFreeCardPolicy;
 
 
 /**

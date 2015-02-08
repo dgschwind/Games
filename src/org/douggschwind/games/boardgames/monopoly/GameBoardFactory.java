@@ -85,10 +85,10 @@ public class GameBoardFactory {
 	private static final TitleDeed PARK_PLACE = new TitleDeed(BLUE_MONOPOLY_DEFINITION, "Park Place", 350, 200, 35, 70, 175, 500, 1100, 1300, 1500);
 	private static final TitleDeed BOARDWALK = new TitleDeed(BLUE_MONOPOLY_DEFINITION, "Boardwalk", 400, 200, 50, 100, 200, 600, 1400, 1700, 2000);
 	
-	private static final Title READING_RAILROAD = new Title(RAILROADS_DEFINITION, "Reading", 200);
-	private static final Title PENNSYLVANIA_RAILROAD = new Title(RAILROADS_DEFINITION, "Pennsylvania", 200);
-	private static final Title B_AND_O_RAILROAD = new Title(RAILROADS_DEFINITION, "B & O", 200);
-	private static final Title SHORT_LINE_RAILROAD = new Title(RAILROADS_DEFINITION, "Short Line", 200);
+	private static final Title READING_RAILROAD = new Title(RAILROADS_DEFINITION, "Reading Railroad", 200);
+	private static final Title PENNSYLVANIA_RAILROAD = new Title(RAILROADS_DEFINITION, "Pennsylvania Railroad", 200);
+	private static final Title B_AND_O_RAILROAD = new Title(RAILROADS_DEFINITION, "B & O Railroad", 200);
+	private static final Title SHORT_LINE_RAILROAD = new Title(RAILROADS_DEFINITION, "Short Line Railroad", 200);
 	
 	private static final Title ELECTRIC_COMPANY_UTILITY = new Title(UTILITIES_DEFINITION, "Electric Company", 150);
 	private static final Title WATER_WORKS_UTILITY = new Title(UTILITIES_DEFINITION, "Water Works", 150);

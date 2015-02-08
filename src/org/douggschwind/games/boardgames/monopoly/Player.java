@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.douggschwind.games.boardgames.monopoly.policy.AssetLiquidationPolicy;
+import org.douggschwind.games.boardgames.monopoly.policy.UseOfGetOutOfJailFreeCardPolicy;
 import org.douggschwind.games.boardgames.monopoly.space.PrivateBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.title.Title;
 import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
-import org.douggschwind.games.boardgames.policy.AssetLiquidationPolicy;
-import org.douggschwind.games.boardgames.policy.UseOfGetOutOfJailFreeCardPolicy;
 
 /**
  * An instance of this class houses the state of the game for any given Player of the game.

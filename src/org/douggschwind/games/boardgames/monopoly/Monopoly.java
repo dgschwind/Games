@@ -6,14 +6,12 @@ import java.util.List;
 
 import org.douggschwind.games.boardgames.monopoly.actioncard.ActionCard;
 import org.douggschwind.games.boardgames.monopoly.actioncard.AdvanceToCard;
-import org.douggschwind.games.boardgames.monopoly.actioncard.DeckFactory;
 import org.douggschwind.games.boardgames.monopoly.space.BoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.PrivateBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.PropertyBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.RailroadBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.UtilityBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.title.Title;
-import org.douggschwind.games.common.DeckOfCards;
 
 /**
  * This class supports the actual execution of the game including the setting up of the board,
@@ -22,22 +20,9 @@ import org.douggschwind.games.common.DeckOfCards;
  */
 public class Monopoly {
 	
-	private GameBoard gameBoard;
-	private DeckOfCards<ActionCard> chanceDeck;
-	private DeckOfCards<ActionCard> communityChestDeck;
-	
+	private final GameBoard gameBoard = new GameBoard();
 	private final List<Player> players = new ArrayList<>();
 
-	public Monopoly() {
-		super();
-		
-		gameBoard = new GameBoard();
-		chanceDeck = DeckFactory.createChanceDeck();
-		chanceDeck.shuffle();
-		communityChestDeck = DeckFactory.createCommunityChestDeck();
-		communityChestDeck.shuffle();
-	}
-	
 	public void addPlayer(Player toAdd) {
 		if (toAdd != null) {
 			players.add(toAdd);
@@ -171,30 +156,14 @@ public class Monopoly {
 	}
 	
 	public void playerLandedOnChanceSpace(Player player, int playerDiceRollTotal) {
-		ActionCard chanceCard = null;
-		try {
-			chanceCard = chanceDeck.dealCard();
-		} catch (IllegalStateException ignored) {
-			chanceDeck.shuffle();
-			chanceCard = chanceDeck.dealCard();
-		}
-		
+		ActionCard chanceCard = gameBoard.dealChanceCard();
 		System.out.println("Player has been dealt " + chanceCard.getCardName() + " Chance card");
-		
 		takeAction(player, chanceCard, playerDiceRollTotal);
 	}
 	
 	public void playerLandedOnCommunityChestSpace(Player player, int playerDiceRollTotal) {
-		ActionCard communityChestCard = null;
-		try {
-			communityChestCard = communityChestDeck.dealCard();
-		} catch (IllegalStateException ignored) {
-			communityChestDeck.shuffle();
-			communityChestCard = communityChestDeck.dealCard();
-		}
-		
+		ActionCard communityChestCard = gameBoard.dealCommunityChestCard();
 		System.out.println("Player has been dealt " + communityChestCard.getCardName() + " Community Chest card");
-		
 		takeAction(player, communityChestCard, playerDiceRollTotal);
 	}
 	
@@ -375,7 +344,5 @@ public class Monopoly {
 	public void newGame() {
 		// Assumes the same players will be playing again.
 		gameBoard.reset();
-		chanceDeck.shuffle();
-		communityChestDeck.shuffle();
 	}
 }

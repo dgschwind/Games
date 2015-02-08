@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.douggschwind.games.boardgames.monopoly.Player.Avatar;
-import org.douggschwind.games.boardgames.policy.ConservativeUseOfGetOutOfJailFreeCardPolicy;
-import org.douggschwind.games.boardgames.policy.LowestValuedAssetLiquidationPolicy;
+import org.douggschwind.games.boardgames.monopoly.policy.ConservativeUseOfGetOutOfJailFreeCardPolicy;
+import org.douggschwind.games.boardgames.monopoly.policy.LowestValuedAssetLiquidationPolicy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
