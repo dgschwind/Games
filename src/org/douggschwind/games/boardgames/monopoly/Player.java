@@ -94,8 +94,8 @@ public class Player {
 		return assetLiquidationPolicy;
 	}
 
-	public void receivePayment(int creditedAmount) {
-		bankAccountBalance += creditedAmount;
+	public void receivePayment(int paymentAmount) {
+		bankAccountBalance += paymentAmount;
 	}
 	
 	public boolean canPayBillWithCash(int billAmount) {
@@ -190,19 +190,19 @@ public class Player {
 	/**
 	 * This method resolves any amount that the Player owes to another
 	 * Player or the Bank.
-	 * @param billedAmount The amount of the payment to be made.
+	 * @param paymentAmount The amount of the payment to be made.
 	 * @return true if the payment could be made, false if the payment
 	 * would bankrupt the Player.
 	 */
-	boolean makePayment(int billedAmount) {
-		if (computePlayerLiquidWorth() < billedAmount) {
+	boolean makePayment(int paymentAmount) {
+		if (computePlayerLiquidWorth() < paymentAmount) {
 			return false;
 		}
-		if (billedAmount <= getBankAccountBalance()) {
-			setBankAccountBalance(getBankAccountBalance() - billedAmount);
+		if (paymentAmount <= getBankAccountBalance()) {
+			setBankAccountBalance(getBankAccountBalance() - paymentAmount);
 		} else {
-			int liquidatedValue = liquidateTitlesToGenerateCash(billedAmount);
-			setBankAccountBalance((getBankAccountBalance() + liquidatedValue) - billedAmount);
+			int liquidatedValue = liquidateTitlesToGenerateCash(paymentAmount);
+			setBankAccountBalance((getBankAccountBalance() + liquidatedValue) - paymentAmount);
 		}
 		return true;
 	}

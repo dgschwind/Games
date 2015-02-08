@@ -105,7 +105,7 @@ public class Monopoly {
 		playerMakesPaymentToBank(player, assessmentAmount);
 	}
 	
-	public final void advancePlayerToBoardLocation(Player player, AdvanceToCard advanceToCard, int playerDiceRollTotal) {
+	public void advancePlayerToBoardLocation(Player player, AdvanceToCard advanceToCard, int playerDiceRollTotal) {
 		boolean playerReachedOrPassedGo = false;
 		BoardSpace playerLandedOn;
 		
