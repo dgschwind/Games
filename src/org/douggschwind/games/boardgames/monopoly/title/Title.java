@@ -4,7 +4,9 @@ import org.douggschwind.games.boardgames.monopoly.Player;
 
 /**
  * An instance of this class represents something that can be purchased and owned by
- * a given Player : property, railroad, or utility.
+ * a given Player : property, railroad, or utility. An instance of this class that
+ * is NOT a TitleDeed is a railroad or utility for which a usage fee can be charged
+ * to an opponent.
  * @author Doug Gschwind
  */
 public class Title {
