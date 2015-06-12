@@ -173,9 +173,7 @@ public class GameBoard {
 	}
 	
 	void reset() {
-		for (Player player : playerBoardSpaceMap.keySet()) {
-			setPlayerStartingPosition(player);
-		}
+		playerBoardSpaceMap.keySet().stream().forEach(player -> setPlayerStartingPosition(player));
 		chanceDeck.shuffle();
 		communityChestDeck.shuffle();
 	}

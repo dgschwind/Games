@@ -125,9 +125,7 @@ public class Card implements AbstractCard, Comparable<Card> {
 	
 	public static Set<Card.Kind> getDistinctCardKinds(List<Card> cards) {
 		Set<Card.Kind> result = new HashSet<>();
-		for (Card cardInHand : cards) {
-			result.add(cardInHand.getKind());
-		}
+		cards.forEach(cardInHand -> result.add(cardInHand.getKind()));
 		return result;
 	}
 	

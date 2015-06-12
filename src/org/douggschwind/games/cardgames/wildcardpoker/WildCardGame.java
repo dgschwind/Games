@@ -1,11 +1,10 @@
 package org.douggschwind.games.cardgames.wildcardpoker;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.douggschwind.games.cardgames.common.Card;
 import org.douggschwind.games.cardgames.common.StandardDeckCardGame;
@@ -41,25 +40,10 @@ public abstract class WildCardGame extends StandardDeckCardGame {
 	 * @return Will be non-negative.
 	 */
 	protected int determineNumberOfWildCardsInPlayersHand(Collection<Card> playersHand) {
-		int result = 0;
-		
-		for (Card cardInHand : playersHand) {
-			if (isWildCard(cardInHand)) {
-				result++;
-			}
-		}
-		
-		return result;
+		return (int) playersHand.stream().filter(cardInHand -> isWildCard(cardInHand)).count();
 	}
 	
 	protected List<Card> eliminateWildCards(List<Card> cards) {
-		List<Card> result = new ArrayList<>(cards);
-		for (Iterator<Card> iter = result.iterator();iter.hasNext();) {
-			Card card = iter.next();
-			if (isWildCard(card)) {
-				iter.remove();
-			}
-		}
-		return result;
+		return cards.stream().filter(card -> !isWildCard(card)).collect(Collectors.toList());
 	}
 }

@@ -27,9 +27,7 @@ public class DeckOfCards <T extends AbstractCard> {
 	
 	public void shuffle() {
 		random = new Random();
-		for (T key : dealtCards.keySet()) {
-			dealtCards.put(key, false);
-		}
+		dealtCards.keySet().stream().forEach(key -> dealtCards.put(key, false));
 	}
 	
 	private boolean hasCardBeenDealt(AbstractCard card) {
@@ -69,13 +67,7 @@ public class DeckOfCards <T extends AbstractCard> {
 	}
 	
 	private boolean haveAllCardsBeenDealt() {
-		for (T card : cards) {
-			if (!hasCardBeenDealt(card)) {
-				return false;
-			}
-		}
-		
-		return true;
+		return cards.stream().allMatch(card -> hasCardBeenDealt(card));
 	}
 	
 	public T dealCard() {

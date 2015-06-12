@@ -111,30 +111,18 @@ public class Player {
 	 */
 	private int computePlayerLiquidWorth() {
 		int result = getBankAccountBalance();
-		for (TitleDeed titleDeed : getOwnedProperties()) {
-			if (titleDeed.isMortgaged()) {
-				// This does not contribute to liquid worth.
-				continue;
-			}
-			int numberHousesOnProperty = getNumberHousesOnProperty(titleDeed);
-			result += (numberHousesOnProperty * titleDeed.getBankHouseBuybackPrice());
-			int numberHotelsOnProperty = getNumberHotelsOnProperty(titleDeed);
-			result += (numberHotelsOnProperty * titleDeed.getBankHotelBuybackPrice());
-		}
 		
-		for (Title railroadTitle : getOwnedRailroads()) {
-			if (railroadTitle.isMortgaged()) {
-				// This does not contribute to liquid worth.
-			}
-			result += railroadTitle.getMortgageValue();
-		}
+		// Mortgaged titles do not contribute to liquid worth.
+		result += getOwnedProperties().stream().filter(titleDeed -> !titleDeed.isMortgaged())
+				.mapToInt(titleDeed -> ((getNumberHousesOnProperty(titleDeed) * titleDeed.getBankHouseBuybackPrice()) +
+						                (getNumberHotelsOnProperty(titleDeed) * titleDeed.getBankHotelBuybackPrice())))
+			    .sum();
 		
-		for (Title utilityTitle : getOwnedUtilities()) {
-			if (utilityTitle.isMortgaged()) {
-				// This does not contribute to liquid worth.
-			}
-			result += utilityTitle.getMortgageValue();
-		}
+		// Mortgaged railroads do not contribute to liquid worth.
+		result += getOwnedRailroads().stream().filter(railroadTitle -> !railroadTitle.isMortgaged()).mapToInt(railroadTitle -> railroadTitle.getMortgageValue()).sum();
+		
+		// Mortgaged utilities do not contribute to liquid worth.
+		result += getOwnedUtilities().stream().filter(utilityTitle -> !utilityTitle.isMortgaged()).mapToInt(utilityTitle -> utilityTitle.getMortgageValue()).sum();
 		
 		return result;
 	}
@@ -248,12 +236,7 @@ public class Player {
 	}
 	
 	public int getNumberHousesOnAllProperties() {
-		int result = 0;
-		for (TitleDeed titleDeed : ownedPropertiesMap.keySet()) {
-			BuildingSummary propertyBuildingSummary = getBuildingSummary(titleDeed);
-			result += propertyBuildingSummary.getNumberHouses();
-		}
-		return result;
+		return ownedPropertiesMap.keySet().stream().mapToInt(titleDeed -> getBuildingSummary(titleDeed).getNumberHouses()).sum();
 	}
 	
 	public void addHouseOnProperty(TitleDeed titleDeed) {
@@ -267,12 +250,7 @@ public class Player {
 	}
 	
 	public int getNumberHotelsOnAllProperties() {
-		int result = 0;
-		for (TitleDeed titleDeed : ownedPropertiesMap.keySet()) {
-			BuildingSummary propertyBuildingSummary = getBuildingSummary(titleDeed);
-			result += propertyBuildingSummary.getNumberHotels();
-		}
-		return result;
+		return ownedPropertiesMap.keySet().stream().mapToInt(titleDeed -> getBuildingSummary(titleDeed).getNumberHotels()).sum();
 	}
 	
 	public List<Title> getOwnedRailroads() {
@@ -348,15 +326,9 @@ public class Player {
 	 * the Bank again.
 	 */
 	public void transferAssetsToPlayer(Player recipient) {
-		for (TitleDeed titleDeed : this.getOwnedProperties()) {
-			titleDeed.setOwner(recipient);
-		}
-		for (Title railroadTitle : this.getOwnedRailroads()) {
-			railroadTitle.setOwner(recipient);
-		}
-		for (Title utilityTitle : this.getOwnedUtilities()) {
-			utilityTitle.setOwner(recipient);
-		}
+		this.getOwnedProperties().stream().forEach(titleDeed -> titleDeed.setOwner(recipient));
+		this.getOwnedRailroads().stream().forEach(railroadTitle -> railroadTitle.setOwner(recipient));
+		this.getOwnedUtilities().stream().forEach(utilityTitle -> utilityTitle.setOwner(recipient));
 		
 		if (recipient != null) {
 			// Allow the acquiring Player to make decisions about "lifting" the

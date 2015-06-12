@@ -60,9 +60,7 @@ public abstract class StandardDeckCardGame {
 	public void dealCardsToPlayers() {
 		for (int i = 1;i <= getNumberCardsDealtToEachPlayer();i++) {
 			// Each Player gets 5 cards in this game.
-			for (Player player : getPlayers()) {
-				player.acceptDealtCard(getDeck().dealCard());
-			}
+			getPlayers().forEach(player -> player.acceptDealtCard(getDeck().dealCard()));
 		}
 	}
 	
@@ -137,7 +135,7 @@ public abstract class StandardDeckCardGame {
 			}
 		}
 		
-		return null; // Neve expect to get here!
+		return null; // Never expect to get here!
 	}
 	
 	private HandStrength determinePlayerHandStrengthNoMatchingKinds(Player player) {
@@ -246,11 +244,9 @@ public abstract class StandardDeckCardGame {
 	public final Map<Player, HandStrength> determinePlayerHandsStrength() {
 		Map<Player, HandStrength> result = new HashMap<>();
 		
-		for (Player player : getPlayers()) {
-			// Since HandStrength computation is a little involved, lets
-			// cache the result for future reference in this method.
-			result.put(player, determinePlayerHandStrength(player));
-		}
+		// Since HandStrength computation is a little involved, lets
+		// cache the result for future reference in this method.
+		getPlayers().forEach(player -> result.put(player, determinePlayerHandStrength(player)));
 		
 		return result;
 	}
@@ -335,10 +331,7 @@ public abstract class StandardDeckCardGame {
 	private Map<Player, List<Card.Kind>> getCommonEliminatedSortedPlayerCardKindsMap(Set<Player> players) {
 		Map<Player, List<Card.Kind>> result = getPlayerSortedDistinctCardKindsMap(players);
 		Set<Card.Kind> distinctGameCommonCardKinds = getDistinctGameCommonCardKinds(result);
-		for (Player player : players) {
-			List<Card.Kind> playerSortedDistinctCardKinds = result.get(player);
-			playerSortedDistinctCardKinds.removeAll(distinctGameCommonCardKinds);
-		}
+		players.forEach(player -> result.get(player).removeAll(distinctGameCommonCardKinds));
 		return result;
 	}
 	

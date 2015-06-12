@@ -1,8 +1,8 @@
 package org.douggschwind.games.boardgames.monopoly;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.douggschwind.games.boardgames.monopoly.actioncard.ActionCard;
 import org.douggschwind.games.boardgames.monopoly.actioncard.AdvanceToCard;
@@ -76,23 +76,17 @@ public class Monopoly {
 	}
 	
 	public void payPlayerFromEachOpponent(Player playerToBePaid, int amountToBePaid) {
-		for (Player opponent : determineSolventPlayers()) {
-			if (opponent.equals(playerToBePaid)) {
-				continue;
-			}
-			
-			playerMakesPaymentToOpponent(opponent, amountToBePaid, playerToBePaid);
-		}
+		determineSolventPlayers().stream()
+		    // Player to be payed, does not pay themselves, only their opponents do
+		    .filter(opponent -> !opponent.equals(playerToBePaid))
+		    .forEach(opponent -> playerMakesPaymentToOpponent(opponent, amountToBePaid, playerToBePaid));
 	}
 	
 	public void playerPaysToEachOpponent(Player playerThatMustMakePayment, int amountToBePaid) {
-		for (Player opponent : determineSolventPlayers()) {
-			if (opponent.equals(playerThatMustMakePayment)) {
-				continue;
-			}
-			
-			playerMakesPaymentToOpponent(playerThatMustMakePayment, amountToBePaid, opponent);
-		}
+		determineSolventPlayers().stream()
+		    // Player pays all opponents, but not themselves
+		    .filter(opponent -> !opponent.equals(playerThatMustMakePayment))
+		    .forEach(opponent -> playerMakesPaymentToOpponent(playerThatMustMakePayment, amountToBePaid, opponent));
 	}
 	
 	public void playerHasAcquiredGetOutOfJailFreeCard(Player player) {
@@ -190,14 +184,7 @@ public class Monopoly {
 	 * @return Will be non-null and contain at least one element.
 	 */
 	private List<Player> determineSolventPlayers() {
-		List<Player> result = new ArrayList<>(players);
-		for (Iterator<Player> iter = result.iterator();iter.hasNext();) {
-			Player player = iter.next();
-			if (player.isBankrupt()) {
-				iter.remove();
-			}
-		}
-		return result;
+		return players.stream().filter(player -> !player.isBankrupt()).collect(Collectors.toList());
 	}
 	
 	private void playerHasLandedOnBoardSpace(Player player, BoardSpace landingSpace, int playerDiceRollTotal) {
@@ -281,6 +268,7 @@ public class Monopoly {
 				}
 			}
 		}
+		
 		return result;
 	}
 	
