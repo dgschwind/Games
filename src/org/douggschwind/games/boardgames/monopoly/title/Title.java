@@ -26,6 +26,7 @@ public class Title {
 		this.purchasePrice = purchasePrice;
 		this.mortgageValue = purchasePrice / 2;
 		this.mortgageLiftingPrice = (int) (mortgageValue * 1.1); // 10% above mortgageValue
+		monopolyDefinition.addTitle(this);
 	}
 	
 	public boolean isTitleDeed() {

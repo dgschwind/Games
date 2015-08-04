@@ -50,7 +50,7 @@ public class Simulator {
 	
 	private static int askUserTheDesiredNumberOfPlayers()
 	throws IOException {
-		System.out.println("How many players? Enter a number between 4 and 10 : ");
+		System.out.println("How many players? Enter a number between " + MINIMUM_NUMBER_OF_PLAYERS + " and " + MAXIMUM_NUMBER_OF_PLAYERS + " : ");
 		byte[] endUserProvidedValue = new byte[80];
 		System.in.read(endUserProvidedValue);
 		
