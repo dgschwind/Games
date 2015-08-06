@@ -19,7 +19,12 @@ public class BuildingSummary {
 	}
 	
 	public void addHouse() {
-		numberHouses++;
+		if (numberHouses == 4) {
+			addHotel();
+			numberHouses = 0;
+		} else {
+			numberHouses++;
+		}
 	}
 	
 	public void removeHouse() {
@@ -41,6 +46,11 @@ public class BuildingSummary {
 	public void clear() {
 		numberHouses = 0;
 		numberHotels = 0;
+	}
+	
+	public boolean isMoreImproved(BuildingSummary that) {
+		return ((this.getNumberHotels() > that.getNumberHotels()) ||
+				(this.getNumberHouses() > that.getNumberHouses()));
 	}
 	
 	public int computeDifferenceInNumberOfHouses(int input) {

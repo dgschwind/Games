@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.douggschwind.games.boardgames.monopoly.BuildingSummary;
+import org.douggschwind.games.boardgames.monopoly.DeedRecorder;
 import org.douggschwind.games.boardgames.monopoly.Player;
 
 /**
@@ -97,5 +99,24 @@ public class MonopolyDefinition {
 		}
 		
 		return (distinctPlayerOwners.size() == 1);
+	}
+	
+	public TitleDeed findLeastImprovedTitleDeed() {
+		if (!isProperty()) {
+			return null;
+		}
+		
+		TitleDeed result = null;
+		BuildingSummary leastImproved = null;
+		for (Title title : titles) {
+			TitleDeed titleDeed = (TitleDeed) title;
+			BuildingSummary titleDeedBuildingSummary = DeedRecorder.getBuildingSummary(titleDeed);
+			if ((leastImproved == null) ||
+				(leastImproved.isMoreImproved(titleDeedBuildingSummary))) {
+				leastImproved = titleDeedBuildingSummary;
+				result = titleDeed;
+			}
+		}
+		return result;
 	}
 }

@@ -85,6 +85,16 @@ public class GameBoardFactory {
 	private static final TitleDeed PARK_PLACE = new TitleDeed(BLUE_MONOPOLY_DEFINITION, "Park Place", 350, 200, 35, 70, 175, 500, 1100, 1300, 1500);
 	private static final TitleDeed BOARDWALK = new TitleDeed(BLUE_MONOPOLY_DEFINITION, "Boardwalk", 400, 200, 50, 100, 200, 600, 1400, 1700, 2000);
 	
+	private static final TitleDeed[] AVAILABLE_TITLE_DEEDS =
+			new TitleDeed[] {MEDITERRANEAN_AVENUE, BALTIC_AVENUE,
+		                     ORIENTAL_AVENUE, VERMONT_AVENUE, CONNETICUT_AVENUE,
+		                     ST_CHARLES_PLACE, STATES_AVENUE, VIRGINIA_AVENUE,
+		                     ST_JAMES_PLACE, TENNESEE_AVENUE, NEW_YORK_AVENUE,
+		                     KENTUCKY_AVENUE, INDIANA_AVENUE, ILLINOIS_AVENUE,
+		                     ATLANTIC_AVENUE, VENTNOR_AVENUE, MARVIN_GARDENS,
+		                     PACIFIC_AVENUE, NORTH_CAROLINA_AVENUE, PENNSYLVANIA_AVENUE,
+		                     PARK_PLACE, BOARDWALK};
+	
 	private static final Title READING_RAILROAD = new Title(RAILROADS_DEFINITION, "Reading Railroad", 200);
 	private static final Title PENNSYLVANIA_RAILROAD = new Title(RAILROADS_DEFINITION, "Pennsylvania Railroad", 200);
 	private static final Title B_AND_O_RAILROAD = new Title(RAILROADS_DEFINITION, "B & O Railroad", 200);
@@ -136,5 +146,9 @@ public class GameBoardFactory {
 		result.add(new LuxuryTaxSpace());
 		result.add(new PropertyBoardSpace(BOARDWALK));
 		return result;
+	}
+	
+	static TitleDeed[] getAvailableTitleDeeds() {
+		return AVAILABLE_TITLE_DEEDS;
 	}
 }

@@ -2,14 +2,15 @@ package org.douggschwind.games.boardgames.monopoly;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.douggschwind.games.boardgames.monopoly.policy.AssetLiquidationPolicy;
 import org.douggschwind.games.boardgames.monopoly.policy.UseOfGetOutOfJailFreeCardPolicy;
 import org.douggschwind.games.boardgames.monopoly.space.PrivateBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.title.MonopolyDefinition;
 import org.douggschwind.games.boardgames.monopoly.title.Title;
 import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
 
@@ -35,7 +36,7 @@ public class Player {
 	private final UseOfGetOutOfJailFreeCardPolicy useOfGetOutOfJailFreeCardPolicy;
 	private final AssetLiquidationPolicy assetLiquidationPolicy;
 	private int bankAccountBalance;
-	private final Map<TitleDeed, BuildingSummary> ownedPropertiesMap = new HashMap<>();
+	private final List<TitleDeed> ownedProperties = new ArrayList<>();
 	private final List<Title> ownedRailroads = new ArrayList<>();
 	private final List<Title> ownedUtilities = new ArrayList<>();
 	private boolean inJail;
@@ -219,15 +220,16 @@ public class Player {
 	}
 
 	public Collection<TitleDeed> getOwnedProperties() {
-		return ownedPropertiesMap.keySet();
+		return ownedProperties;
 	}
 	
 	private void addOwnedProperty(TitleDeed property) {
-		ownedPropertiesMap.put(property, new BuildingSummary());
+		ownedProperties.add(property);
+		DeedRecorder.addDeed(property);
 	}
 	
 	private BuildingSummary getBuildingSummary(TitleDeed titleDeed) {
-		return ownedPropertiesMap.get(titleDeed);
+		return DeedRecorder.getBuildingSummary(titleDeed);
 	}
 	
 	public int getNumberHousesOnProperty(TitleDeed titleDeed) {
@@ -236,12 +238,7 @@ public class Player {
 	}
 	
 	public int getNumberHousesOnAllProperties() {
-		return ownedPropertiesMap.keySet().stream().mapToInt(titleDeed -> getBuildingSummary(titleDeed).getNumberHouses()).sum();
-	}
-	
-	public void addHouseOnProperty(TitleDeed titleDeed) {
-		BuildingSummary propertyBuildingSummary = getBuildingSummary(titleDeed);
-		propertyBuildingSummary.addHouse();
+		return getOwnedProperties().stream().mapToInt(titleDeed -> getBuildingSummary(titleDeed).getNumberHouses()).sum();
 	}
 	
 	public int getNumberHotelsOnProperty(TitleDeed titleDeed) {
@@ -250,7 +247,7 @@ public class Player {
 	}
 	
 	public int getNumberHotelsOnAllProperties() {
-		return ownedPropertiesMap.keySet().stream().mapToInt(titleDeed -> getBuildingSummary(titleDeed).getNumberHotels()).sum();
+		return getOwnedProperties().stream().mapToInt(titleDeed -> getBuildingSummary(titleDeed).getNumberHotels()).sum();
 	}
 	
 	public List<Title> getOwnedRailroads() {
@@ -267,6 +264,33 @@ public class Player {
 	
 	public int getNumberOwnedUtilities() {
 		return getOwnedUtilities().size();
+	}
+	
+	public Set<MonopolyDefinition> getMonopolizedProperties() {
+		return getOwnedProperties().stream().filter(td -> td.isPartOfMonopoly()).map(td -> td.getMonopolyDefinition()).collect(Collectors.toSet());
+	}
+	
+	public TitleDeed findOwnedPropertyToImprove(Set<MonopolyDefinition> monopolizedProperties) {
+		TitleDeed result = null;
+		// Choose the property in the monopoly that has the fewest buildings on it as a means
+		// to uniformly build across all properties in the given Monopoly.
+		for (MonopolyDefinition ownedMonopoly : monopolizedProperties) {
+			TitleDeed possibleTitleDeedToImprove = ownedMonopoly.findLeastImprovedTitleDeed();
+			if (possibleTitleDeedToImprove != null) {
+				result = possibleTitleDeedToImprove;
+				break;
+			}
+		}
+		
+		// TODO : Configurable purchase policy here.
+		// For now, only choose to improve upon a property if it is less than a
+		// certain percentage of the Player's liquid wealth.
+		
+		if ((result != null) &&
+			(((double) result.getPlayerBuildingPurchasePrice()) <= this.getBankAccountBalance() * 0.25d)) {
+			return result;
+		}
+		return null; // Choose to not build another house.
 	}
 	
 	public boolean isInJail() {
@@ -344,7 +368,7 @@ public class Player {
 	public void setBankrupt() {
 		// A Player cannot recover from bankruptcy, so when this method is called
 		// the Player is bankrupt and no longer active in the game.
-		ownedPropertiesMap.clear();
+		ownedProperties.clear();
 		ownedRailroads.clear();
 		ownedUtilities.clear();
 		setBankAccountBalance(0);

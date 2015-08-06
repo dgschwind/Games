@@ -2,6 +2,7 @@ package org.douggschwind.games.boardgames.monopoly;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.douggschwind.games.boardgames.monopoly.actioncard.ActionCard;
@@ -11,7 +12,9 @@ import org.douggschwind.games.boardgames.monopoly.space.PrivateBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.PropertyBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.RailroadBoardSpace;
 import org.douggschwind.games.boardgames.monopoly.space.UtilityBoardSpace;
+import org.douggschwind.games.boardgames.monopoly.title.MonopolyDefinition;
 import org.douggschwind.games.boardgames.monopoly.title.Title;
+import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
 
 /**
  * This class supports the actual execution of the game including the setting up of the board,
@@ -221,10 +224,26 @@ public class Monopoly {
 	}
 	
 	private DiceRollResult playerTakingTurn(Player player) {
-		DiceRollResult diceRollResult = player.rollDice();
 		BoardSpace playerStartingBoardSpace = gameBoard.getPlayerBoardSpace(player);
 		System.out.println("--------------------------------------------------------------------------------------");
 		System.out.println("Player " + player.getName() + " starting on space : " + playerStartingBoardSpace.getName() + " with $" + player.getBankAccountBalance() + " cash");
+		// Check and see if Player can improve upon their property, and if so, if they wish to.
+		Set<MonopolyDefinition> monopolizedProperties = player.getMonopolizedProperties();
+		if (!monopolizedProperties.isEmpty()) {
+			System.out.println("Player " + player.getName() + " can improve upon their property if they so choose");
+			TitleDeed propertyToImprove = player.findOwnedPropertyToImprove(monopolizedProperties);
+			if (propertyToImprove != null) {
+				System.out.println("Player " + player.getName() + " has elected to improve upon " + propertyToImprove.getName() + " by adding one more house");
+				playerMakesPaymentToBank(player, propertyToImprove.getPlayerBuildingPurchasePrice());
+				DeedRecorder.addHouse(propertyToImprove);
+				BuildingSummary buildingSummaryAfterChanges = DeedRecorder.getBuildingSummary(propertyToImprove);
+				System.out.println("This property now has " + buildingSummaryAfterChanges.getNumberHotels() + " Hotel(s) and " + buildingSummaryAfterChanges.getNumberHouses() + " House(s) on it");
+				System.out.println("Player now has $" + player.getBankAccountBalance() + " cash");
+			} else {
+				System.out.println("Player " + player.getName() + " has elected to NOT improve upon any of their properties at this time");
+			}
+		}
+		DiceRollResult diceRollResult = player.rollDice();
 		System.out.print("Player has rolled a " + diceRollResult.getDiceRollTotal());
 		System.out.println(diceRollResult.wereDoublesRolled() ? " with doubles" : "");
 		if (!playerStartingBoardSpace.canPlayerAdvance(player, diceRollResult)) {
@@ -272,9 +291,23 @@ public class Monopoly {
 		return result;
 	}
 	
+	private boolean haveAllTitleDeedsBeenPurchased() {
+		for (TitleDeed titleDeed : GameBoardFactory.getAvailableTitleDeeds()) {
+			if (titleDeed.getOwner() == null) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private boolean doesAtLeastOnePlayerHoldAMonopoly() {
+		return players.stream().anyMatch(player -> !player.getMonopolizedProperties().isEmpty());
+	}
+	
 	public void playGame() {
 		// Now they each take a turn in succession until only one player
 		// is not yet bankrupt.
+		boolean checkForAllTitleDeedsPurchased = true;
 		boolean doWeHaveAWinner = false;
 		while (doWeHaveAWinner == false) {
 			System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
@@ -320,6 +353,20 @@ public class Monopoly {
 					System.out.println("Player : " + solventPlayers.get(0).getName() + " is declared the Winner!");
 					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 					break;
+				}
+				
+				// By the time all of the TitleDeed instances have been purchased, if no Player holds at least one Monopoly
+				// this game has no chance of finishing (until property negotiation is implemented if ever, Ha!), so lets just
+				// call it a draw now.
+				if ((checkForAllTitleDeedsPurchased) && (haveAllTitleDeedsBeenPurchased())) {
+					if (!doesAtLeastOnePlayerHoldAMonopoly()) {
+						// Have to short circuit this game, Game Over!
+						System.out.println("A conclusion to this game is not possible since no player holds at least one Monopoly");
+						System.out.println("Game terminating now.");
+						System.exit(1);
+					}
+					// Only do this check until all TitleDeeds have initially been purchased.
+					checkForAllTitleDeedsPurchased = false;
 				}
 			}
 		}

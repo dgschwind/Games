@@ -18,11 +18,12 @@ public class DeedRecorder {
 	}
 	
 	public static void addDeed(TitleDeed titleDeed) {
-		updateBuildingSummary(titleDeed, new BuildingSummary());
+		recordedDeeds.put(titleDeed, new BuildingSummary());
 	}
 	
-	public static void updateBuildingSummary(TitleDeed titleDeed, BuildingSummary buildingSummary) {
-		recordedDeeds.put(titleDeed, buildingSummary);
+	public static void addHouse(TitleDeed titleDeed) {
+		BuildingSummary buildingSummaryForDeed = getBuildingSummary(titleDeed);
+		buildingSummaryForDeed.addHouse();
 	}
 	
 	public static void clear() {
