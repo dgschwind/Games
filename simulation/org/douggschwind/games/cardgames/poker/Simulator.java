@@ -3,8 +3,8 @@ package org.douggschwind.games.cardgames.poker;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
-import org.douggschwind.games.cardgames.common.Card;
 import org.douggschwind.games.cardgames.common.Player;
 import org.douggschwind.games.cardgames.common.StandardDeckCardGame;
 import org.douggschwind.games.cardgames.poker.common.HandStrength;
@@ -42,15 +42,15 @@ public class Simulator {
 		Map<Player, HandStrength> playerHandsStrength = gameToPlay.determinePlayerHandsStrength();
 		Set<Player> winners = gameToPlay.determineWinners();
 		
-		for (Player player : gameToPlay.getPlayers()) {
+		Consumer<? super Player> reportPlayerHand = player -> {
 			System.out.printf("Player %2d ", player.getPlayerNumber());
 			System.out.print(" Hand :");
-			for (Card card : player.getHand()) {
-				System.out.printf(" %3s", card.toString());
-			}
+			player.getHand().stream().forEach(card -> System.out.printf(" %3s", card.toString()));
 			System.out.print(" (" + playerHandsStrength.get(player).getClass().getSimpleName() + ") ");
 			System.out.println(winners.contains(player) ? "Winner!" : "");
-		}
+		};
+		
+		gameToPlay.getPlayers().stream().forEach(reportPlayerHand);
 	}
 	
 	private static StandardDeckCardGame askUserWhichGameTheyWishToSimulate()

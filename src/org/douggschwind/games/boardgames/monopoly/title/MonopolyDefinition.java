@@ -84,20 +84,12 @@ public class MonopolyDefinition {
 	 * @return true if so, false otherwise.
 	 */
 	public boolean hasBeenMonopolized() {
-		Set<Player> distinctPlayerOwners = new HashSet<>();
-		for (Title title : titles) {
-			Player titleOwner = title.getOwner();
-			if (titleOwner == null) {
-				return false;
-			}
-			
-			if (title.isMortgaged()) {
-				return false;
-			}
-			
-			distinctPlayerOwners.add(titleOwner);
+		if (titles.stream().anyMatch(title -> title.isMortgaged() || title.getOwner() == null)) {
+			return false;
 		}
 		
+		Set<Player> distinctPlayerOwners = new HashSet<>();
+		titles.stream().forEach(title -> distinctPlayerOwners.add(title.getOwner()));
 		return (distinctPlayerOwners.size() == 1);
 	}
 	
