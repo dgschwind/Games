@@ -69,7 +69,8 @@ public abstract class StandardDeckCardGame {
 	
 	protected final Map<Card.Kind, Integer> determineNumKindOccurrencesInHand(List<Card> playersHand) {
 		Map<Card.Kind, Integer> result = new HashMap<>();
-		for (Card cardInHand : playersHand) {
+		
+		Consumer<? super Card> cardVisitor = cardInHand -> {
 			Kind cardKind = cardInHand.getKind();
 			Integer numOccurrencesOfKind = result.get(cardKind);
 			if (numOccurrencesOfKind == null) {
@@ -77,13 +78,16 @@ public abstract class StandardDeckCardGame {
 			} else {
 				result.put(cardKind, numOccurrencesOfKind + 1);
 			}
-		}
+		};
+		
+		playersHand.stream().forEach(cardVisitor);
 		return result;
 	}
 	
-	protected final Map<Card.Suit, Integer> determineNumSuitOccurrencesInHand(List<Card> cards) {
+	protected final Map<Card.Suit, Integer> determineNumSuitOccurrencesInHand(List<Card> playersHand) {
 		Map<Card.Suit, Integer> result = new HashMap<>();
-		for (Card cardInHand : cards) {
+		
+		Consumer<? super Card> cardVisitor = cardInHand -> {
 			Card.Suit cardSuit = cardInHand.getSuit();
 			Integer numOccurrencesOfSuit = result.get(cardSuit);
 			if (numOccurrencesOfSuit == null) {
@@ -91,7 +95,9 @@ public abstract class StandardDeckCardGame {
 			} else {
 				result.put(cardSuit, numOccurrencesOfSuit + 1);
 			}
-		}
+		};
+		
+		playersHand.stream().forEach(cardVisitor);
 		return result;
 	}
 	
@@ -251,7 +257,8 @@ public abstract class StandardDeckCardGame {
 		// Lets make a quick first pass attempting to identify the winner
 		// based upon HandRank alone.
 		Set<Player> result = new HashSet<>();
-		for (Player currentPlayer : playerHandStrengths.keySet()) {
+		
+		Consumer<? super Player> playerVisitor = currentPlayer -> {
 			HandStrength playerHandStrength = playerHandStrengths.get(currentPlayer);
 			if (result.isEmpty()) {
 				result.add(currentPlayer);
@@ -276,7 +283,9 @@ public abstract class StandardDeckCardGame {
 					result.add(currentPlayer);
 				}
 			}
-		}
+		};
+		
+		playerHandStrengths.keySet().stream().forEach(playerVisitor);
 		return result;
 	}
 	
@@ -298,15 +307,18 @@ public abstract class StandardDeckCardGame {
 	 * @return
 	 */
 	private Set<Card.Kind> getDistinctGameCommonCardKinds(Map<Player, List<Card.Kind>> playerSortedDistinctCardKindsMap) {
-		Set<Card.Kind> result = null;
-		for (Player player : playerSortedDistinctCardKindsMap.keySet()) {
+		final Set<Card.Kind> result = new HashSet<>();
+		
+		Consumer<? super Player> playerVisitor = player -> {
 			List<Kind> playerSortedDistinctCardKinds = playerSortedDistinctCardKindsMap.get(player);
-			if (result == null) {
-				result = new HashSet<>(playerSortedDistinctCardKinds);
+			if (result.isEmpty()) {
+				result.addAll(playerSortedDistinctCardKinds);
 			} else {
 				result.retainAll(playerSortedDistinctCardKinds);
 			}
-		}
+		};
+		
+		playerSortedDistinctCardKindsMap.keySet().forEach(playerVisitor);
 		return result;
 	}
 	
