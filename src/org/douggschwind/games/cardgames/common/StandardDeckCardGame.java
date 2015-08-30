@@ -2,11 +2,14 @@ package org.douggschwind.games.cardgames.common;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import org.douggschwind.games.cardgames.common.Card.Kind;
 import org.douggschwind.games.cardgames.poker.common.Flush;
@@ -97,45 +100,30 @@ public abstract class StandardDeckCardGame {
 	}
 	
 	protected final int determineMaximumNumberMatchingKind(Map<Card.Kind, Integer> numKindOccurrences) {
-		int result = 0;
-		
-		for (Card.Kind cardKind : numKindOccurrences.keySet()) {
-			Integer numMatching = numKindOccurrences.get(cardKind);
-			if (numMatching > result) {
-				result = numMatching.intValue();
-			}
-		}
-		
-		return result;
+		final Comparator<Integer> numKindOccurrencesComparator = (n1, n2) -> Integer.compare(n1, n2);
+		Optional<Integer> comparisonResultMax = numKindOccurrences.keySet().stream().map(cardKind -> numKindOccurrences.get(cardKind)).max(numKindOccurrencesComparator);
+		return comparisonResultMax.isPresent() ? comparisonResultMax.get().intValue() : 0;
 	}
 	
 	protected final Map<Player, List<Card.Kind>> getPlayerSortedDistinctCardKindsMap(Set<Player> players) {
 		Map<Player, List<Card.Kind>> result = new HashMap<>();
-		for (Player player : players) {
+		Consumer<? super Player> computePlayerDistinctSortedCardKinds = player -> {
 			List<Kind> playerSortedDistinctKinds = new ArrayList<>(player.getDistinctCardKinds());
 			Collections.sort(playerSortedDistinctKinds);
 			result.put(player, playerSortedDistinctKinds);
-		}
+		};
+		players.stream().forEach(computePlayerDistinctSortedCardKinds);
 		return result;
 	}
 	
 	protected final Card.Kind determineDominantMatchingKind(Map<Card.Kind, Integer> numKindOccurrences, int numDominantMatchesExpected) {
-		for (Card.Kind cardKind : numKindOccurrences.keySet()) {
-			if (numKindOccurrences.get(cardKind) == numDominantMatchesExpected) {
-				return cardKind;
-			}
-		}
-		return null; // Should never get here!
+		Optional<Card.Kind> foundCardKind = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == numDominantMatchesExpected).findFirst();
+		return foundCardKind.isPresent() ? foundCardKind.get() : null;
 	}
 	
 	protected final Pair determinePlayerHandPair(Map<Card.Kind, Integer> numKindOccurrences) {
-		for (Card.Kind cardKind : numKindOccurrences.keySet()) {
-			if (numKindOccurrences.get(cardKind) == 2) {
-				return new Pair(cardKind);
-			}
-		}
-		
-		return null; // Never expect to get here!
+		Optional<Card.Kind> foundCardKind = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == 2).findFirst();
+		return foundCardKind.isPresent() ? new Pair(foundCardKind.get()) : null;
 	}
 	
 	private HandStrength determinePlayerHandStrengthNoMatchingKinds(Player player) {
