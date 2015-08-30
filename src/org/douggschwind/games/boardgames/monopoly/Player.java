@@ -3,6 +3,7 @@ package org.douggschwind.games.boardgames.monopoly;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -271,24 +272,17 @@ public class Player {
 	}
 	
 	public TitleDeed findOwnedPropertyToImprove(Set<MonopolyDefinition> monopolizedProperties) {
-		TitleDeed result = null;
-		// Choose the property in the monopoly that has the fewest buildings on it as a means
-		// to uniformly build across all properties in the given Monopoly.
-		for (MonopolyDefinition ownedMonopoly : monopolizedProperties) {
-			TitleDeed possibleTitleDeedToImprove = ownedMonopoly.findLeastImprovedTitleDeed();
-			if (possibleTitleDeedToImprove != null) {
-				result = possibleTitleDeedToImprove;
-				break;
-			}
-		}
+		Optional<TitleDeed> titleDeedToImprove = monopolizedProperties.stream().filter(ownedMonopoly -> ownedMonopoly.findLeastImprovedTitleDeed() != null)
+				                                                               .findFirst()
+				                                                               .map(ownedMonopoly -> ownedMonopoly.findLeastImprovedTitleDeed());
 		
 		// TODO : Configurable purchase policy here.
-		// For now, only choose to improve upon a property if it is less than a
-		// certain percentage of the Player's liquid wealth.
+		// For now, only choose to improve upon a property if the improvement cost
+		// is less than a certain percentage of the Player's liquid wealth.
 		
-		if ((result != null) &&
-			(((double) result.getPlayerBuildingPurchasePrice()) <= this.getBankAccountBalance() * 0.25d)) {
-			return result;
+		if ((titleDeedToImprove.isPresent()) &&
+			(((double) titleDeedToImprove.get().getPlayerBuildingPurchasePrice()) <= this.getBankAccountBalance() * 0.25d)) {
+			return titleDeedToImprove.get();
 		}
 		return null; // Choose to not build another house.
 	}
@@ -326,16 +320,14 @@ public class Player {
 			return titleDeed.getMortgageValue() + titleDeed.computeBuildingsLiquidationValue(getNumberHousesOnProperty(titleDeed), getNumberHotelsOnProperty(titleDeed));
 		} else {
 			// Its a railroad or utility
-			for (Title railroadTitle : getOwnedRailroads()) {
-				if (railroadTitle == title) {
-					return railroadTitle.getMortgageValue();
-				}
+			Optional<Title> foundRailroadTitle = getOwnedRailroads().stream().filter(railroadTitle -> railroadTitle == title).findFirst();
+			if (foundRailroadTitle.isPresent()) {
+				return foundRailroadTitle.get().getMortgageValue();
 			}
 			
-			for (Title utilityTitle : getOwnedUtilities()) {
-				if (utilityTitle == title) {
-					return utilityTitle.getMortgageValue();
-				}
+			Optional<Title> foundUtilityTitle = getOwnedUtilities().stream().filter(utilityTitle -> utilityTitle == title).findFirst();
+			if (foundUtilityTitle.isPresent()) {
+				return foundUtilityTitle.get().getMortgageValue();
 			}
 		}
 		
