@@ -2,6 +2,7 @@ package org.douggschwind.games.cardgames.wildcardpoker;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.douggschwind.games.cardgames.common.Card;
 import org.douggschwind.games.cardgames.poker.common.Flush;
@@ -42,12 +43,8 @@ public class TwoWildCardsHand extends WildCardHand {
 		if (getNumDistinctNonWildKinds() == 2) {
 			// The player has a natural pair with another non-wild non matching Kind.
 			// They thus have four of a kind.
-			for (Card.Kind cardKind : getNumNonWildKindOccurrencesMap().keySet()) {
-				if (getNumNonWildKindOccurrencesMap().get(cardKind) == 2) {
-					return createFourOfAKind(cardKind);
-				}
-			}
-			return null; // Should never get here.
+			Optional<Card.Kind> naturalPairKind = getNumNonWildKindOccurrencesMap().keySet().stream().filter(cardKind -> getNumNonWildKindOccurrencesMap().get(cardKind) == 2).findFirst();
+			return naturalPairKind.isPresent() ? createFourOfAKind(naturalPairKind.get()) : null;
 		} else {
 			// The player has three distinct natural kinds. However, if those are in
 			// a single suit, the player has at least a Flush, but may instead have
