@@ -3,6 +3,7 @@ package org.douggschwind.games.boardgames.monopoly;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.douggschwind.games.boardgames.monopoly.actioncard.ActionCard;
@@ -278,26 +279,22 @@ public class Monopoly {
 	}
 	
 	private int computeNumberTitlesAvailableForPurchase() {
-		int result = 0;
-		for (BoardSpace boardSpace : gameBoard.getBoardSpaces()) {
+		Predicate<? super BoardSpace> titleIsAvailableForPurchase = boardSpace -> {
 			if (boardSpace.canBePrivatelyHeld()) {
 				Title title = ((PrivateBoardSpace<? extends Title>) boardSpace).getTitle();
-				if (title.isBankOwned()) {
-					result++;
-				}
+				return title.isBankOwned();
 			}
-		}
+			
+			return false;
+		};
 		
-		return result;
+		// Will always be between zero and 22, therefore narrowing conversion to
+		// int is entirely safe.
+		return (int) gameBoard.getBoardSpaces().stream().filter(titleIsAvailableForPurchase).count();
 	}
 	
 	private boolean haveAllTitleDeedsBeenPurchased() {
-		for (TitleDeed titleDeed : GameBoardFactory.getAvailableTitleDeeds()) {
-			if (titleDeed.getOwner() == null) {
-				return false;
-			}
-		}
-		return true;
+		return GameBoardFactory.getAvailableTitleDeeds().stream().allMatch(titleDeed -> !titleDeed.isBankOwned());
 	}
 	
 	private boolean doesAtLeastOnePlayerHoldAMonopoly() {

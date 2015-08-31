@@ -85,15 +85,7 @@ public class GameBoardFactory {
 	private static final TitleDeed PARK_PLACE = new TitleDeed(BLUE_MONOPOLY_DEFINITION, "Park Place", 350, 200, 35, 70, 175, 500, 1100, 1300, 1500);
 	private static final TitleDeed BOARDWALK = new TitleDeed(BLUE_MONOPOLY_DEFINITION, "Boardwalk", 400, 200, 50, 100, 200, 600, 1400, 1700, 2000);
 	
-	private static final TitleDeed[] AVAILABLE_TITLE_DEEDS =
-			new TitleDeed[] {MEDITERRANEAN_AVENUE, BALTIC_AVENUE,
-		                     ORIENTAL_AVENUE, VERMONT_AVENUE, CONNETICUT_AVENUE,
-		                     ST_CHARLES_PLACE, STATES_AVENUE, VIRGINIA_AVENUE,
-		                     ST_JAMES_PLACE, TENNESEE_AVENUE, NEW_YORK_AVENUE,
-		                     KENTUCKY_AVENUE, INDIANA_AVENUE, ILLINOIS_AVENUE,
-		                     ATLANTIC_AVENUE, VENTNOR_AVENUE, MARVIN_GARDENS,
-		                     PACIFIC_AVENUE, NORTH_CAROLINA_AVENUE, PENNSYLVANIA_AVENUE,
-		                     PARK_PLACE, BOARDWALK};
+	private static final List<TitleDeed> AVAILABLE_TITLE_DEEDS = new ArrayList<>();
 	
 	private static final Title READING_RAILROAD = new Title(RAILROADS_DEFINITION, "Reading Railroad", 200);
 	private static final Title PENNSYLVANIA_RAILROAD = new Title(RAILROADS_DEFINITION, "Pennsylvania Railroad", 200);
@@ -102,6 +94,38 @@ public class GameBoardFactory {
 	
 	private static final Title ELECTRIC_COMPANY_UTILITY = new Title(UTILITIES_DEFINITION, "Electric Company", 150);
 	private static final Title WATER_WORKS_UTILITY = new Title(UTILITIES_DEFINITION, "Water Works", 150);
+	
+	static {
+		AVAILABLE_TITLE_DEEDS.add(MEDITERRANEAN_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(BALTIC_AVENUE);
+		
+		AVAILABLE_TITLE_DEEDS.add(ORIENTAL_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(VERMONT_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(CONNETICUT_AVENUE);
+		
+		AVAILABLE_TITLE_DEEDS.add(ST_CHARLES_PLACE);
+		AVAILABLE_TITLE_DEEDS.add(STATES_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(VIRGINIA_AVENUE);
+		
+		AVAILABLE_TITLE_DEEDS.add(ST_JAMES_PLACE);
+		AVAILABLE_TITLE_DEEDS.add(TENNESEE_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(NEW_YORK_AVENUE);
+		
+		AVAILABLE_TITLE_DEEDS.add(KENTUCKY_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(INDIANA_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(ILLINOIS_AVENUE);
+		
+		AVAILABLE_TITLE_DEEDS.add(ATLANTIC_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(VENTNOR_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(MARVIN_GARDENS);
+		
+		AVAILABLE_TITLE_DEEDS.add(PACIFIC_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(NORTH_CAROLINA_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(PENNSYLVANIA_AVENUE);
+		
+		AVAILABLE_TITLE_DEEDS.add(PARK_PLACE);
+		AVAILABLE_TITLE_DEEDS.add(BOARDWALK);
+	}
 
 	static List<BoardSpace> createGameBoard() {
 		List<BoardSpace> result = new ArrayList<>(NUM_BOARD_SPACES_TOTAL);
@@ -148,7 +172,7 @@ public class GameBoardFactory {
 		return result;
 	}
 	
-	static TitleDeed[] getAvailableTitleDeeds() {
+	static List<TitleDeed> getAvailableTitleDeeds() {
 		return AVAILABLE_TITLE_DEEDS;
 	}
 }

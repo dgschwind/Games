@@ -2,6 +2,8 @@ package org.douggschwind.games.cardgames.wildcardpoker;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.douggschwind.games.cardgames.common.Card;
 import org.douggschwind.games.cardgames.poker.common.Flush;
@@ -54,13 +56,13 @@ public class OneWildCardHand extends WildCardHand {
 					// Player has two natural pair. Find the higher valued pair
 					// to determine the strength of their Full House hand.
 					Card.Kind firstPairKind = cardKind;
-					Card.Kind secondPairKind = null;
-					for (Card.Kind innerCardKind : getNumNonWildKindOccurrencesMap().keySet()) {
-						if ((getNumNonWildKindOccurrencesMap().get(innerCardKind) == 2) &&
-							(!innerCardKind.equals(firstPairKind))) {
-							secondPairKind = innerCardKind;
-						}
-					}
+					Predicate<? super Card.Kind> secondPairPredicate = innerCardKind -> {
+						return ((getNumNonWildKindOccurrencesMap().get(innerCardKind) == 2) &&
+								(!innerCardKind.equals(firstPairKind)));
+					};
+					// Will always find a second pair, not truly Optional.
+					Optional<Card.Kind> secondPairFindResult = getNumNonWildKindOccurrencesMap().keySet().stream().filter(secondPairPredicate).findFirst();
+					Card.Kind secondPairKind = secondPairFindResult.get();
 					
 					return new FullHouse(firstPairKind.hasHigherRank(secondPairKind).booleanValue() ? firstPairKind : secondPairKind);
 				}
@@ -70,13 +72,8 @@ public class OneWildCardHand extends WildCardHand {
 		
 		if (getNumDistinctNonWildKinds() == 3) {
 			// The player has a natural pair and thus simply a Three of a Kind hand.
-			for (Card.Kind cardKind : getNumNonWildKindOccurrencesMap().keySet()) {
-				Integer numOccurrencesOfKind = getNumNonWildKindOccurrencesMap().get(cardKind);
-				if (numOccurrencesOfKind == 2) {
-					return new ThreeOfAKind(cardKind);
-				}
-			}
-			return null; // Should never get here
+			Optional<Card.Kind> naturalPairKind = getNumNonWildKindOccurrencesMap().keySet().stream().filter(cardKind -> getNumNonWildKindOccurrencesMap().get(cardKind) == 2).findFirst();
+			return naturalPairKind.isPresent() ? new ThreeOfAKind(naturalPairKind.get()) : null;
 		} else {
 			// The player has four distinct natural kinds.
 			if (isSingleSuited()) {
