@@ -49,8 +49,9 @@ public class BuildingSummary {
 	}
 	
 	public boolean isMoreImproved(BuildingSummary that) {
-		return ((this.getNumberHotels() > that.getNumberHotels()) ||
-				(this.getNumberHouses() > that.getNumberHouses()));
+		return ((that != null) &&
+				((this.getNumberHotels() > that.getNumberHotels()) ||
+				 (this.getNumberHouses() > that.getNumberHouses())));
 	}
 	
 	public int computeDifferenceInNumberOfHouses(int input) {

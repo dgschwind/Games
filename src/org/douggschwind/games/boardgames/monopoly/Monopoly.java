@@ -369,9 +369,9 @@ public class Monopoly {
 		}
 	}
 	
-	public void newGame() {
-		// Assumes the same players will be playing again.
-		gameBoard.reset();
+	public void reset() {
 		DeedRecorder.clear();
+		players.forEach(player -> player.reset());
+		players.clear();
 	}
 }

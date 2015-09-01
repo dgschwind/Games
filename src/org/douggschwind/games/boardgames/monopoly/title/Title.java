@@ -108,4 +108,11 @@ public class Title {
 	public int computeBuildingsLiquidationValue(int numberHousesOnProperty, int numberHotelsOnProperty) {
 		return 0;
 	}
+	
+	/**
+	 * Typically used to reset game state before playing a new game.
+	 */
+	public void reset() {
+		setOwner(null);
+	}
 }

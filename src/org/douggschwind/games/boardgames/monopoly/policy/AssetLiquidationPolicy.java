@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.douggschwind.games.boardgames.monopoly.Player;
 import org.douggschwind.games.boardgames.monopoly.title.Title;
@@ -22,7 +24,7 @@ public interface AssetLiquidationPolicy {
 	 * Identifies the next Title that should be considered to be liquidated by the
 	 * given Player to help make a Payment.
 	 * @param player Must be non-null.
-	 * @return Should be non-null and be an unmortgaged Title.
+	 * @return Should be non-null and a Title which is not mortgaged
 	 */
 	default Title identifyNextTitleToLiquidate(Player player) {
 		Map<Title, Integer> titleLiquidationValuesMap = computeTitleLiquidationValuesMap(player);
@@ -32,16 +34,15 @@ public interface AssetLiquidationPolicy {
 		
 		List<Integer> liquidationValues = new ArrayList<>(titleLiquidationValuesMap.values());
 		sortLiquidationValuesMostLiquidatableFirst(liquidationValues);
-		int liquidationValueToFind = liquidationValues.get(0);
-		for (Title candidateTitle : titleLiquidationValuesMap.keySet()) {
-			Integer liquidationValue = titleLiquidationValuesMap.get(candidateTitle);
-			if ((liquidationValue != null) && (liquidationValue.intValue() == liquidationValueToFind)) {
-				return candidateTitle;
-			}
-		}
+		final int liquidationValueToFind = liquidationValues.get(0);
 		
-		// Should never get here!
-		return null;
+		Predicate<? super Title> mostLiquidablePredicate = candidateTitle -> {
+			Integer liquidationValue = titleLiquidationValuesMap.get(candidateTitle);
+			return ((liquidationValue != null) && (liquidationValue.intValue() == liquidationValueToFind));
+		};
+		
+		Optional<Title> foundTitle = titleLiquidationValuesMap.keySet().stream().filter(mostLiquidablePredicate).findFirst();
+		return foundTitle.isPresent() ? foundTitle.get() : null;
 	}
 	
 	/**
@@ -49,13 +50,14 @@ public interface AssetLiquidationPolicy {
 	 * exposed for client use.
 	 * @param player Must be non-null.
 	 * @return Will be non-null. The key for each entry is a title, and its
-	 * value is the liquidation value for that title.
+	 * value is the liquidation value for that title, excepting those Titles
+	 * that are currently mortgaged.
 	 */
 	default Map<Title, Integer> computeTitleLiquidationValuesMap(Player player) {
 		Map<Title, Integer> result = new HashMap<>();
-		player.getOwnedProperties().stream().forEach(titleDeed -> result.put(titleDeed, player.computeLiquidationValue(titleDeed)));
-		player.getOwnedRailroads().stream().forEach(railroadTitle -> result.put(railroadTitle, player.computeLiquidationValue(railroadTitle)));
-		player.getOwnedUtilities().stream().forEach(utilityTitle -> result.put(utilityTitle, player.computeLiquidationValue(utilityTitle)));
+		player.getOwnedProperties().stream().filter(titleDeed -> !titleDeed.isMortgaged()).forEach(titleDeed -> result.put(titleDeed, player.computeLiquidationValue(titleDeed)));
+		player.getOwnedRailroads().stream().filter(railroadTitle -> !railroadTitle.isMortgaged()).forEach(railroadTitle -> result.put(railroadTitle, player.computeLiquidationValue(railroadTitle)));
+		player.getOwnedUtilities().stream().filter(utilityTitle -> !utilityTitle.isMortgaged()).forEach(utilityTitle -> result.put(utilityTitle, player.computeLiquidationValue(utilityTitle)));
 		return result;
 	}
 }

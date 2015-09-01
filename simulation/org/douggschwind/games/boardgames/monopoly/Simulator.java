@@ -35,7 +35,6 @@ public class Simulator {
 
 	private Simulator(int numberOfPlayers) {
 		gameBeingPlayed = new Monopoly();
-		gameBeingPlayed.newGame();
 		for (int i = 0;i < numberOfPlayers;i++) {
 			boolean evenNumberedIndex = ((i % 2) == 0);
 			UseOfGetOutOfJailFreeCardPolicy useOfGetOutOfJailFreeCardPolicy = evenNumberedIndex ? new AggressiveUseOfGetOutOfJailFreeCardPolicy() : new ConservativeUseOfGetOutOfJailFreeCardPolicy();
@@ -72,7 +71,13 @@ public class Simulator {
 		return askUserTheDesiredNumberOfPlayers();
 	}
 	
+	private void reset() {
+		gameBeingPlayed.reset();
+	}
+	
 	public static void main(String[] args) throws Exception {
+		Simulator simulator = null;
+		
 		while (true) {
 			int desiredNumberOfPlayers = 0;
 			
@@ -81,7 +86,11 @@ public class Simulator {
 				break;
 			}
 			
-			Simulator simulator = new Simulator(desiredNumberOfPlayers);
+			if (simulator != null) {
+				simulator.reset();
+			}
+			
+			simulator = new Simulator(desiredNumberOfPlayers);
 			simulator.playGame();
 			System.out.println("================= End of Game =======================");
 		}
