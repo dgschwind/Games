@@ -26,6 +26,9 @@ public abstract class BoardSpace {
 		return false;
 	}
 	
+	public void resetOwnership() {
+	}
+	
 	public boolean isPubliclyHeld() {
 		return false;
 	}

@@ -22,6 +22,11 @@ public abstract class PrivateBoardSpace<T extends Title> extends BoardSpace {
 		return true;
 	}
 	
+	@Override
+	public final void resetOwnership() {
+		getTitle().setOwner(null);
+	}
+	
 	public final T getTitle() {
 		return title;
 	}

@@ -357,23 +357,15 @@ public class Player {
 		return bankrupt;
 	}
 	
-	/**
-	 * This method clears the Player of ownership of all Titles, typically used when
-	 * starting a new game.
-	 */
-	public void reset() {
+	public void setBankrupt() {
+		// A Player cannot recover from bankruptcy, so when this method is called
+		// the Player is bankrupt and no longer active in the game.
 		ownedProperties.forEach(titleDeed -> titleDeed.reset());
 		ownedProperties.clear();
 		ownedRailroads.forEach(titleDeed -> titleDeed.reset());
 		ownedRailroads.clear();
 		ownedUtilities.forEach(titleDeed -> titleDeed.reset());
 		ownedUtilities.clear();
-	}
-	
-	public void setBankrupt() {
-		// A Player cannot recover from bankruptcy, so when this method is called
-		// the Player is bankrupt and no longer active in the game.
-		reset();
 		setBankAccountBalance(0);
 		bankrupt = true;
 	}

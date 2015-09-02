@@ -24,8 +24,13 @@ import org.douggschwind.games.boardgames.monopoly.title.TitleDeed;
  */
 public class Monopoly {
 	
-	private final GameBoard gameBoard = new GameBoard();
+	private static final GameBoard gameBoard = new GameBoard();
 	private final List<Player> players = new ArrayList<>();
+	
+	public Monopoly() {
+		gameBoard.reset();
+		DeedRecorder.clear();
+	}
 
 	public void addPlayer(Player toAdd) {
 		if (toAdd != null) {
@@ -367,11 +372,5 @@ public class Monopoly {
 				}
 			}
 		}
-	}
-	
-	public void reset() {
-		DeedRecorder.clear();
-		players.forEach(player -> player.reset());
-		players.clear();
 	}
 }

@@ -38,9 +38,7 @@ public class GameBoard {
 	private Map<Player, BoardSpace> playerBoardSpaceMap = new HashMap<>();
 	
 	public GameBoard() {
-		playerBoardSpaceMap.keySet().stream().forEach(player -> setPlayerStartingPosition(player));
-		chanceDeck.shuffle();
-		communityChestDeck.shuffle();
+		reset();
 	}
 	
 	private void setPlayerStartingPosition(Player player) {
@@ -176,5 +174,11 @@ public class GameBoard {
 			result = communityChestDeck.dealCard();
 		}
 		return result;
+	}
+	
+	void reset() {
+		boardSpaces.forEach(boardSpace -> boardSpace.resetOwnership());
+		chanceDeck.shuffle();
+		communityChestDeck.shuffle();
 	}
 }

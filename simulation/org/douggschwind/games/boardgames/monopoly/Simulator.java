@@ -71,13 +71,7 @@ public class Simulator {
 		return askUserTheDesiredNumberOfPlayers();
 	}
 	
-	private void reset() {
-		gameBeingPlayed.reset();
-	}
-	
 	public static void main(String[] args) throws Exception {
-		Simulator simulator = null;
-		
 		while (true) {
 			int desiredNumberOfPlayers = 0;
 			
@@ -86,11 +80,7 @@ public class Simulator {
 				break;
 			}
 			
-			if (simulator != null) {
-				simulator.reset();
-			}
-			
-			simulator = new Simulator(desiredNumberOfPlayers);
+			Simulator simulator = new Simulator(desiredNumberOfPlayers);
 			simulator.playGame();
 			System.out.println("================= End of Game =======================");
 		}
