@@ -29,7 +29,6 @@ public class Monopoly {
 	
 	public Monopoly() {
 		gameBoard.reset();
-		DeedRecorder.clear();
 	}
 
 	public void addPlayer(Player toAdd) {
@@ -69,11 +68,9 @@ public class Monopoly {
 				toReceivePayment.receivePayment(amountToBePaid);
 			}
 		} else {
-			// Player could not make payment. Bankrupt!
-			toMakePayment.transferAssetsToPlayer(toReceivePayment);
-			// TODO : Allow receiving Player the opportunity to immediately
-			// lift the mortgage on any mortgaged Titles just acquired.
-			toMakePayment.setBankrupt();
+			// toMakePayment Player unable to make payment to toReceivePayment Player and thus
+			// toMakePayment Player is bankrupt and eliminated from the game!
+			toMakePayment.transferAssetsToPlayerDueToDefaultingOnPaymentDue(toReceivePayment);
 			System.out.println("!!! Bankrupt Alert Bankrupt Alert Bankrupt Alert Bankrupt Alert !!!");
 			System.out.println("Player " + toMakePayment.getName() + " has been Bankrupted and is eliminated from the game!");
 			System.out.println("!!! Bankrupt Alert Bankrupt Alert Bankrupt Alert Bankrupt Alert !!!");
@@ -306,6 +303,13 @@ public class Monopoly {
 		return players.stream().anyMatch(player -> !player.getMonopolizedProperties().isEmpty());
 	}
 	
+	private void printGameResult(String gameResult) {
+		final String messageDelimiter = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+		System.out.println(messageDelimiter);
+		System.out.println(gameResult);
+		System.out.println(messageDelimiter);
+	}
+	
 	public void playGame() {
 		// Now they each take a turn in succession until only one player
 		// is not yet bankrupt.
@@ -351,9 +355,7 @@ public class Monopoly {
 				if (solventPlayers.size() == 1) {
 					// We have a winner!
 					doWeHaveAWinner = true;
-					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-					System.out.println("Player : " + solventPlayers.get(0).getName() + " is declared the Winner!");
-					System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+					printGameResult("Player : " + solventPlayers.get(0).getName() + " is declared the Winner!");
 					break;
 				}
 				
@@ -363,8 +365,7 @@ public class Monopoly {
 				if ((checkForAllTitleDeedsPurchased) && (haveAllTitleDeedsBeenPurchased())) {
 					if (!doesAtLeastOnePlayerHoldAMonopoly()) {
 						// Have to short circuit this game, Game Over!
-						System.out.println("A conclusion to this game is not possible since no player holds at least one Monopoly");
-						System.out.println("Game terminating now.");
+						printGameResult("A conclusion to this game is not possible since all of the TitleDeeds have been purchased and no player holds at least one Monopoly. Game terminating now.");
 						System.exit(1);
 					}
 					// Only do this check until all TitleDeeds have initially been purchased.

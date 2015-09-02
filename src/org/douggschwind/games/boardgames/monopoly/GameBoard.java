@@ -178,6 +178,7 @@ public class GameBoard {
 	
 	void reset() {
 		boardSpaces.forEach(boardSpace -> boardSpace.resetOwnership());
+		DeedRecorder.clear();
 		chanceDeck.shuffle();
 		communityChestDeck.shuffle();
 	}

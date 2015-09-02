@@ -19,16 +19,16 @@ public class TitleDeed extends Title {
 	private final int perHotelRentCost;
 	
 	public TitleDeed(MonopolyDefinition monopolyDefinition,
-			                  String propertyName,
-			                  int purchasePrice,
-			                  int playerBuildingPurchasePrice,
-			                  int unmonopolizedRentCost,
-			                  int monopolizedRentCost,
-			                  int oneHouseRentCost,
-			                  int twoHouseRentCost,
-			                  int threeHouseRentCost,
-			                  int fourHouseRentCost,
-			                  int perHotelRentCost) {
+			         String propertyName,
+			         int purchasePrice,
+			         int playerBuildingPurchasePrice,
+			         int unmonopolizedRentCost,
+			         int monopolizedRentCost,
+			         int oneHouseRentCost,
+			         int twoHouseRentCost,
+			         int threeHouseRentCost,
+			         int fourHouseRentCost,
+			         int perHotelRentCost) {
 		super(monopolyDefinition, propertyName, purchasePrice);
 		this.playerBuildingPurchasePrice = playerBuildingPurchasePrice;
 		this.bankBuildingBuybackPrice = playerBuildingPurchasePrice / 2;

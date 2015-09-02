@@ -55,7 +55,7 @@ public class GameBoardFactory {
 	private static final MonopolyDefinition RAILROADS_DEFINITION = new MonopolyDefinition(Identifier.Railroads, Type.Railroad);
 	private static final MonopolyDefinition UTILITIES_DEFINITION = new MonopolyDefinition(Identifier.Utilities, Type.Utility);
 	
-	private static final TitleDeed MEDITERRANEAN_AVENUE = new TitleDeed(BROWN_MONOPOLY_DEFINITION, "Mediterranean Avenue", 60, 50, 2, 4, 10, 30, 90, 160, 250);
+	public static final TitleDeed MEDITERRANEAN_AVENUE = new TitleDeed(BROWN_MONOPOLY_DEFINITION, "Mediterranean Avenue", 60, 50, 2, 4, 10, 30, 90, 160, 250);
 	private static final TitleDeed BALTIC_AVENUE = new TitleDeed(BROWN_MONOPOLY_DEFINITION, "Baltic Avenue", 60, 50, 4, 8, 20, 60, 180, 320, 450);
 	
 	private static final TitleDeed ORIENTAL_AVENUE = new TitleDeed(LIGHT_BLUE_MONOPOLY_DEFINITION, "Oriental Avenue", 100, 50, 6, 12, 30, 90, 270, 400, 550);
@@ -87,13 +87,13 @@ public class GameBoardFactory {
 	
 	private static final List<TitleDeed> AVAILABLE_TITLE_DEEDS = new ArrayList<>();
 	
-	private static final Title READING_RAILROAD = new Title(RAILROADS_DEFINITION, "Reading Railroad", 200);
+	public static final Title READING_RAILROAD = new Title(RAILROADS_DEFINITION, "Reading Railroad", 200);
 	private static final Title PENNSYLVANIA_RAILROAD = new Title(RAILROADS_DEFINITION, "Pennsylvania Railroad", 200);
 	private static final Title B_AND_O_RAILROAD = new Title(RAILROADS_DEFINITION, "B & O Railroad", 200);
 	private static final Title SHORT_LINE_RAILROAD = new Title(RAILROADS_DEFINITION, "Short Line Railroad", 200);
 	
 	private static final Title ELECTRIC_COMPANY_UTILITY = new Title(UTILITIES_DEFINITION, "Electric Company", 150);
-	private static final Title WATER_WORKS_UTILITY = new Title(UTILITIES_DEFINITION, "Water Works", 150);
+	public static final Title WATER_WORKS_UTILITY = new Title(UTILITIES_DEFINITION, "Water Works", 150);
 	
 	static {
 		AVAILABLE_TITLE_DEEDS.add(MEDITERRANEAN_AVENUE);

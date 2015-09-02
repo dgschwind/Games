@@ -101,8 +101,8 @@ public class Title {
 		return mortgaged;
 	}
 
-	public void setMortgaged(boolean mortgaged) {
-		this.mortgaged = mortgaged;
+	public void setMortgaged(boolean newValue) {
+		mortgaged = newValue;
 	}
 	
 	public int computeBuildingsLiquidationValue(int numberHousesOnProperty, int numberHotelsOnProperty) {

@@ -101,7 +101,7 @@ public class Player {
 	}
 	
 	public boolean canPayBillWithCash(int billAmount) {
-		return getBankAccountBalance() > billAmount;
+		return getBankAccountBalance() >= billAmount;
 	}
 	
 	/**
@@ -341,7 +341,7 @@ public class Player {
 	 * @param recipient Can be null to indicate the new owner is actually
 	 * the Bank again.
 	 */
-	public void transferAssetsToPlayer(Player recipient) {
+	public void transferAssetsToPlayerDueToDefaultingOnPaymentDue(Player recipient) {
 		this.getOwnedProperties().stream().forEach(titleDeed -> titleDeed.setOwner(recipient));
 		this.getOwnedRailroads().stream().forEach(railroadTitle -> railroadTitle.setOwner(recipient));
 		this.getOwnedUtilities().stream().forEach(utilityTitle -> utilityTitle.setOwner(recipient));
@@ -351,13 +351,17 @@ public class Player {
 			// mortgage on any newly acquired mortgaged properties.
 			recipient.receivePayment(this.getBankAccountBalance());
 		}
+		
+		// TODO : Allow receiving Player the opportunity to immediately
+		// lift the mortgage on any mortgaged Titles just acquired.
+		setBankrupt();
 	}
 
 	public boolean isBankrupt() {
 		return bankrupt;
 	}
 	
-	public void setBankrupt() {
+	private void setBankrupt() {
 		// A Player cannot recover from bankruptcy, so when this method is called
 		// the Player is bankrupt and no longer active in the game.
 		ownedProperties.forEach(titleDeed -> titleDeed.reset());
