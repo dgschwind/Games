@@ -72,12 +72,7 @@ public abstract class StandardDeckCardGame {
 		
 		Consumer<? super Card> cardVisitor = cardInHand -> {
 			Kind cardKind = cardInHand.getKind();
-			Integer numOccurrencesOfKind = result.get(cardKind);
-			if (numOccurrencesOfKind == null) {
-				result.put(cardKind, 1);
-			} else {
-				result.put(cardKind, numOccurrencesOfKind + 1);
-			}
+			result.put(cardKind, Optional.ofNullable(result.get(cardKind)).map(n -> n + 1).orElse(1));
 		};
 		
 		playersHand.stream().forEach(cardVisitor);
@@ -89,12 +84,7 @@ public abstract class StandardDeckCardGame {
 		
 		Consumer<? super Card> cardVisitor = cardInHand -> {
 			Card.Suit cardSuit = cardInHand.getSuit();
-			Integer numOccurrencesOfSuit = result.get(cardSuit);
-			if (numOccurrencesOfSuit == null) {
-				result.put(cardSuit, 1);
-			} else {
-				result.put(cardSuit, numOccurrencesOfSuit + 1);
-			}
+			result.put(cardSuit, Optional.ofNullable(result.get(cardSuit)).map(n -> n + 1).orElse(1));
 		};
 		
 		playersHand.stream().forEach(cardVisitor);
