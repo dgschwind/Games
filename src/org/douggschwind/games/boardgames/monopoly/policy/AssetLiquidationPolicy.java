@@ -42,7 +42,7 @@ public interface AssetLiquidationPolicy {
 		};
 		
 		Optional<Title> foundTitle = titleLiquidationValuesMap.keySet().stream().filter(mostLiquidablePredicate).findFirst();
-		return foundTitle.isPresent() ? foundTitle.get() : null;
+		return foundTitle.map(title -> title).orElse(null);
 	}
 	
 	/**

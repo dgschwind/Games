@@ -44,7 +44,7 @@ public class TwoWildCardsHand extends WildCardHand {
 			// The player has a natural pair with another non-wild non matching Kind.
 			// They thus have four of a kind.
 			Optional<Card.Kind> naturalPairKind = getNumNonWildKindOccurrencesMap().keySet().stream().filter(cardKind -> getNumNonWildKindOccurrencesMap().get(cardKind) == 2).findFirst();
-			return naturalPairKind.isPresent() ? createFourOfAKind(naturalPairKind.get()) : null;
+			return naturalPairKind.map(kind -> createFourOfAKind(kind)).orElse(null);
 		} else {
 			// The player has three distinct natural kinds. However, if those are in
 			// a single suit, the player has at least a Flush, but may instead have

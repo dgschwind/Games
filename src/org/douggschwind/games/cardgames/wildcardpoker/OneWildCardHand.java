@@ -73,7 +73,7 @@ public class OneWildCardHand extends WildCardHand {
 		if (getNumDistinctNonWildKinds() == 3) {
 			// The player has a natural pair and thus simply a Three of a Kind hand.
 			Optional<Card.Kind> naturalPairKind = getNumNonWildKindOccurrencesMap().keySet().stream().filter(cardKind -> getNumNonWildKindOccurrencesMap().get(cardKind) == 2).findFirst();
-			return naturalPairKind.isPresent() ? new ThreeOfAKind(naturalPairKind.get()) : null;
+			return naturalPairKind.map(kind -> new ThreeOfAKind(kind)).orElse(null);
 		} else {
 			// The player has four distinct natural kinds.
 			if (isSingleSuited()) {

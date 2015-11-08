@@ -98,7 +98,7 @@ public abstract class StandardDeckCardGame {
 	protected final int determineMaximumNumberMatchingKind(Map<Card.Kind, Integer> numKindOccurrences) {
 		final Comparator<Integer> numKindOccurrencesComparator = (n1, n2) -> Integer.compare(n1, n2);
 		Optional<Integer> comparisonResultMax = numKindOccurrences.keySet().stream().map(cardKind -> numKindOccurrences.get(cardKind)).max(numKindOccurrencesComparator);
-		return comparisonResultMax.isPresent() ? comparisonResultMax.get().intValue() : 0;
+		return comparisonResultMax.map(i -> i.intValue()).orElse(0);
 	}
 	
 	protected final Map<Player, List<Card.Kind>> getPlayerSortedDistinctCardKindsMap(Set<Player> players) {
@@ -114,12 +114,12 @@ public abstract class StandardDeckCardGame {
 	
 	protected final Card.Kind determineDominantMatchingKind(Map<Card.Kind, Integer> numKindOccurrences, int numDominantMatchesExpected) {
 		Optional<Card.Kind> foundCardKind = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == numDominantMatchesExpected).findFirst();
-		return foundCardKind.isPresent() ? foundCardKind.get() : null;
+		return foundCardKind.map(kind -> kind).orElse(null);
 	}
 	
 	protected final Pair determinePlayerHandPair(Map<Card.Kind, Integer> numKindOccurrences) {
 		Optional<Card.Kind> foundCardKind = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == 2).findFirst();
-		return foundCardKind.isPresent() ? new Pair(foundCardKind.get()) : null;
+		return foundCardKind.map(kind -> new Pair(kind)).orElse(null);
 	}
 	
 	private HandStrength determinePlayerHandStrengthNoMatchingKinds(Player player) {
