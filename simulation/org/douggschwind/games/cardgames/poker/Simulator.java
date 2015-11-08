@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 import org.douggschwind.games.cardgames.common.Player;
 import org.douggschwind.games.cardgames.common.StandardDeckCardGame;
@@ -31,9 +32,7 @@ public class Simulator {
 	public Simulator(StandardDeckCardGame cardGame, int numberOfPlayers) {
 		gameToPlay = cardGame;
 		gameToPlay.newGame();
-		for (int i = 0;i < numberOfPlayers;i++) {
-			gameToPlay.addPlayer(new Player());
-		}
+		IntStream.range(0, numberOfPlayers).forEach(ignoredIndex -> gameToPlay.addPlayer(new Player()));
 	}
 	
 	private void playGame() {
@@ -70,7 +69,7 @@ public class Simulator {
 			return new DeucesWild();
 		} else if (ONE_EYED_JACKS_IDENTIFIER.equalsIgnoreCase(desiredGameIdentifier)) {
 			return new OneEyedJacksWild();
-		} else if (EXIT_IDENTIFIER.equals(desiredGameIdentifier)) {
+		} else if (EXIT_IDENTIFIER.equalsIgnoreCase(desiredGameIdentifier)) {
 			System.out.println("Exiting...");
 			System.exit(0);
 		}

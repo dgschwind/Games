@@ -53,6 +53,10 @@ public abstract class StandardDeckCardGame {
 		return players;
 	}
 	
+	public final int getNumberPlayers() {
+		return getPlayers().size();
+	}
+	
 	public void newGame() {
 		getDeck().shuffle();
 	}
@@ -62,7 +66,6 @@ public abstract class StandardDeckCardGame {
 	// Each game is allowed to vary how cards are dealt to players.
 	public void dealCardsToPlayers() {
 		for (int i = 1;i <= getNumberCardsDealtToEachPlayer();i++) {
-			// Each Player gets 5 cards in this game.
 			getPlayers().forEach(player -> player.acceptDealtCard(getDeck().dealCard()));
 		}
 	}
