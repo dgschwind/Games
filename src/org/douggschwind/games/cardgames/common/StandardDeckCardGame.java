@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.douggschwind.games.cardgames.common.Card.Kind;
 import org.douggschwind.games.cardgames.poker.common.Flush;
@@ -172,23 +173,11 @@ public abstract class StandardDeckCardGame {
 			// Player has three of a kind.
 			return new ThreeOfAKind(determineDominantMatchingKind(numKindOccurrences, 3));
 		} else {
-			// Player has two pair.
-			Card.Kind pair1 = null;
-			Card.Kind pair2 = null;
-			for (Card.Kind cardKind : numKindOccurrences.keySet()) {
-				if (numKindOccurrences.get(cardKind) == 2) {
-					if (pair1 == null) {
-						pair1 = cardKind;
-					} else {
-						pair2 = cardKind;
-					}
-				}
-			}
-			if (pair1.hasHigherRank(pair2)) {
-				return new TwoPair(pair1, pair2);
-			} else {
-				return new TwoPair(pair2, pair1);
-			}
+			// Player has two pair. Filter out those kinds that are paired in the players hand.
+			List<Card.Kind> pairedKinds = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == 2).collect(Collectors.toList());
+			Card.Kind pair1 = pairedKinds.get(0);
+			Card.Kind pair2 = pairedKinds.get(1);
+			return (pair1.hasHigherRank(pair2)) ? new TwoPair(pair1, pair2) : new TwoPair(pair2, pair1);
 		}
 	}
 	
