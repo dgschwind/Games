@@ -1,0 +1,246 @@
+
+.AH, [class="2H"], [class="3H"], [class="4H"], [class="5H"], [class="6H"], [class="7H"], [class="8H"], [class="9H"], [class="10H"], .JH, .QH, .KH,
+.AD, [class="2D"], [class="3D"], [class="4D"], [class="5D"], [class="6D"], [class="7D"], [class="8D"], [class="9D"], [class="10D"], .JD, .QD, .KD,
+.AC, [class="2C"], [class="3C"], [class="4C"], [class="5C"], [class="6C"], [class="7C"], [class="8C"], [class="9C"], [class="10C"], .JC, .QC, .KC,
+.AS, [class="2S"], [class="3S"], [class="4S"], [class="5S"], [class="6S"], [class="7S"], [class="8S"], [class="9S"], [class="10S"], .JS, .QS, .KS,
+.decorative-back, .female-back, .roses-back, .generic-back {
+    width: 72px;
+    height: 100px;
+    background-image: url('../images/Deck-72x100x16.gif');
+    background-repeat: no-repeat;
+}
+
+.AH {
+    background-position: 0 0;
+}
+
+[class="2H"] {
+    background-position: -72px 0px;
+}
+
+[class="3H"] {
+    background-position: -144px 0px;
+}
+
+[class="4H"] {
+    background-position: -216px 0px;
+}
+
+[class="5H"] {
+    background-position: -288px 0px;
+}
+
+[class="6H"] {
+    background-position: -360px 0px;
+}
+
+[class="7H"] {
+    background-position: -432px 0px;
+}
+
+[class="8H"] {
+    background-position: -504px 0px;
+}
+
+[class="9H"] {
+    background-position: -576px 0px;
+}
+
+[class="10H"] {
+    background-position: -648px 0px;
+}
+
+.JH {
+    background-position: -720px 0px;
+}
+
+.QH {
+    background-position: -792px 0px;
+}
+
+.KH {
+    background-position: -864px 0px;
+}
+
+.AD {
+    background-position: 0 -100px;
+}
+
+[class="2D"] {
+    background-position: -72px -100px;
+}
+
+[class="3D"] {
+    background-position: -144px -100px;
+}
+
+[class="4D"] {
+    background-position: -216px -100px;
+}
+
+[class="5D"] {
+    background-position: -288px -100px;
+}
+
+[class="6D"] {
+    background-position: -360px -100px;
+}
+
+[class="7D"] {
+    background-position: -432px -100px;
+}
+
+[class="8D"] {
+    background-position: -504px -100px;
+}
+
+[class="9D"] {
+    background-position: -576px -100px;
+}
+
+[class="10D"] {
+    background-position: -648px -100px;
+}
+
+.JD {
+    background-position: -720px -100px;
+}
+
+.QD {
+    background-position: -792px -100px;
+}
+
+.KD {
+    background-position: -864px -100px;
+}
+
+.AC {
+    background-position: 0 -200px;
+}
+
+[class="2C"] {
+    background-position: -72px -200px;
+}
+
+[class="3C"] {
+    background-position: -144px -200px;
+}
+
+[class="4C"] {
+    background-position: -216px -200px;
+}
+
+[class="5C"] {
+    background-position: -288px -200px;
+}
+
+[class="6C"] {
+    background-position: -360px -200px;
+}
+
+[class="7C"] {
+    background-position: -432px -200px;
+}
+
+[class="8C"] {
+    background-position: -504px -200px;
+}
+
+[class="9C"] {
+    background-position: -576px -200px;
+}
+
+[class="10C"] {
+    background-position: -648px -200px;
+}
+
+.JC {
+    background-position: -720px -200px;
+}
+
+.QC {
+    background-position: -792px -200px;
+}
+
+.KC {
+    background-position: -864px -200px;
+}
+
+.AS {
+    background-position: 0 -300px;
+}
+
+[class="2S"] {
+    background-position: -72px -300px;
+}
+
+[class="3S"] {
+    background-position: -144px -300px;
+}
+
+[class="4S"] {
+    background-position: -216px -300px;
+}
+
+[class="5S"] {
+    background-position: -288px -300px;
+}
+
+[class="6S"] {
+    background-position: -360px -300px;
+}
+
+[class="7S"] {
+    background-position: -432px -300px;
+}
+
+[class="8S"] {
+    background-position: -504px -300px;
+}
+
+[class="9S"] {
+    background-position: -576px -300px;
+}
+
+[class="10S"] {
+    background-position: -648px -300px;
+}
+
+.JS {
+    background-position: -720px -300px;
+}
+
+.QS {
+    background-position: -792px -300px;
+}
+
+.KS {
+    background-position: -864px -300px;
+}
+
+.decorative-back {
+    background-position: 0 -400px;
+}
+
+.female-back {
+    background-position: -216px -400px;
+}
+
+.roses-back {
+    background-position: -288px -400px;
+}
+
+.generic-back {
+    background-position: -360px -400px;
+}
+
+.hiddenCardHorizontalHand {
+    width: 80px;
+    float: left;
+}
+
+div.hand {
+    float: left;
+    width: 100%;
+    height: 120px;
+}

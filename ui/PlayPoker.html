@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en-US">
+   <script src="thirdparty/angular.min.js"></script>
+   <head>
+      <meta charset="utf-8">
+   
+      <title>Play Poker!</title>
+      <meta name="description" content="Play Poker1">
+      <meta name="author" content="doug.gschwind@gmail.com">
+   
+      <link rel="stylesheet" href="css/poker.css">
+
+      <script>
+         function revealCard(cardId, classToReveal) {
+            divTarget = document.getElementById(cardId);
+            if (divTarget) {
+               divTarget.className = classToReveal;
+            }
+         }
+
+         function findRandomCardIndex() {
+            return Math.floor((Math.random() * 52.0));
+         }
+
+         function determineClassOfDealtCard(index) {
+            var suitDealt;
+            if (index <= 12) {
+               suitDealt = 'H';
+            } else if (index <= 25) {
+               suitDealt = 'D';
+               index = index - 13;
+            } else if (index <= 38) {
+               suitDealt = 'C';
+               index = index - 26;
+            } else {
+               index = index - 39;
+               suitDealt = 'S';
+            }
+
+            var kindDealt = 'A';
+            if (index == 0) {
+               kindDealt = 'A';
+            } else if (index <= 9) {
+               kindDealt = index + 1;
+            } else if (index == 10) {
+               kindDealt = 'J';
+            } else if (index == 11) {
+               kindDealt = 'Q';
+            } else {
+               kindDealt = 'K';
+            }
+
+            return kindDealt + suitDealt;
+         }
+
+         dealtCards = new Array();
+
+         function initializeDeck() {
+            for (i = 0;i < 52;i++) {
+               dealtCards[i] = false;
+            }
+         }
+
+         function cardDealt(indexOfDealtCard) {
+            dealtCards[indexOfDealtCard] = true;
+         }
+
+         function hasCardBeenDealt(cardIndex) {
+            return dealtCards[cardIndex] == true;
+         }
+
+         function findIndexOfNotYetDealtCard() {
+            findRandomCardIndex(); // Throw this index away for better randomness.
+            findRandomCardIndex(); // Throw this index away for better randomness.
+            result = findRandomCardIndex();
+            // If the random card we have chosen has already been dealt,
+            // Lets find its nearest neighbor that has not been dealt
+            // to expedite the process of the dealing of the cards.
+            if (hasCardBeenDealt(result)) {
+               while (--result >= 0) {
+                  if (!hasCardBeenDealt(result)) {
+                     return result;
+                  }
+               }
+
+               while (++result <= 51) {
+                  if (!hasCardBeenDealt(result)) {
+                     return result;
+                  }
+               }
+            }
+
+            return result;
+         }
+
+         function dealRandomCard() {
+            var randomCardIndex = findIndexOfNotYetDealtCard();
+            // Note the given card has now been dealt.
+            cardDealt(randomCardIndex);
+            return determineClassOfDealtCard(randomCardIndex);
+         }
+
+         function revealHand(button, handId) {
+            button.disabled = true;
+            revealCard(handId + 'a', dealRandomCard());
+            revealCard(handId + 'b', dealRandomCard());
+            revealCard(handId + 'c', dealRandomCard());
+            revealCard(handId + 'd', dealRandomCard());
+            revealCard(handId + 'e', dealRandomCard());
+         }
+      </script>
+   </head>
+   
+   <body onload="initializeDeck()">
+      <div id="1" class="hand">
+         <div class="hiddenCardHorizontalHand">
+            <div id="1a" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="1b" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="1c" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="1d" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="1e" class="female-back"></div>
+         </div>
+         <button type="button" onclick="revealHand(this, '1'); return false;">Reveal Hand</button>
+      </div>
+      <div id="2" class="hand">
+         <div class="hiddenCardHorizontalHand">
+            <div id="2a" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="2b" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="2c" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="2d" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="2e" class="female-back"></div>
+         </div>
+         <button type="button" onclick="revealHand(this, '2'); return false;">Reveal Hand</button>
+      </div>
+      <div id="3" class="hand">
+         <div class="hiddenCardHorizontalHand">
+            <div id="3a" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="3b" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="3c" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="3d" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="3e" class="female-back"></div>
+         </div>
+         <button type="button" onclick="revealHand(this, '3'); return false;">Reveal Hand</button>
+      </div>
+      <div id="4" class="hand">
+         <div class="hiddenCardHorizontalHand">
+            <div id="4a" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="4b" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="4c" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="4d" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="4e" class="female-back"></div>
+         </div>
+         <button type="button" onclick="revealHand(this, '4'); return false;">Reveal Hand</button>
+      </div>
+      <div id="5" class="hand">
+         <div class="hiddenCardHorizontalHand">
+            <div id="5a" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="5b" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="5c" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="5d" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="5e" class="female-back"></div>
+         </div>
+         <button type="button" onclick="revealHand(this, '5'); return false;">Reveal Hand</button>
+      </div>
+      <div id="6" class="hand">
+         <div class="hiddenCardHorizontalHand">
+            <div id="6a" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="6b" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="6c" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="6d" class="female-back"></div>
+         </div>
+         <div class="hiddenCardHorizontalHand">
+            <div id="6e" class="female-back"></div>
+         </div>
+         <button type="button" onclick="revealHand(this, '6'); return false;">Reveal Hand</button>
+      </div>
+   </body>
+</html>
