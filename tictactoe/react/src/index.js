@@ -3,50 +3,41 @@ import ReactDOM from 'react-dom';
 import './tictactoe.css';
 
 class Player {
-  constructor(props) {
-    this.state = {usesX: false};
-  }
-
-  setUsesX() {
-    this.state.usesX = true;
+  constructor(usesX) {
+    this.usesX = usesX;
   }
 
   getSymbol() {
-    return this.state.usesX ? "X" : "O";
+    return this.usesX ? "X" : "O";
   }
 }
 
 class Square extends React.Component {
   constructor(props) {
     super(props);
-    this.player = null;
+    this.state = {player : null};
   }
 
   setPlayer(player) {
-    if (this.player === null) {
-      this.player = player;
-      // Force the square to be re-rendered
-      this.forceUpdate();
+    if (this.state.player === null) {
+      this.setState({player : player});
+      return true;
     }
-  }
-
-  clear() {
-    this.player = null;
-    this.forceUpdate();
+    return false;
   }
 
   hasBeenSelected() {
-    return this.player != null;
+    return this.state.player != null;
   }
 
   hasBeenSelectedByPlayer(currentPlayer) {
-    return this.player == currentPlayer;
+    return this.state.player == currentPlayer;
   }
 
   render() {
     let squareContents = "";
-    if (this.player != null) {
-      squareContents = this.player.getSymbol();
+    if (this.state.player != null) {
+      squareContents = this.state.player.getSymbol();
     }
 
     return (
@@ -55,46 +46,23 @@ class Square extends React.Component {
       </button>
     );
   }
+
+  clear() {
+    this.setState({player : null});
+  }
 }
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
-    this.xPlayer = this.props.xPlayer;
-    this.oPlayer = this.props.oPlayer;
-    this.currentPlayer = this.xPlayer;
     this.squares = [[React.createRef(), React.createRef(), React.createRef()],
                     [React.createRef(), React.createRef(), React.createRef()],
                     [React.createRef(), React.createRef(), React.createRef()]];
-    this.setStatus();
-
-    // Do this binding so that the call to this.clear() will be resolved.
-    this.handleGameEndedWithNoWinner = this.handleGameEndedWithNoWinner.bind(this);
-    this.hasCurrentPlayerWonGame = this.hasCurrentPlayerWonGame.bind(this);
-    this.updateGameStatus = this.updateGameStatus.bind(this);
+    this.currentPlayer = null;
   }
 
-  setStatus() {
-    this.status = "Next Player : " + this.currentPlayer.getSymbol();
-  }
-
-  updateStatus() {
-    this.setStatus();
-    this.forceUpdate();
-  }
-
-  clear() {
-    for (var row = 0;row < 3;row++) {
-      for (var column = 0;column < 3;column++) {
-        this.getSquare(row,column).clear();
-      }
-    }
-  }
-
-  handleGameEndedWithNoWinner() {
-    if (window.confirm("Game has ended with no winner. Play again?")) {
-      this.clear();
-    }
+  setCurrentPlayer(newValue) {
+    this.currentPlayer = newValue;
   }
 
   currentPlayerHasAllThreeSelected(square1, square2, square3) {
@@ -119,33 +87,25 @@ class Board extends React.Component {
             this.currentPlayerHasAllThreeSelected(this.getSquare(0,2), this.getSquare(1,1), this.getSquare(2,0)));  // right diagonal
   }
 
-  changePlayer() {
-    if (this.currentPlayer === this.xPlayer) {
-      this.currentPlayer = this.oPlayer;
-    } else {
-      this.currentPlayer = this.xPlayer;
-    }
-    this.updateStatus();
-  }
-
-  updateGameStatus() {
-    if (this.hasCurrentPlayerWonGame()) {
-      alert("Player " + this.currentPlayer.getSymbol() + " wins!");
-      if (window.confirm("Play again?")) {
-        this.clear();
-      }
-    } else {
-      this.changePlayer();
-
-      if (this.isFull()) {
-        setTimeout(this.handleGameEndedWithNoWinner, 50);
+  haveAllSquaresBeenChosen() {
+    const N = 3;
+    for (var row = 0;row < N;row++) {
+      for (var column = 0;column < N;column++) {
+        if (!this.getSquare(row,column).hasBeenSelected()) {
+          return false;
+        }
       }
     }
+    return true;
   }
 
   handleSquareClick(row, column) {
-    this.getSquare(row,column).setPlayer(this.currentPlayer);
-    setTimeout(this.updateGameStatus, 50);
+    if (this.getSquare(row,column).setPlayer(this.currentPlayer)) {
+      // Wait one millisecond before informing our observer that a given
+      // square has been selected to allow that state to be fully propagated
+      // into the Square involved.
+      setTimeout(this.props.onSquareSelected, 1);
+    }
   }
 
   renderSquare(row, column) {
@@ -156,7 +116,6 @@ class Board extends React.Component {
   render() {
     return (
       <div>
-        <div className="status">{this.status}</div>
         <div className="board-row">
           {this.renderSquare(0, 0)}
           {this.renderSquare(0, 1)}
@@ -176,31 +135,68 @@ class Board extends React.Component {
     );
   }
 
-  isFull() {
-    for (var row = 0;row < 3;row++) {
-      for (var column = 0;column < 3;column++) {
-        if (!this.getSquare(row,column).hasBeenSelected()) {
-          return false;
-        }
+  clear() {
+    const N = 3;
+    for (var row = 0;row < N;row++) {
+      for (var column = 0;column < N;column++) {
+        this.getSquare(row,column).clear();
       }
     }
-    return true;
   }
 }
 
 class TicTacToe extends React.Component {
   constructor(props) {
     super(props);
-    this.xPlayer = new Player();
-    this.xPlayer.setUsesX();
-    this.oPlayer = new Player();
+    this.state = {nextPlayerStatus : null};
+    this.xPlayer = new Player(true);
+    this.oPlayer = new Player(false);
+    this.currentPlayer = this.xPlayer;
+    this.board = null;
+  }
+
+  componentDidMount() {
+    this.board.setCurrentPlayer(this.currentPlayer);
+    this.setNextPlayerStatus();
+  }
+
+  changeCurrentPlayer() {
+    this.currentPlayer = (this.currentPlayer == this.xPlayer) ? this.oPlayer : this.xPlayer;
+    this.setNextPlayerStatus();
+    this.board.setCurrentPlayer(this.currentPlayer);
+  }
+
+  setNextPlayerStatus() {
+    this.setState({nextPlayerStatus : "Next Player : " + this.currentPlayer.getSymbol()});
+  }
+
+  handlePlayAgainResponse() {
+    if (window.confirm("Play again?")) {
+      this.board.clear();
+      // Different player starts each game
+      this.changeCurrentPlayer();
+    }
+  }
+  
+  handleSquareChosen() {
+     if (this.board.hasCurrentPlayerWonGame()) {
+       alert("Player " + this.currentPlayer.getSymbol() + " has won this game!");
+       this.handlePlayAgainResponse();
+     } else if (this.board.haveAllSquaresBeenChosen()) {
+       alert("Tie! Neither player has won this game");
+       this.handlePlayAgainResponse();
+     } else {
+       this.changeCurrentPlayer();
+     }
   }
 
   render() {
     return (
       <div className="game">
         <div className="game-board">
-          <Board xPlayer={this.xPlayer} oPlayer={this.oPlayer} />
+          <div className="status">{this.state.nextPlayerStatus}</div>
+          <Board onSquareSelected={() => this.handleSquareChosen()}
+                 ref={(b) => this.board = b} />
         </div>
         <div className="game-info">
           <div>{/* status */}</div>
