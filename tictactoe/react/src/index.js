@@ -35,14 +35,9 @@ class Square extends React.Component {
   }
 
   render() {
-    let squareContents = "";
-    if (this.state.player != null) {
-      squareContents = this.state.player.getSymbol();
-    }
-
     return (
       <button className="square" onClick={() => this.props.onClick(this.props.row, this.props.column)}>
-        {squareContents}
+        {this.state.player != null ? this.state.player.getSymbol() : ""}
       </button>
     );
   }
@@ -153,6 +148,9 @@ class TicTacToe extends React.Component {
     this.oPlayer = new Player(false);
     this.currentPlayer = this.xPlayer;
     this.board = null;
+
+    this.state = {gameOutcomeStatus : "",
+                  showPlayAgainButton : false};
   }
 
   componentDidMount() {
@@ -170,24 +168,32 @@ class TicTacToe extends React.Component {
     this.setState({nextPlayerStatus : "Next Player : " + this.currentPlayer.getSymbol()});
   }
 
-  handlePlayAgainResponse() {
-    if (window.confirm("Play again?")) {
-      this.board.clear();
-      // Different player starts each game
-      this.changeCurrentPlayer();
-    }
+  gameOver(winningPlayer) {
+     let status = null;
+     if (winningPlayer == null) {
+       status = "This game has ended in a tie";
+     } else {
+       status = "Player " + winningPlayer.getSymbol() + " has won!";
+     }
+
+     this.setState({gameOutcomeStatus : status, showPlayAgainButton : true});
   }
   
   handleSquareChosen() {
      if (this.board.hasCurrentPlayerWonGame()) {
-       alert("Player " + this.currentPlayer.getSymbol() + " has won this game!");
-       this.handlePlayAgainResponse();
+       this.gameOver(this.currentPlayer);
      } else if (this.board.haveAllSquaresBeenChosen()) {
-       alert("Tie! Neither player has won this game");
-       this.handlePlayAgainResponse();
+       this.gameOver(null);
      } else {
        this.changeCurrentPlayer();
      }
+  }
+
+  playAgainButtonClicked() {
+    this.board.clear();
+    // Different player starts each game
+    this.changeCurrentPlayer();
+    this.setState({gameOutcomeStatus : "", showPlayAgainButton : false});
   }
 
   render() {
@@ -199,7 +205,8 @@ class TicTacToe extends React.Component {
                  ref={(b) => this.board = b} />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
+          <div>{this.state.gameOutcomeStatus}</div>
+          {this.state.showPlayAgainButton && <button onClick={() => this.playAgainButtonClicked()}>Play Again?</button>}
         </div>
       </div>
     );
