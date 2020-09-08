@@ -17,8 +17,8 @@ public class CardTest {
 	public void testNotEquals() {
 		Card card1 = new Card(Card.Kind.Ten, Card.Suit.Hearts);
 		Card card2 = new Card(Card.Kind.Ten, Card.Suit.Clubs);
-		Assert.assertTrue(!card1.equals(card2));
-		Assert.assertTrue(!card2.equals(card1));
+		Assert.assertFalse(card1.equals(card2));
+		Assert.assertFalse(card2.equals(card1));
 	}
 	
 	@Test
