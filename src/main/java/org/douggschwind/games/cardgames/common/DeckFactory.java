@@ -12,7 +12,7 @@ import org.douggschwind.games.common.DeckOfCards;
 public class DeckFactory {
 	
 	public static DeckOfCards<Card> createStandardDeck() {
-		DeckOfCards<Card> result = new DeckOfCards<Card>();
+		DeckOfCards<Card> result = new DeckOfCards<>();
 		for (Card.Kind kind : Card.Kind.values()) {
 			Arrays.stream(Card.Suit.values()).forEach(suit -> result.addCard(new Card(kind, suit)));
 		}
@@ -20,7 +20,7 @@ public class DeckFactory {
 	}
 	
 	public static DeckOfCards<Card> createEuchreDeck() {
-		DeckOfCards<Card> result = new DeckOfCards<Card>();
+		DeckOfCards<Card> result = new DeckOfCards<>();
 		
 		Consumer<? super Card.Suit> addCardsFromSuit = suit -> {
 			result.addCard(new Card(Kind.Ace, suit));

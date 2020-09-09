@@ -1,12 +1,12 @@
 package org.douggschwind.games.cardgames.poker;
 
-import java.util.Set;
-
 import org.douggschwind.games.cardgames.common.Card;
 import org.douggschwind.games.cardgames.common.Player;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Set;
 
 /**
  * @author Doug Gschwind
@@ -15,7 +15,7 @@ public class WesternTestThreePlayers {
 	
 	private Western underTest;
 	private Player player1, player2, player3;
-	
+
 	@Before
 	public void initializeWestern() {
 		underTest = new Western();

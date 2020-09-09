@@ -54,9 +54,8 @@ public class ClassicEuchre extends StandardDeckCardGame {
 	
 	private void dealCardsIntoKitty() {
 		kitty.clear();
-		kitty.add(getDeck().dealCard());
-		kitty.add(getDeck().dealCard());
-		kitty.add(getDeck().dealCard());
+		// Since only the top card in the kitty is of use in the playing of the
+		// game, no need to request three other cards be dealt.
 		kitty.add(getDeck().dealCard());
 	}
 	
