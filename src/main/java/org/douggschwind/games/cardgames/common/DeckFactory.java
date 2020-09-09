@@ -1,12 +1,14 @@
 package org.douggschwind.games.cardgames.common;
 
-import java.util.Arrays;
-import java.util.function.Consumer;
-
 import org.douggschwind.games.cardgames.common.Card.Kind;
 import org.douggschwind.games.common.DeckOfCards;
 
+import java.util.Arrays;
+import java.util.function.Consumer;
+
 /**
+ * Can create a standard deck of 52 cards, or an subset deck of standard cards for use in playing the
+ * game Euchre, which only uses Ace through Nine of all four suits.
  * @author Doug Gschwind
  */
 public class DeckFactory {
