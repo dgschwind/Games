@@ -8,6 +8,8 @@ import java.util.Set;
 import org.douggschwind.games.common.AbstractCard;
 
 /**
+ * An instance of the Card class represents a card from a standard deck of 52 cards, each
+ * having a suit (e.g. Spades) and a kind (e.g. Ace).
  * @author Doug Gschwind
  */
 public class Card implements AbstractCard, Comparable<Card> {
