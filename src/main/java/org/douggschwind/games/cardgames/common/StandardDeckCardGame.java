@@ -60,6 +60,9 @@ public abstract class StandardDeckCardGame {
 	
 	public void newGame() {
 		getDeck().shuffle();
+		for (Player player : getPlayers()) {
+			player.newGame();
+		}
 	}
 	
 	protected abstract int getNumberCardsDealtToEachPlayer();

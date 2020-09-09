@@ -29,10 +29,9 @@ public class DeucesWild extends WildCardGame {
 		// Since Card instances are essentially ValueObjects, just create
 		// new Card instances to specify wild cards, rather than trying
 		// to obtain the correct Card references out of the deck.
-		addWildCard(new Card(Card.Kind.Two, Card.Suit.Spades));
-		addWildCard(new Card(Card.Kind.Two, Card.Suit.Clubs));
-		addWildCard(new Card(Card.Kind.Two, Card.Suit.Hearts));
-		addWildCard(new Card(Card.Kind.Two, Card.Suit.Diamonds));
+		for (Card.Suit suit : Card.Suit.values()) {
+			addWildCard(new Card(Card.Kind.Two, suit));
+		}
 	}
 
 	@Override
