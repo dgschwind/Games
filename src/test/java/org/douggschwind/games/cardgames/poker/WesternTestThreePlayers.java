@@ -29,25 +29,28 @@ public class WesternTestThreePlayers {
 	
 	@Test
 	public void testDetermineWinnersAscendingStrengthHands() {
+		// Player 1 has a ten high straight
 		player1.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Clubs));
 		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
 		player1.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Clubs));
 		player1.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Hearts));
 		player1.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
-		
+
+		// Player 2 has a flush
 		player2.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Diamonds));
 		player2.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
 		player2.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Diamonds));
 		player2.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Diamonds));
 		player2.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Diamonds));
-		
+
+		// Player 3 has a full house
 		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
 		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Clubs));
 		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Hearts));
 		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
 		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Clubs));
 		
-		// In this case, player three is the winner
+		// In this case, player three is the winner with a full house.
 		Set<Player> handWinners = underTest.determineWinners();
 		Assert.assertSame(1, handWinners.size());
 		Assert.assertTrue(handWinners.contains(player3));
@@ -55,18 +58,21 @@ public class WesternTestThreePlayers {
 	
 	@Test
 	public void testDetermineWinnersDescendingStrengthHands() {
+		// Player 1 has a full house
 		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
 		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Clubs));
 		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Hearts));
 		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
 		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Clubs));
-		
+
+		// Player 2 has a flush
 		player2.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Diamonds));
 		player2.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
 		player2.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Diamonds));
 		player2.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Diamonds));
 		player2.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Diamonds));
-		
+
+		// Player 3 has a ten high straight
 		player3.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Clubs));
 		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
 		player3.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Clubs));
