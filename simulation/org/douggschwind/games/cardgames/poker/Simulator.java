@@ -31,7 +31,7 @@ public class Simulator {
 	
 	public Simulator(StandardDeckCardGame cardGame, int numberOfPlayers) {
 		gameToPlay = cardGame;
-		gameToPlay.newGame();
+		gameToPlay.newHand();
 		IntStream.range(0, numberOfPlayers).forEach(ignoredIndex -> gameToPlay.addPlayer(new Player()));
 	}
 	

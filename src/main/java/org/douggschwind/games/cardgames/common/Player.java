@@ -13,6 +13,12 @@ public class Player {
 	private static int playerCounter = 1;
 	
 	private final int playerNumber = playerCounter++;
+	// For some Card games, the Player holds unique cards that cannot be present
+	// in any of the other Player's hands. There are other games like Uno though,
+	// where a Player could have two or more of the same card at the same time
+	// other Player's also hold one or more of that same card. Thus, the List
+	// type supports both needs, whereas a Set type here would not work for games
+	// like Uno.
 	private final List<Card> hand = new ArrayList<>();
 	
 	public int getPlayerNumber() {
