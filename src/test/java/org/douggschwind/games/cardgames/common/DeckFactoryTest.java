@@ -16,9 +16,9 @@ public class DeckFactoryTest {
 		final int EXPECTED_STANDARD_DECK_SIZE = 52;
 		Assert.assertEquals(EXPECTED_STANDARD_DECK_SIZE, standardDeck.size());
 
-		boolean executedSpecificCardAssertions = false;
-
 		for (int i = 0;i < 3;i++) {
+			boolean executedSpecificCardAssertions = false;
+
 			standardDeck.shuffle();
 			Set<Card> dealtCards = new HashSet<>();
 			try {
@@ -26,18 +26,18 @@ public class DeckFactoryTest {
 					dealtCards.add(standardDeck.dealCard());
 				}
 			} catch (IllegalStateException ignored) {
-				executedSpecificCardAssertions = true;
 			    for (Card.Suit suit : Card.Suit.values()) {
 			    	for (Card.Kind kind : Card.Kind.values()) {
 						Assert.assertTrue(dealtCards.contains(new Card(kind, suit)));
 					}
 				}
-				// Lets just verify the size of the deck has not changed.
-				Assert.assertEquals(EXPECTED_STANDARD_DECK_SIZE, standardDeck.size());
+				executedSpecificCardAssertions = true;
 			}
-		}
 
-		Assert.assertTrue(executedSpecificCardAssertions);
+			Assert.assertTrue(executedSpecificCardAssertions);
+			// Lets just verify the size of the deck has not changed.
+			Assert.assertEquals(EXPECTED_STANDARD_DECK_SIZE, standardDeck.size());
+		}
 	}
 
 	@Test
@@ -46,9 +46,9 @@ public class DeckFactoryTest {
 		final int EXPECTED_EUCHRE_DECK_SIZE = 24;
 		Assert.assertEquals(EXPECTED_EUCHRE_DECK_SIZE, euchreDeck.size());
 
-		boolean executedSpecificCardAssertions = false;
-
 		for (int i = 0;i < 3;i++) {
+			boolean executedSpecificCardAssertions = false;
+
 			euchreDeck.shuffle();
 			Set<Card> dealtCards = new HashSet<>();
 			try {
@@ -58,7 +58,6 @@ public class DeckFactoryTest {
 					dealtCards.add(euchreDeck.dealCard());
 				}
 			} catch (IllegalStateException ignored) {
-				executedSpecificCardAssertions = true;
 				for (Card.Suit suit : Card.Suit.values()) {
 					Assert.assertTrue(dealtCards.contains(new Card(Card.Kind.Ace, suit)));
 					Assert.assertTrue(dealtCards.contains(new Card(Card.Kind.King, suit)));
@@ -66,12 +65,13 @@ public class DeckFactoryTest {
 					Assert.assertTrue(dealtCards.contains(new Card(Card.Kind.Jack, suit)));
 					Assert.assertTrue(dealtCards.contains(new Card(Card.Kind.Ten, suit)));
 					Assert.assertTrue(dealtCards.contains(new Card(Card.Kind.Nine, suit)));
-					// Lets just verify the size of the deck has not changed.
-					Assert.assertEquals(EXPECTED_EUCHRE_DECK_SIZE, euchreDeck.size());
 				}
+				executedSpecificCardAssertions = true;
 			}
-		}
 
-		Assert.assertTrue(executedSpecificCardAssertions);
+			Assert.assertTrue(executedSpecificCardAssertions);
+			// Lets just verify the size of the deck has not changed.
+			Assert.assertEquals(EXPECTED_EUCHRE_DECK_SIZE, euchreDeck.size());
+		}
 	}
 }
