@@ -3,6 +3,10 @@ package org.douggschwind.games.cardgames.common;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 public class CardTest {
 
 	@Test
@@ -20,7 +24,69 @@ public class CardTest {
 		Assert.assertFalse(card1.equals(card2));
 		Assert.assertFalse(card2.equals(card1));
 	}
-	
+
+	@Test
+	public void testGetDistinctCardKinds2() {
+		List<Card> dealtHand = new ArrayList<>();
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Spades));
+		dealtHand.add(new Card(Card.Kind.Ten, Card.Suit.Spades));
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Clubs));
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Hearts));
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Spades));
+		Set<Card.Kind> distinctCardKinds = Card.getDistinctCardKinds(dealtHand);
+		Assert.assertEquals(2, distinctCardKinds.size());
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Three));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Ten));
+	}
+
+	@Test
+	public void testGetDistinctCardKinds3() {
+		List<Card> dealtHand = new ArrayList<>();
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Spades));
+		dealtHand.add(new Card(Card.Kind.Ten, Card.Suit.Spades));
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Clubs));
+		dealtHand.add(new Card(Card.Kind.Ace, Card.Suit.Hearts));
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Spades));
+		Set<Card.Kind> distinctCardKinds = Card.getDistinctCardKinds(dealtHand);
+		Assert.assertEquals(3, distinctCardKinds.size());
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Three));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Ten));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Ace));
+	}
+
+	@Test
+	public void testGetDistinctCardKinds4() {
+		List<Card> dealtHand = new ArrayList<>();
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Spades));
+		dealtHand.add(new Card(Card.Kind.Ten, Card.Suit.Spades));
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Clubs));
+		dealtHand.add(new Card(Card.Kind.Ace, Card.Suit.Hearts));
+		dealtHand.add(new Card(Card.Kind.Two, Card.Suit.Spades));
+		Set<Card.Kind> distinctCardKinds = Card.getDistinctCardKinds(dealtHand);
+		Assert.assertEquals(4, distinctCardKinds.size());
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Two));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Three));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Ten));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Ace));
+	}
+
+	@Test
+	public void testGetDistinctCardKinds5() {
+		List<Card> dealtHand = new ArrayList<>();
+		dealtHand.add(new Card(Card.Kind.Three, Card.Suit.Spades));
+		dealtHand.add(new Card(Card.Kind.Ten, Card.Suit.Spades));
+		dealtHand.add(new Card(Card.Kind.Queen, Card.Suit.Clubs));
+		dealtHand.add(new Card(Card.Kind.Ace, Card.Suit.Hearts));
+		dealtHand.add(new Card(Card.Kind.Two, Card.Suit.Spades));
+		Set<Card.Kind> distinctCardKinds = Card.getDistinctCardKinds(dealtHand);
+		Assert.assertEquals(5, distinctCardKinds.size());
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Two));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Three));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Ten));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Queen));
+		Assert.assertTrue(distinctCardKinds.contains(Card.Kind.Ace));
+	}
+
 	@Test
 	public void testBeats() {
 		for (Card.Kind outerKind : Card.Kind.values()) {
