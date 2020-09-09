@@ -1,11 +1,11 @@
 package org.douggschwind.games.cardgames.common;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.douggschwind.games.common.DeckOfCards;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class StandardDeckOfCardsTest {
 

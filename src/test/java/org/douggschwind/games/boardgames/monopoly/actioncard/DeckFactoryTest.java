@@ -1,13 +1,11 @@
 package org.douggschwind.games.boardgames.monopoly.actioncard;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.douggschwind.games.boardgames.monopoly.actioncard.ActionCard;
-import org.douggschwind.games.boardgames.monopoly.actioncard.DeckFactory;
 import org.douggschwind.games.common.DeckOfCards;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class DeckFactoryTest {
 	
@@ -22,7 +20,7 @@ public class DeckFactoryTest {
 				while (true) {
 					dealtCards.add(fullDeck.dealCard());
 				}
-			} catch (Exception ignored) {
+			} catch (IllegalStateException ignored) {
 				Assert.assertSame(16, dealtCards.size());
 			}
 		}
@@ -39,7 +37,7 @@ public class DeckFactoryTest {
 				while (true) {
 					dealtCards.add(fullDeck.dealCard());
 				}
-			} catch (Exception ignored) {
+			} catch (IllegalStateException ignored) {
 				Assert.assertSame(17, dealtCards.size());
 			}
 		}

@@ -55,6 +55,9 @@ public class ClassicEuchre extends StandardDeckCardGame {
 	private void dealCardsIntoKitty() {
 		kitty.clear();
 		kitty.add(getDeck().dealCard());
+		kitty.add(getDeck().dealCard());
+		kitty.add(getDeck().dealCard());
+		kitty.add(getDeck().dealCard());
 	}
 	
 	@Override
