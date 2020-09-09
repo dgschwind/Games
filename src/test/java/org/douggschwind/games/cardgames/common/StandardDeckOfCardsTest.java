@@ -20,7 +20,7 @@ public class StandardDeckOfCardsTest {
 				while (true) {
 					dealtCards.add(fullDeck.dealCard());
 				}
-			} catch (Exception ignored) {
+			} catch (IllegalStateException ignored) {
 				Assert.assertSame(52, dealtCards.size());
 			}
 		}
