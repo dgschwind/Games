@@ -24,6 +24,10 @@ public class DeckOfCards <T extends AbstractCard> {
 			dealtCards.put(toAdd, false);
 		}
 	}
+
+	public int size() {
+		return cards.size();
+	}
 	
 	public void shuffle() {
 		random = new Random();
