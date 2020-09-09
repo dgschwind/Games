@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Represents a player in a card game than can be dealt an arbitrary number of cards.
  * @author Doug Gschwind
  */
 public class Player {
