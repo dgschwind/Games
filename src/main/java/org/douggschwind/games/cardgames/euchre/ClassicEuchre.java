@@ -51,9 +51,14 @@ public class ClassicEuchre extends StandardDeckCardGame {
 		
 		super.addPlayer(toAdd);
 	}
+
+	@Override
+	public void newHand() {
+		super.newHand();
+		kitty.clear();
+	}
 	
 	private void dealCardsIntoKitty() {
-		kitty.clear();
 		// Since only the top card in the kitty is of use in the playing of the
 		// game, no need to request three other cards be dealt.
 		kitty.add(getDeck().dealCard());

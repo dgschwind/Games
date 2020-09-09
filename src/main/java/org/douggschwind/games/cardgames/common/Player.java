@@ -47,7 +47,7 @@ public class Player {
 		return Card.getDistinctCardKinds(getHand());
 	}
 	
-	public void newGame() {
+	public void newHand() {
 		hand.clear();
 	}
 }

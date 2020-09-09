@@ -58,10 +58,10 @@ public abstract class StandardDeckCardGame {
 		return getPlayers().size();
 	}
 	
-	public void newGame() {
+	public void newHand() {
 		getDeck().shuffle();
 		for (Player player : getPlayers()) {
-			player.newGame();
+			player.newHand();
 		}
 	}
 	

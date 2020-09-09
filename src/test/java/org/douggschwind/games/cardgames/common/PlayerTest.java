@@ -23,7 +23,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void testNewGame() {
+    public void testNewHand() {
         DeckOfCards<Card> standardDeck = DeckFactory.createStandardDeck();
         standardDeck.shuffle();
 
@@ -49,10 +49,10 @@ public class PlayerTest {
         Assert.assertEquals(5, player3.getHand().size());
         Assert.assertEquals(5, player4.getHand().size());
 
-        player1.newGame();
-        player2.newGame();
-        player3.newGame();
-        player4.newGame();
+        player1.newHand();
+        player2.newHand();
+        player3.newHand();
+        player4.newHand();
 
         Assert.assertTrue(player1.getHand().isEmpty());
         Assert.assertTrue(player2.getHand().isEmpty());
