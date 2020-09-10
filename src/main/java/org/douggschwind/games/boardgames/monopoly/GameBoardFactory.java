@@ -60,14 +60,14 @@ public class GameBoardFactory {
 	
 	private static final TitleDeed ORIENTAL_AVENUE = new TitleDeed(LIGHT_BLUE_MONOPOLY_DEFINITION, "Oriental Avenue", 100, 50, 6, 12, 30, 90, 270, 400, 550);
 	private static final TitleDeed VERMONT_AVENUE = new TitleDeed(LIGHT_BLUE_MONOPOLY_DEFINITION, "Vermont Avenue", 100, 50, 6, 12, 30, 90, 270, 400, 550);
-	private static final TitleDeed CONNETICUT_AVENUE = new TitleDeed(LIGHT_BLUE_MONOPOLY_DEFINITION, "Conneticut Avenue", 120, 50, 8, 16, 40, 100, 300, 450, 600);
+	private static final TitleDeed CONNECTICUT_AVENUE = new TitleDeed(LIGHT_BLUE_MONOPOLY_DEFINITION, "Connecticut Avenue", 120, 50, 8, 16, 40, 100, 300, 450, 600);
 	
 	private static final TitleDeed ST_CHARLES_PLACE = new TitleDeed(PURPLE_MONOPOLY_DEFINITION, "St Charles Place", 140, 100, 10, 20, 50, 150, 450, 625, 750);
 	private static final TitleDeed STATES_AVENUE = new TitleDeed(PURPLE_MONOPOLY_DEFINITION, "States Avenue", 140, 100, 10, 20, 50, 150, 450, 625, 750);
 	private static final TitleDeed VIRGINIA_AVENUE = new TitleDeed(PURPLE_MONOPOLY_DEFINITION, "Virginia Avenue", 160, 100, 12, 24, 60, 180, 500, 700, 900);
 	
 	private static final TitleDeed ST_JAMES_PLACE = new TitleDeed(ORANGE_MONOPOLY_DEFINITION, "St James Place", 180, 100, 14, 28, 70, 200, 550, 750, 950);
-	private static final TitleDeed TENNESEE_AVENUE = new TitleDeed(ORANGE_MONOPOLY_DEFINITION, "Tennesee Avenue", 180, 100, 14, 28, 70, 200, 550, 750, 950);
+	private static final TitleDeed TENNESSEE_AVENUE = new TitleDeed(ORANGE_MONOPOLY_DEFINITION, "Tennessee Avenue", 180, 100, 14, 28, 70, 200, 550, 750, 950);
 	private static final TitleDeed NEW_YORK_AVENUE = new TitleDeed(ORANGE_MONOPOLY_DEFINITION, "New York Avenue", 200, 100, 16, 32, 80, 220, 600, 800, 1000);
 	
 	private static final TitleDeed KENTUCKY_AVENUE = new TitleDeed(RED_MONOPOLY_DEFINITION, "Kentucky Avenue", 220, 150, 18, 36, 90, 250, 700, 875, 1050);
@@ -101,14 +101,14 @@ public class GameBoardFactory {
 		
 		AVAILABLE_TITLE_DEEDS.add(ORIENTAL_AVENUE);
 		AVAILABLE_TITLE_DEEDS.add(VERMONT_AVENUE);
-		AVAILABLE_TITLE_DEEDS.add(CONNETICUT_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(CONNECTICUT_AVENUE);
 		
 		AVAILABLE_TITLE_DEEDS.add(ST_CHARLES_PLACE);
 		AVAILABLE_TITLE_DEEDS.add(STATES_AVENUE);
 		AVAILABLE_TITLE_DEEDS.add(VIRGINIA_AVENUE);
 		
 		AVAILABLE_TITLE_DEEDS.add(ST_JAMES_PLACE);
-		AVAILABLE_TITLE_DEEDS.add(TENNESEE_AVENUE);
+		AVAILABLE_TITLE_DEEDS.add(TENNESSEE_AVENUE);
 		AVAILABLE_TITLE_DEEDS.add(NEW_YORK_AVENUE);
 		
 		AVAILABLE_TITLE_DEEDS.add(KENTUCKY_AVENUE);
@@ -138,7 +138,7 @@ public class GameBoardFactory {
 		result.add(new PropertyBoardSpace(ORIENTAL_AVENUE));
 		result.add(new ChanceSpace());
 		result.add(new PropertyBoardSpace(VERMONT_AVENUE));
-		result.add(new PropertyBoardSpace(CONNETICUT_AVENUE));
+		result.add(new PropertyBoardSpace(CONNECTICUT_AVENUE));
 		result.add(new JailSpace());
 		result.add(new PropertyBoardSpace(ST_CHARLES_PLACE));
 		result.add(new UtilityBoardSpace(ELECTRIC_COMPANY_UTILITY));
@@ -147,7 +147,7 @@ public class GameBoardFactory {
 		result.add(new RailroadBoardSpace(PENNSYLVANIA_RAILROAD));
 		result.add(new PropertyBoardSpace(ST_JAMES_PLACE));
 		result.add(new CommunityChestSpace());
-		result.add(new PropertyBoardSpace(TENNESEE_AVENUE));
+		result.add(new PropertyBoardSpace(TENNESSEE_AVENUE));
 		result.add(new PropertyBoardSpace(NEW_YORK_AVENUE));
 		result.add(new FreeParkingSpace());
 		result.add(new PropertyBoardSpace(KENTUCKY_AVENUE));
