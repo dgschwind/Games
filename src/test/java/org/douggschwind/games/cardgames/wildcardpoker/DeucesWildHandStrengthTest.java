@@ -2,16 +2,7 @@ package org.douggschwind.games.cardgames.wildcardpoker;
 
 import org.douggschwind.games.cardgames.common.Card;
 import org.douggschwind.games.cardgames.common.Player;
-import org.douggschwind.games.cardgames.poker.common.FiveOfAKind;
-import org.douggschwind.games.cardgames.poker.common.Flush;
-import org.douggschwind.games.cardgames.poker.common.FourOfAKind;
-import org.douggschwind.games.cardgames.poker.common.FullHouse;
-import org.douggschwind.games.cardgames.poker.common.HandStrength;
-import org.douggschwind.games.cardgames.poker.common.Pair;
-import org.douggschwind.games.cardgames.poker.common.RoyalFlush;
-import org.douggschwind.games.cardgames.poker.common.Straight;
-import org.douggschwind.games.cardgames.poker.common.StraightFlush;
-import org.douggschwind.games.cardgames.poker.common.ThreeOfAKind;
+import org.douggschwind.games.cardgames.poker.common.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +23,7 @@ public class DeucesWildHandStrengthTest {
 		player = new Player();
 		underTest.addPlayer(player);
 	}
-	
+
 	@Test
 	public void testDetermineHandStrengthFiveOfAKindViaOneWildCard() {
 		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
@@ -124,7 +115,20 @@ public class DeucesWildHandStrengthTest {
 		player.acceptDealtCard(new Card(Card.Kind.King, Card.Suit.Spades));
 		Assert.assertEquals(RoyalFlush.class, underTest.determinePlayerHandStrength(player).getClass());
 	}
-	
+
+	@Test
+	public void testDetermineHandStrengthNaturalStraightFlush() {
+		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Jack, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
+
+		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
+		Assert.assertEquals(StraightFlush.class, actualHandStrength.getClass());
+		Assert.assertEquals(Card.Kind.Jack, ((StraightFlush) actualHandStrength).getHighCardKind());
+	}
+
 	@Test
 	public void testDetermineHandStrengthInsideStraightFlushViaOneWildCard() {
 		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
@@ -202,7 +206,20 @@ public class DeucesWildHandStrengthTest {
 		Assert.assertEquals(StraightFlush.class, actualHandStrength.getClass());
 		Assert.assertEquals(Card.Kind.Jack, ((StraightFlush) actualHandStrength).getHighCardKind());
 	}
-	
+
+	@Test
+	public void testDetermineHandStrengthNaturalFourOfAKind() {
+		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
+		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
+		player.acceptDealtCard(new Card(Card.Kind.Three, Card.Suit.Clubs));
+		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Clubs));
+
+		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
+		Assert.assertEquals(FourOfAKind.class, actualHandStrength.getClass());
+		Assert.assertEquals(Card.Kind.Ten, ((FourOfAKind) actualHandStrength).getKind());
+	}
+
 	@Test
 	public void testDetermineHandStrengthFourOfAKindViaOneWildCard() {
 		player.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Spades));
@@ -241,7 +258,20 @@ public class DeucesWildHandStrengthTest {
 		Assert.assertEquals(FourOfAKind.class, actualHandStrength.getClass());
 		Assert.assertEquals(Card.Kind.Seven, ((FourOfAKind) actualHandStrength).getKind());
 	}
-	
+
+	@Test
+	public void testDetermineHandStrengthNaturalFullHouse() {
+		player.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Queen, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Queen, Card.Suit.Clubs));
+		player.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Hearts));
+		player.acceptDealtCard(new Card(Card.Kind.Queen, Card.Suit.Diamonds));
+
+		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
+		Assert.assertEquals(FullHouse.class, actualHandStrength.getClass());
+		Assert.assertEquals(Card.Kind.Queen, ((FullHouse) actualHandStrength).getKind());
+	}
+
 	@Test
 	public void testDetermineHandStrengthFullHouseViaOneWildCard() {
 		player.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Spades));
@@ -254,7 +284,20 @@ public class DeucesWildHandStrengthTest {
 		Assert.assertEquals(FullHouse.class, actualHandStrength.getClass());
 		Assert.assertEquals(Card.Kind.Queen, ((FullHouse) actualHandStrength).getKind());
 	}
-	
+
+	@Test
+	public void testDetermineHandStrengthNaturalFlush() {
+		player.acceptDealtCard(new Card(Card.Kind.Three, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Jack, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Four, Card.Suit.Spades));
+
+		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
+		Assert.assertEquals(Flush.class, actualHandStrength.getClass());
+		Assert.assertEquals(Card.Kind.Jack, ((Flush) actualHandStrength).getHighCardKind());
+	}
+
 	@Test
 	public void testDetermineHandStrengthFlushViaOneWildCard() {
 		player.acceptDealtCard(new Card(Card.Kind.Three, Card.Suit.Spades));
@@ -280,7 +323,20 @@ public class DeucesWildHandStrengthTest {
 		Assert.assertEquals(Flush.class, actualHandStrength.getClass());
 		Assert.assertEquals(Card.Kind.Ace, ((Flush) actualHandStrength).getHighCardKind());
 	}
-	
+
+	@Test
+	public void testDetermineHandStrengthNaturalStraight() {
+		player.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Hearts));
+		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Diamonds));
+
+		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
+		Assert.assertEquals(Straight.class, actualHandStrength.getClass());
+		Assert.assertEquals(Card.Kind.Ten, ((Straight) actualHandStrength).getHighCardKind());
+	}
+
 	@Test
 	public void testDetermineHandStrengthInsideStraightViaOneWildCard() {
 		player.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Spades));
@@ -332,7 +388,20 @@ public class DeucesWildHandStrengthTest {
 		Assert.assertEquals(Straight.class, actualHandStrength.getClass());
 		Assert.assertEquals(Card.Kind.Ten, ((Straight) actualHandStrength).getHighCardKind());
 	}
-	
+
+	@Test
+	public void testDetermineHandStrengthNaturalThreeOfAKind() {
+		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Hearts));
+		player.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Hearts));
+		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Diamonds));
+
+		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
+		Assert.assertEquals(ThreeOfAKind.class, actualHandStrength.getClass());
+		Assert.assertEquals(Card.Kind.Seven, ((ThreeOfAKind) actualHandStrength).getKind());
+	}
+
 	@Test
 	public void testDetermineHandStrengthThreeOfAKindViaOneWildCard() {
 		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
@@ -358,8 +427,21 @@ public class DeucesWildHandStrengthTest {
 		Assert.assertEquals(ThreeOfAKind.class, actualHandStrength.getClass());
 		Assert.assertEquals(Card.Kind.Queen, ((ThreeOfAKind) actualHandStrength).getKind());
 	}
-	
+
 	@Test
+	public void testDetermineHandStrengthNaturalPair() {
+		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.King, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Hearts));
+		player.acceptDealtCard(new Card(Card.Kind.Three, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.King, Card.Suit.Diamonds));
+
+		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
+		Assert.assertEquals(Pair.class, actualHandStrength.getClass());
+		Assert.assertEquals(Card.Kind.King, ((Pair) actualHandStrength).getKind());
+	}
+
+		@Test
 	public void testDetermineHandStrengthPairViaOneWildCard1() {
 		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
 		player.acceptDealtCard(new Card(Card.Kind.Two, Card.Suit.Spades));
@@ -409,5 +491,18 @@ public class DeucesWildHandStrengthTest {
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(Pair.class, actualHandStrength.getClass());
 		Assert.assertEquals(Card.Kind.Ace, ((Pair) actualHandStrength).getKind());
+	}
+
+	@Test
+	public void testDetermineHandStrengthNaturalHighCard() {
+		player.acceptDealtCard(new Card(Card.Kind.Four, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Clubs));
+		player.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Hearts));
+		player.acceptDealtCard(new Card(Card.Kind.Three, Card.Suit.Spades));
+		player.acceptDealtCard(new Card(Card.Kind.King, Card.Suit.Diamonds));
+
+		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
+		Assert.assertEquals(HighCard.class, actualHandStrength.getClass());
+		Assert.assertEquals(Card.Kind.King, ((HighCard) actualHandStrength).getHighCardKind());
 	}
 }
