@@ -6,39 +6,50 @@ import org.junit.Test;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class DeckFactoryTest {
 	
 	@Test
 	public void testChanceDeck() {
-		DeckOfCards<ActionCard> fullDeck = DeckFactory.createChanceDeck();
-		
+		final int EXPECTED_CHANCE_DECK_SIZE = 16;
+
+		DeckOfCards<ActionCard> chanceDeck = DeckFactory.createChanceDeck();
+		Assert.assertEquals(EXPECTED_CHANCE_DECK_SIZE, chanceDeck.size());
+
 		for (int i = 0;i < 3;i++) {
-			fullDeck.shuffle();
+			chanceDeck.shuffle();
 			Set<ActionCard> dealtCards = new HashSet<>();
 			try {
 				while (true) {
-					dealtCards.add(fullDeck.dealCard());
+					dealtCards.add(chanceDeck.dealCard());
 				}
 			} catch (IllegalStateException ignored) {
-				Assert.assertSame(16, dealtCards.size());
+				Set<String> uniqueCardNames = dealtCards.stream().map(dc -> dc.getCardName()).collect(Collectors.toSet());
+				Assert.assertEquals(EXPECTED_CHANCE_DECK_SIZE, uniqueCardNames.size());
+				Assert.assertEquals(EXPECTED_CHANCE_DECK_SIZE, dealtCards.size());
 			}
 		}
 	}
 
 	@Test
 	public void testCommunityChestDeck() {
-		DeckOfCards<ActionCard> fullDeck = DeckFactory.createCommunityChestDeck();
-		
+		final int EXPECTED_COMMUNITY_CHEST_DECK_SIZE = 17;
+
+		DeckOfCards<ActionCard> communityChestDeck = DeckFactory.createCommunityChestDeck();
+		Assert.assertEquals(EXPECTED_COMMUNITY_CHEST_DECK_SIZE, communityChestDeck.size());
+
 		for (int i = 0;i < 3;i++) {
-			fullDeck.shuffle();
+			communityChestDeck.shuffle();
 			Set<ActionCard> dealtCards = new HashSet<>();
 			try {
 				while (true) {
-					dealtCards.add(fullDeck.dealCard());
+					dealtCards.add(communityChestDeck.dealCard());
 				}
 			} catch (IllegalStateException ignored) {
-				Assert.assertSame(17, dealtCards.size());
+				Set<String> uniqueCardNames = dealtCards.stream().map(dc -> dc.getCardName()).collect(Collectors.toSet());
+				Assert.assertEquals(EXPECTED_COMMUNITY_CHEST_DECK_SIZE, uniqueCardNames.size());
+				Assert.assertSame(EXPECTED_COMMUNITY_CHEST_DECK_SIZE, dealtCards.size());
 			}
 		}
 	}

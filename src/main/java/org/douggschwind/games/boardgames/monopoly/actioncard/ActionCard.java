@@ -15,7 +15,7 @@ public abstract class ActionCard implements AbstractCard {
 		this.cardName = cardName;
 	}
 	
-	public String getCardName() {
+	public final String getCardName() {
 		return cardName;
 	}
 	
