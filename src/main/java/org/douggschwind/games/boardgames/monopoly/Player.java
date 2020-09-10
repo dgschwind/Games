@@ -75,8 +75,9 @@ public class Player {
 	}
 	
 	public DiceRollResult rollDice() {
-		int die1Value = new Random().nextInt(6); // 0 to 5
-		int die2Value = new Random().nextInt(6); // 0 to 5
+		Random random = new Random();
+		int die1Value = random.nextInt(6); // 0 to 5
+		int die2Value = random.nextInt(6); // 0 to 5
 		return new DiceRollResult(2 + die1Value + die2Value, die1Value == die2Value);
 	}
 
