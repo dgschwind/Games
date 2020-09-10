@@ -8,8 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests that the hand strength of different hands with one eyed Jacks as being
- * wild is in fact what is expected.
+ * Tests that the hand strength of different hands with Deuces (2s) being * wild is in fact what is expected.
  * @author Doug Gschwind
  */
 public class DeucesWildHandStrengthTest {

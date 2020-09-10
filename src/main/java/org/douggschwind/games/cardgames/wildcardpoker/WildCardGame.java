@@ -28,8 +28,8 @@ public abstract class WildCardGame extends StandardDeckCardGame {
 			wildCards.add(wildCard);
 		}
 	}
-	
-	private boolean isWildCard(Card card) {
+
+	protected final boolean isWildCard(Card card) {
 		return wildCards.contains(card);
 	}
 	

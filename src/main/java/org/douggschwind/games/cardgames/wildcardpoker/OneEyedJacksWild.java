@@ -43,23 +43,26 @@ public class OneEyedJacksWild extends WildCardGame {
 	
 	@Override
 	public HandStrength determinePlayerHandStrength(Player player) {
-		int numberOfWildCardsInHand = determineNumberOfWildCardsInPlayersHand(player.getHand());
+		final int numberOfWildCardsInHand = determineNumberOfWildCardsInPlayersHand(player.getHand());
 		if (numberOfWildCardsInHand == 0) {
 			// player has no wild cards.
 			return super.determinePlayerHandStrength(player);
 		}
 		
 		final Map<Card.Kind, Integer> numKindOccurrencesMap = determineNumKindOccurrencesInHand(player.getHand());
-			
-		// Now that we know the non-zero number of wild cards in the player's hand
-		// we can remove Card.Kind.Two from the map.
+
+		// Now lets determine if we have non-wild Jacks in the Player's hand.
 		Map<Card.Kind, Integer> numNonWildKindOccurrencesMap = new HashMap<>(numKindOccurrencesMap);
-		Integer numberOfJacksInHand = numNonWildKindOccurrencesMap.get(Card.Kind.Jack);
-		int numberOfNonWildJacksInHand = numberOfJacksInHand.intValue() - numberOfWildCardsInHand;
-		if (numberOfNonWildJacksInHand == 0) {
-			numNonWildKindOccurrencesMap.remove(Card.Kind.Jack);
-		} else {
+		int numberOfNonWildJacksInHand = 0;
+		for (Card card : player.getHand()) {
+			if (card.isJack() && !isWildCard(card)) {
+				numberOfNonWildJacksInHand++;
+			}
+		}
+		if (numberOfNonWildJacksInHand > 0) {
 			numNonWildKindOccurrencesMap.put(Card.Kind.Jack, numberOfNonWildJacksInHand);
+		} else {
+			numNonWildKindOccurrencesMap.remove(Card.Kind.Jack);
 		}
 		
 		List<Card> sortedNonWildCards = eliminateWildCards(player.getHand());
