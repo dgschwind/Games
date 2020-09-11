@@ -10,15 +10,15 @@ import java.util.Random;
  * A DeckOfCards contains some number of AbstractCard instances. This abstraction
  * can support games like Poker, Uno, Euchre, Monopoly, etc.
  * @author Doug Gschwind
- * @param T Must be an AbstractCard.
+ * @param C Must be an AbstractCard.
  */
-public class DeckOfCards <T extends AbstractCard> {
+public class DeckOfCards <C extends AbstractCard> {
 	
-	private final List<T> cards = new ArrayList<>();
-	private final Map<T, Boolean> dealtCards = new HashMap<>();
+	private final List<C> cards = new ArrayList<>();
+	private final Map<C, Boolean> dealtCards = new HashMap<>();
 	private Random random;
 	
-	public void addCard(T toAdd) {
+	public void addCard(C toAdd) {
 		if (toAdd != null) {
 			cards.add(toAdd);
 			dealtCards.put(toAdd, false);
@@ -38,9 +38,9 @@ public class DeckOfCards <T extends AbstractCard> {
 		return (dealtCards.get(card) == true);
 	}
 	
-	private T getRandomCardNotYetDealt() {
+	private C getRandomCardNotYetDealt() {
 		final int randomlySelectedCardIndex = random.nextInt(cards.size());
-		T randomlySelectedCard = cards.get(randomlySelectedCardIndex);
+		C randomlySelectedCard = cards.get(randomlySelectedCardIndex);
 		if (!hasCardBeenDealt(randomlySelectedCard)) {
 			return randomlySelectedCard;
 		}
@@ -74,11 +74,11 @@ public class DeckOfCards <T extends AbstractCard> {
 		return cards.stream().allMatch(card -> hasCardBeenDealt(card));
 	}
 	
-	public T dealCard() {
+	public C dealCard() {
 		if (haveAllCardsBeenDealt()) {
 			throw new IllegalStateException("All cards have already been dealt!");
 		}
-		T randomlySelectedCard = getRandomCardNotYetDealt();
+		C randomlySelectedCard = getRandomCardNotYetDealt();
 		dealtCards.put(randomlySelectedCard, true);
 		return randomlySelectedCard;
 	}
