@@ -22,12 +22,24 @@ class Board extends React.Component {
     this.state = {
         squareOwners: new Array(9).fill(null),
         nextPlayer: 'X',
+        gameHasEndedInTie: false,
         winner: null,
     };
   }
 
+  hasGameEndedInTie(squareOwners) {
+    for (var squareIndex = 0;squareIndex < 9;squareIndex++) {
+      if (squareOwners[squareIndex] === null) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   // Determines the winner of the game, if there is one.
-  // Returns null to indicate there is no winner yet.
+  // Returns 'T' to indicate that the game has ended in a tie,
+  // null to indicate there is no winner yet, and non-null
+  // to identify the actual game winner.
   determineGameWinner(squareOwners) {
     var linesToCheck = [
       [0,1,2],
@@ -50,7 +62,12 @@ class Board extends React.Component {
       }
     }
 
-    // Either no winner as yet, or the game is a tie.
+    // No clear winner yet, lets see if the game has ended in a tie.
+    if (this.hasGameEndedInTie(squareOwners)) {
+      return 'T';
+    }
+
+    // No winner as yet.
     return null;
   }
 
@@ -70,6 +87,7 @@ class Board extends React.Component {
     this.setState({
        squareOwners: squareOwnersCopy,
        nextPlayer: this.state.nextPlayer === 'X' ? 'O' : 'X',
+       hasGameEndedInTie: gameWinner === 'T',
        winner: gameWinner,
     });
   }
@@ -79,24 +97,35 @@ class Board extends React.Component {
   }
 
   playAgain() {
+    var nextPlayer;
+    if (this.state.hasGameEndedInTie) {
+      nextPlayer = 'X';
+    } else {
+       nextPlayer = this.state.winner;
+    }
+
     this.setState({
        squareOwners: new Array(9).fill(null),
-       nextPlayer: this.state.winner ? this.state.winner : 'X',
+       nextPlayer: nextPlayer,
+       hasGameEndedInTie: false,
        winner: null,
     });
   }
 
-  render() {
-    var status;
-    if (this.state.winner) {
-      status = 'Winner: ' + this.state.winner;
+  getGameStatus() {
+    if (this.state.hasGameEndedInTie) {
+      return 'Game has ended in a tie';
+    } else if (this.state.winner) {
+      return 'Winner: ' + this.state.winner;
     } else {
-      status = 'Next player: ' + this.state.nextPlayer;
+      return 'Next player: ' + this.state.nextPlayer;
     }
+  }
 
+  render() {
     return (
       <div>
-        <div className="status">{status}</div>
+        <div className="status">{this.getGameStatus()}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -112,7 +141,7 @@ class Board extends React.Component {
           {this.renderSquare(7)}
           {this.renderSquare(8)}
         </div>
-        {this.state.winner &&
+        {(this.state.hasGameEndedInTie || this.state.winner) &&
           <div>
             <button onClick={() => this.playAgain()}>Play Again?</button>
           </div>
