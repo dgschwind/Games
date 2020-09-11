@@ -34,7 +34,7 @@ public class DeckOfCards <C extends AbstractCard> {
 		dealtCards.keySet().stream().forEach(key -> dealtCards.put(key, false));
 	}
 	
-	private boolean hasCardBeenDealt(AbstractCard card) {
+	protected final boolean hasCardBeenDealt(AbstractCard card) {
 		return (dealtCards.get(card) == true);
 	}
 	
@@ -69,8 +69,8 @@ public class DeckOfCards <C extends AbstractCard> {
 			indexDistanceFromOrigin++;
 		}
 	}
-	
-	private boolean haveAllCardsBeenDealt() {
+
+	protected final boolean haveAllCardsBeenDealt() {
 		return cards.stream().allMatch(card -> hasCardBeenDealt(card));
 	}
 	
