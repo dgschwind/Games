@@ -71,13 +71,17 @@ class Board extends React.Component {
     return null;
   }
 
+  isGameOver() {
+    return (this.state.hasGameEndedInTie || this.state.winner);
+  }
+
   handleCellClick(i) {
     if (this.state.squareOwners[i]) {
       // One of the players already owns this square, ignore this click.
       return;
     }
-    if (this.state.winner) {
-      // Ignore this click, the game has already been won.
+    if (this.isGameOver()) {
+      // Ignore this click, this game has ended.
       return;
     }
 
@@ -141,7 +145,7 @@ class Board extends React.Component {
           {this.renderSquare(7)}
           {this.renderSquare(8)}
         </div>
-        {(this.state.hasGameEndedInTie || this.state.winner) &&
+        {this.isGameOver() &&
           <div>
             <button onClick={() => this.playAgain()}>Play Again?</button>
           </div>
