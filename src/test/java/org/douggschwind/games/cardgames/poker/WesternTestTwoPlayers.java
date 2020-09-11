@@ -26,13 +26,13 @@ public class WesternTestTwoPlayers {
 	}
 	
 	private void assertPlayersHaveMatchingHands(Set<Player> declaredWinnersOfHand) {
-		Assert.assertSame(2, declaredWinnersOfHand.size());
+		Assert.assertEquals(2, declaredWinnersOfHand.size());
 		Assert.assertTrue(declaredWinnersOfHand.contains(player1));
 		Assert.assertTrue(declaredWinnersOfHand.contains(player2));
 	}
 	
 	private void assertGivenPlayerIsWinner(Set<Player> declaredWinnersOfHand, Player declaredWinnerOfHand) {
-		Assert.assertSame(1, declaredWinnersOfHand.size());
+		Assert.assertEquals(1, declaredWinnersOfHand.size());
 		Assert.assertTrue(declaredWinnersOfHand.contains(declaredWinnerOfHand));
 	}
 	

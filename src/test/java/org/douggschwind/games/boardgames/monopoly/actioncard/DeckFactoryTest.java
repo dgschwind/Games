@@ -49,7 +49,7 @@ public class DeckFactoryTest {
 			} catch (IllegalStateException ignored) {
 				Set<String> uniqueCardNames = dealtCards.stream().map(dc -> dc.getCardName()).collect(Collectors.toSet());
 				Assert.assertEquals(EXPECTED_COMMUNITY_CHEST_DECK_SIZE, uniqueCardNames.size());
-				Assert.assertSame(EXPECTED_COMMUNITY_CHEST_DECK_SIZE, dealtCards.size());
+				Assert.assertEquals(EXPECTED_COMMUNITY_CHEST_DECK_SIZE, dealtCards.size());
 			}
 		}
 	}

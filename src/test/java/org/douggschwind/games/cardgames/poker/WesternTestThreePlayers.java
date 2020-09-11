@@ -52,7 +52,7 @@ public class WesternTestThreePlayers {
 		
 		// In this case, player three is the winner with a full house.
 		Set<Player> handWinners = underTest.determineWinners();
-		Assert.assertSame(1, handWinners.size());
+		Assert.assertEquals(1, handWinners.size());
 		Assert.assertTrue(handWinners.contains(player3));
 	}
 	
@@ -81,7 +81,7 @@ public class WesternTestThreePlayers {
 		
 		// In this case, player one is the winner
 		Set<Player> handWinners = underTest.determineWinners();
-		Assert.assertSame(1, handWinners.size());
+		Assert.assertEquals(1, handWinners.size());
 		Assert.assertTrue(handWinners.contains(player1));
 		
 	}
@@ -109,7 +109,7 @@ public class WesternTestThreePlayers {
 		// In this case, all three hands match identically, and not one of
 		// them loses to the others.
 		Set<Player> handWinners = underTest.determineWinners();
-		Assert.assertSame(3, handWinners.size());
+		Assert.assertEquals(3, handWinners.size());
 		Assert.assertTrue(handWinners.contains(player1));
 		Assert.assertTrue(handWinners.contains(player2));
 		Assert.assertTrue(handWinners.contains(player3));
@@ -137,7 +137,7 @@ public class WesternTestThreePlayers {
 		
 		// In this case, player two is the winner
 		Set<Player> handWinners = underTest.determineWinners();
-		Assert.assertSame(1, handWinners.size());
+		Assert.assertEquals(1, handWinners.size());
 		Assert.assertTrue(handWinners.contains(player2));
 	}
 	
@@ -164,7 +164,7 @@ public class WesternTestThreePlayers {
 		// In this case, all three hands match identically, and not one of
 		// them loses to the others.
 		Set<Player> handWinners = underTest.determineWinners();
-		Assert.assertSame(3, handWinners.size());
+		Assert.assertEquals(3, handWinners.size());
 		Assert.assertTrue(handWinners.contains(player1));
 		Assert.assertTrue(handWinners.contains(player2));
 		Assert.assertTrue(handWinners.contains(player3));
@@ -192,7 +192,7 @@ public class WesternTestThreePlayers {
 		
 		// Player two is the winner
 		Set<Player> handWinners = underTest.determineWinners();
-		Assert.assertSame(1, handWinners.size());
+		Assert.assertEquals(1, handWinners.size());
 		Assert.assertTrue(handWinners.contains(player2));
 	}
 }
