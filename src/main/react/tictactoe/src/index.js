@@ -75,7 +75,7 @@ class Board extends React.Component {
     return (this.state.hasGameEndedInTie || this.state.winner);
   }
 
-  handleCellClick(i) {
+  handleSquareClick(i) {
     if (this.state.squareOwners[i]) {
       // One of the players already owns this square, ignore this click.
       return;
@@ -97,7 +97,7 @@ class Board extends React.Component {
   }
 
   renderSquare(i) {
-    return <Square owner={this.state.squareOwners[i]} clickHandler={() => this.handleCellClick(i)}/>;
+    return <Square owner={this.state.squareOwners[i]} clickHandler={() => this.handleSquareClick(i)}/>;
   }
 
   playAgain() {
