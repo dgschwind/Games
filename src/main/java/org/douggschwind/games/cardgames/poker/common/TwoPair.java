@@ -1,15 +1,15 @@
 package org.douggschwind.games.cardgames.poker.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * @author Doug Gschwind
  */
 public class TwoPair extends MatchedKind {
 	
-	private final Card.Kind lowerValuedKind;
+	private final FrenchSuitedPlayingCard.Kind lowerValuedKind;
 
-	public TwoPair(Card.Kind higherValuedKind, Card.Kind lowerValuedKind) {
+	public TwoPair(FrenchSuitedPlayingCard.Kind higherValuedKind, FrenchSuitedPlayingCard.Kind lowerValuedKind) {
 		super(higherValuedKind);
 		this.lowerValuedKind = lowerValuedKind;
 	}
@@ -19,11 +19,11 @@ public class TwoPair extends MatchedKind {
 		return 8;
 	}
 	
-	public Card.Kind getHigherValuedKind() {
+	public FrenchSuitedPlayingCard.Kind getHigherValuedKind() {
 		return getKind();
 	}
 	
-	public Card.Kind getLowerValuedKind() {
+	public FrenchSuitedPlayingCard.Kind getLowerValuedKind() {
 		return lowerValuedKind;
 	}
 

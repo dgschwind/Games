@@ -1,6 +1,6 @@
 package org.douggschwind.games.cardgames.wildcardpoker;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * @author Doug Gschwind
@@ -31,9 +31,9 @@ public class TypeOfStraightThatCanBeFormed {
 	}
 	
 	private final StraightType straightType;
-	private final Card.Kind highCardKind;
+	private final FrenchSuitedPlayingCard.Kind highCardKind;
 
-	public TypeOfStraightThatCanBeFormed(StraightType straightType, Card.Kind highCardKind) {
+	public TypeOfStraightThatCanBeFormed(StraightType straightType, FrenchSuitedPlayingCard.Kind highCardKind) {
 		this.straightType = straightType;
 		this.highCardKind = highCardKind;
 	}
@@ -58,7 +58,7 @@ public class TypeOfStraightThatCanBeFormed {
 		return straightType;
 	}
 
-	public Card.Kind getHighCardKind() {
+	public FrenchSuitedPlayingCard.Kind getHighCardKind() {
 		return highCardKind;
 	}
 }

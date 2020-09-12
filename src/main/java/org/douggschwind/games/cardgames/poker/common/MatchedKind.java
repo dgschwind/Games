@@ -1,20 +1,20 @@
 package org.douggschwind.games.cardgames.poker.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * @author Doug Gschwind
  */
 public abstract class MatchedKind extends HandStrength {
 	
-	private final Card.Kind kind;
+	private final FrenchSuitedPlayingCard.Kind kind;
 
-	protected MatchedKind(Card.Kind kind) {
+	protected MatchedKind(FrenchSuitedPlayingCard.Kind kind) {
 		super();
 		this.kind = kind;
 	}
 	
-	public Card.Kind getKind() {
+	public FrenchSuitedPlayingCard.Kind getKind() {
 		return kind;
 	}
 	

@@ -1,13 +1,13 @@
 package org.douggschwind.games.cardgames.poker.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * @author Doug Gschwind
  */
 public class Pair extends MatchedKind {
 	
-	public Pair(Card.Kind kind) {
+	public Pair(FrenchSuitedPlayingCard.Kind kind) {
 		super(kind);
 	}
 	

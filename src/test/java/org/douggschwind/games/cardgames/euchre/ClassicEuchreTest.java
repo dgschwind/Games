@@ -1,6 +1,6 @@
 package org.douggschwind.games.cardgames.euchre;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.common.Player;
 import org.junit.Assert;
 import org.junit.Test;
@@ -56,25 +56,25 @@ public class ClassicEuchreTest {
 
         // Lets make sure that the cards in any one Player's hand are NOT
         // found in any of the other Player's hands.
-        for (Card player1Card : player1.getHand()) {
+        for (FrenchSuitedPlayingCard player1Card : player1.getHand()) {
             Assert.assertFalse(player2.getHand().contains(player1Card));
             Assert.assertFalse(player3.getHand().contains(player1Card));
             Assert.assertFalse(player4.getHand().contains(player1Card));
         }
 
-        for (Card player2Card : player2.getHand()) {
+        for (FrenchSuitedPlayingCard player2Card : player2.getHand()) {
             Assert.assertFalse(player1.getHand().contains(player2Card));
             Assert.assertFalse(player3.getHand().contains(player2Card));
             Assert.assertFalse(player4.getHand().contains(player2Card));
         }
 
-        for (Card player3Card : player3.getHand()) {
+        for (FrenchSuitedPlayingCard player3Card : player3.getHand()) {
             Assert.assertFalse(player1.getHand().contains(player3Card));
             Assert.assertFalse(player2.getHand().contains(player3Card));
             Assert.assertFalse(player4.getHand().contains(player3Card));
         }
 
-        for (Card player4Card : player4.getHand()) {
+        for (FrenchSuitedPlayingCard player4Card : player4.getHand()) {
             Assert.assertFalse(player1.getHand().contains(player4Card));
             Assert.assertFalse(player2.getHand().contains(player4Card));
             Assert.assertFalse(player3.getHand().contains(player4Card));

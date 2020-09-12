@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.poker.common.FiveOfAKind;
 import org.douggschwind.games.cardgames.poker.common.FourOfAKind;
 import org.douggschwind.games.cardgames.poker.common.HandStrength;
@@ -16,20 +16,20 @@ import org.douggschwind.games.cardgames.poker.common.HandStrength;
  */
 public abstract class WildCardHand {
 	
-	private final Map<Card.Kind, Integer> numNonWildKindOccurrencesMap;
+	private final Map<FrenchSuitedPlayingCard.Kind, Integer> numNonWildKindOccurrencesMap;
 	private final int numDistinctNonWildSuits;
-	private final List<Card> sortedNonWildCardsInHand = new ArrayList<>();
-	private final Card nonWildHighCard;
-	private final Card nonWildLowCard;
+	private final List<FrenchSuitedPlayingCard> sortedNonWildCardsInHand = new ArrayList<>();
+	private final FrenchSuitedPlayingCard nonWildHighCard;
+	private final FrenchSuitedPlayingCard nonWildLowCard;
 	
 	/**
 	 * @param numDistinctNonWildKinds
 	 * @param sortedNonWildCardsInHand Must be non-null and non-empty, and sorted by Kind
 	 * in descending order.
 	 */
-	protected WildCardHand(Map<Card.Kind, Integer> numNonWildKindOccurrencesMap,
+	protected WildCardHand(Map<FrenchSuitedPlayingCard.Kind, Integer> numNonWildKindOccurrencesMap,
 			               int numDistinctNonWildSuits,
-			               List<Card> sortedNonWildCardsInHand) {
+			               List<FrenchSuitedPlayingCard> sortedNonWildCardsInHand) {
 		super();
 		this.numNonWildKindOccurrencesMap = numNonWildKindOccurrencesMap;
 		this.numDistinctNonWildSuits = numDistinctNonWildSuits;
@@ -38,7 +38,7 @@ public abstract class WildCardHand {
 		this.nonWildLowCard = sortedNonWildCardsInHand.get(sortedNonWildCardsInHand.size() - 1);
 	}
 	
-	protected Map<Card.Kind, Integer> getNumNonWildKindOccurrencesMap() {
+	protected Map<FrenchSuitedPlayingCard.Kind, Integer> getNumNonWildKindOccurrencesMap() {
 		return numNonWildKindOccurrencesMap;
 	}
 	
@@ -60,28 +60,28 @@ public abstract class WildCardHand {
 		return (getNumDistinctNonWildSuits() == 1);
 	}
 	
-	protected List<Card> getSortedNonWildCardsInHand() {
+	protected List<FrenchSuitedPlayingCard> getSortedNonWildCardsInHand() {
 		return sortedNonWildCardsInHand;
 	}
 	
-	protected final Card getNonWildHighCard() {
+	protected final FrenchSuitedPlayingCard getNonWildHighCard() {
 		return nonWildHighCard;
 	}
 	
-	protected final Card getNonWildLowCard() {
+	protected final FrenchSuitedPlayingCard getNonWildLowCard() {
 		return nonWildLowCard;
 	}
 	
-	protected FiveOfAKind createFiveOfAKind(Card.Kind kind) {
+	protected FiveOfAKind createFiveOfAKind(FrenchSuitedPlayingCard.Kind kind) {
 		return new FiveOfAKind(kind);
 	}
 	
-	protected FourOfAKind createFourOfAKind(Card.Kind kind) {
+	protected FourOfAKind createFourOfAKind(FrenchSuitedPlayingCard.Kind kind) {
 		return new FourOfAKind(kind);
 	}
 	
 	protected int computeDistanceBetweenHighAndLowCards() {
-		return Card.Kind.computeDistance(getNonWildLowCard().getKind(), getNonWildHighCard().getKind());
+		return FrenchSuitedPlayingCard.Kind.computeDistance(getNonWildLowCard().getKind(), getNonWildHighCard().getKind());
 	}
 	
 	/**
@@ -90,17 +90,17 @@ public abstract class WildCardHand {
 	 * @return Will be non-null.
 	 */
 	protected final TypeOfStraightThatCanBeFormed determineTypeOfStraightThatCanBeFormed() {
-		Card highCard = getNonWildHighCard();
-		Card lowCard = getNonWildLowCard();
+		FrenchSuitedPlayingCard highCard = getNonWildHighCard();
+		FrenchSuitedPlayingCard lowCard = getNonWildLowCard();
 		
 		int highAndLowCardDistance = computeDistanceBetweenHighAndLowCards();
 		if (highAndLowCardDistance <= 4) {
 			// The wild cards can be used to make at least a Straight Flush
-			Boolean lowCardIsTenOrHigher = lowCard.getKind().hasHigherRank(Card.Kind.Nine);
+			Boolean lowCardIsTenOrHigher = lowCard.getKind().hasHigherRank(FrenchSuitedPlayingCard.Kind.Nine);
 			if ((lowCardIsTenOrHigher != null) && (lowCardIsTenOrHigher.booleanValue())) {
-				return new TypeOfStraightThatCanBeFormed(TypeOfStraightThatCanBeFormed.StraightType.ACE_HIGH_STRAIGHT, Card.Kind.Ace);
+				return new TypeOfStraightThatCanBeFormed(TypeOfStraightThatCanBeFormed.StraightType.ACE_HIGH_STRAIGHT, FrenchSuitedPlayingCard.Kind.Ace);
 			} else {
-				Card.Kind straightFlushHighKind = highCard.getKind();
+				FrenchSuitedPlayingCard.Kind straightFlushHighKind = highCard.getKind();
 				switch (highAndLowCardDistance) {
 					case 1:
 						straightFlushHighKind = straightFlushHighKind.getNextHigherRankingKind();
@@ -114,11 +114,11 @@ public abstract class WildCardHand {
 			}
 		} else {
 			if (highCard.isAce()) {
-				Card secondHighestCard = getSortedNonWildCardsInHand().get(1);
-				Boolean secondHighestCardIsFiveOrLower = secondHighestCard.getKind().hasLowerRank(Card.Kind.Six);
+				FrenchSuitedPlayingCard secondHighestCard = getSortedNonWildCardsInHand().get(1);
+				Boolean secondHighestCardIsFiveOrLower = secondHighestCard.getKind().hasLowerRank(FrenchSuitedPlayingCard.Kind.Six);
 				if ((secondHighestCardIsFiveOrLower != null) && (secondHighestCardIsFiveOrLower.booleanValue())) {
 					// Ace low straight
-					return new TypeOfStraightThatCanBeFormed(TypeOfStraightThatCanBeFormed.StraightType.ACE_LOW_STRAIGHT, Card.Kind.Five);
+					return new TypeOfStraightThatCanBeFormed(TypeOfStraightThatCanBeFormed.StraightType.ACE_LOW_STRAIGHT, FrenchSuitedPlayingCard.Kind.Five);
 				}
 			}
 		}

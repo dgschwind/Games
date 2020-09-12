@@ -24,7 +24,7 @@ public class PlayerTest {
 
     @Test
     public void testNewHand() {
-        DeckOfCards<Card> standardDeck = DeckFactory.createStandardDeck();
+        DeckOfCards<FrenchSuitedPlayingCard> standardDeck = DeckFactory.createStandardDeck();
         standardDeck.shuffle();
 
         Player player1 = new Player();

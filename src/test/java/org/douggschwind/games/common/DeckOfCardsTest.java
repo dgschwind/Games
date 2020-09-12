@@ -1,47 +1,47 @@
 package org.douggschwind.games.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class DeckOfCardsTest {
     @Test
     public void testDeckOfCardsLifecycle() {
-        DeckOfCards<Card> underTest = new DeckOfCards<>();
+        DeckOfCards<FrenchSuitedPlayingCard> underTest = new DeckOfCards<>();
 
-        underTest.addCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
-        underTest.addCard(new Card(Card.Kind.King, Card.Suit.Spades));
-        underTest.addCard(new Card(Card.Kind.Queen, Card.Suit.Spades));
-        underTest.addCard(new Card(Card.Kind.Jack, Card.Suit.Spades));
-        underTest.addCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
+        underTest.addCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
+        underTest.addCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.King, FrenchSuitedPlayingCard.Suit.Spades));
+        underTest.addCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Queen, FrenchSuitedPlayingCard.Suit.Spades));
+        underTest.addCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Jack, FrenchSuitedPlayingCard.Suit.Spades));
+        underTest.addCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Spades));
 
         Assert.assertEquals(5, underTest.size());
 
         underTest.shuffle();
         Assert.assertFalse(underTest.haveAllCardsBeenDealt());
 
-        Card card1 = underTest.dealCard();
-        Assert.assertEquals(Card.Suit.Spades, card1.getSuit());
+        FrenchSuitedPlayingCard card1 = underTest.dealCard();
+        Assert.assertEquals(FrenchSuitedPlayingCard.Suit.Spades, card1.getSuit());
         Assert.assertTrue(underTest.hasCardBeenDealt(card1));
         Assert.assertFalse(underTest.haveAllCardsBeenDealt());
 
-        Card card2 = underTest.dealCard();
-        Assert.assertEquals(Card.Suit.Spades, card2.getSuit());
+        FrenchSuitedPlayingCard card2 = underTest.dealCard();
+        Assert.assertEquals(FrenchSuitedPlayingCard.Suit.Spades, card2.getSuit());
         Assert.assertTrue(underTest.hasCardBeenDealt(card2));
         Assert.assertFalse(underTest.haveAllCardsBeenDealt());
 
-        Card card3 = underTest.dealCard();
-        Assert.assertEquals(Card.Suit.Spades, card3.getSuit());
+        FrenchSuitedPlayingCard card3 = underTest.dealCard();
+        Assert.assertEquals(FrenchSuitedPlayingCard.Suit.Spades, card3.getSuit());
         Assert.assertTrue(underTest.hasCardBeenDealt(card3));
         Assert.assertFalse(underTest.haveAllCardsBeenDealt());
 
-        Card card4 = underTest.dealCard();
-        Assert.assertEquals(Card.Suit.Spades, card4.getSuit());
+        FrenchSuitedPlayingCard card4 = underTest.dealCard();
+        Assert.assertEquals(FrenchSuitedPlayingCard.Suit.Spades, card4.getSuit());
         Assert.assertTrue(underTest.hasCardBeenDealt(card4));
         Assert.assertFalse(underTest.haveAllCardsBeenDealt());
 
-        Card card5 = underTest.dealCard();
-        Assert.assertEquals(Card.Suit.Spades, card5.getSuit());
+        FrenchSuitedPlayingCard card5 = underTest.dealCard();
+        Assert.assertEquals(FrenchSuitedPlayingCard.Suit.Spades, card5.getSuit());
         Assert.assertTrue(underTest.hasCardBeenDealt(card5));
         Assert.assertTrue(underTest.haveAllCardsBeenDealt());
 

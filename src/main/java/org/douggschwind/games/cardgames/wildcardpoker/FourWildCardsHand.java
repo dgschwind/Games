@@ -3,7 +3,7 @@ package org.douggschwind.games.cardgames.wildcardpoker;
 import java.util.List;
 import java.util.Map;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.poker.common.HandStrength;
 
 /**
@@ -19,11 +19,11 @@ public class FourWildCardsHand extends WildCardHand {
 	 * per Kind in the hand.
 	 * @param sortedNonWildCardsInHand Must be non-null.
 	 */
-	public FourWildCardsHand(Map<Card.Kind, Integer> numNonWildKindOccurrencesMap, List<Card> sortedNonWildCardsInHand) {
+	public FourWildCardsHand(Map<FrenchSuitedPlayingCard.Kind, Integer> numNonWildKindOccurrencesMap, List<FrenchSuitedPlayingCard> sortedNonWildCardsInHand) {
 		super(numNonWildKindOccurrencesMap, 1, sortedNonWildCardsInHand);
 	}
 	
-	private Card getNonWildCardInHand() {
+	private FrenchSuitedPlayingCard getNonWildCardInHand() {
 		return getSortedNonWildCardsInHand().iterator().next();
 	}
 	

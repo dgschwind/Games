@@ -1,6 +1,6 @@
 package org.douggschwind.games.cardgames.poker.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * In the case of a Full House, we only care about the Kind 
@@ -11,7 +11,7 @@ import org.douggschwind.games.cardgames.common.Card;
  */
 public class FullHouse extends MatchedKind {
 
-	public FullHouse(Card.Kind kind) {
+	public FullHouse(FrenchSuitedPlayingCard.Kind kind) {
 		super(kind);
 	}
 

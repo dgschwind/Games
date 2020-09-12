@@ -1,6 +1,6 @@
 package org.douggschwind.games.cardgames.poker;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.common.Player;
 import org.douggschwind.games.cardgames.poker.common.Flush;
 import org.douggschwind.games.cardgames.poker.common.FourOfAKind;
@@ -35,15 +35,15 @@ public class WesternHandStrengthTest {
 	@Test
 	public void testIsStrongerThan() {
 		RoyalFlush royalFlush = new RoyalFlush();
-		StraightFlush jackHighStraightFlush = new StraightFlush(Card.Kind.Jack);
-		FourOfAKind fourTens = new FourOfAKind(Card.Kind.Ten);
-		FullHouse acesBasedFullHouse = new FullHouse(Card.Kind.Ace);
-		Flush queenHighFlush = new Flush(Card.Kind.Queen);
-		Straight tenHighStraight = new Straight(Card.Kind.Ten);
-		ThreeOfAKind tripleFours = new ThreeOfAKind(Card.Kind.Four);
-		TwoPair acesAndEights = new TwoPair(Card.Kind.Ace, Card.Kind.Eight);
-		Pair pairJacks = new Pair(Card.Kind.Jack);
-		HighCard queenHigh = new HighCard(Card.Kind.Queen);
+		StraightFlush jackHighStraightFlush = new StraightFlush(FrenchSuitedPlayingCard.Kind.Jack);
+		FourOfAKind fourTens = new FourOfAKind(FrenchSuitedPlayingCard.Kind.Ten);
+		FullHouse acesBasedFullHouse = new FullHouse(FrenchSuitedPlayingCard.Kind.Ace);
+		Flush queenHighFlush = new Flush(FrenchSuitedPlayingCard.Kind.Queen);
+		Straight tenHighStraight = new Straight(FrenchSuitedPlayingCard.Kind.Ten);
+		ThreeOfAKind tripleFours = new ThreeOfAKind(FrenchSuitedPlayingCard.Kind.Four);
+		TwoPair acesAndEights = new TwoPair(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Kind.Eight);
+		Pair pairJacks = new Pair(FrenchSuitedPlayingCard.Kind.Jack);
+		HighCard queenHigh = new HighCard(FrenchSuitedPlayingCard.Kind.Queen);
 		
 		Assert.assertNull(royalFlush.isStrongerThan(royalFlush));
 		Assert.assertTrue(royalFlush.isStrongerThan(jackHighStraightFlush));
@@ -158,145 +158,145 @@ public class WesternHandStrengthTest {
 
 	@Test
 	public void testDetermineHandStrengthRoyalFlush() {
-		player.acceptDealtCard(new Card(Card.Kind.Queen, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Jack, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.King, Card.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Queen, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Jack, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.King, FrenchSuitedPlayingCard.Suit.Spades));
 		Assert.assertEquals(RoyalFlush.class, underTest.determinePlayerHandStrength(player).getClass());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthStraightFlush() {
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Six, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Hearts));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(StraightFlush.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Ten, ((StraightFlush) actualHandStrength).getHighCardKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Ten, ((StraightFlush) actualHandStrength).getHighCardKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthAceLowStraightFlush() {
-		player.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Two, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Three, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Four, Card.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Two, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Three, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Four, FrenchSuitedPlayingCard.Suit.Hearts));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(StraightFlush.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Five, ((StraightFlush) actualHandStrength).getHighCardKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Five, ((StraightFlush) actualHandStrength).getHighCardKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthFourOfAKind() {
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Clubs));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Six, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Clubs));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(FourOfAKind.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Eight, ((FourOfAKind) actualHandStrength).getKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Eight, ((FourOfAKind) actualHandStrength).getKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthFullHouse() {
-		player.acceptDealtCard(new Card(Card.Kind.King, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.King, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.King, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Clubs));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.King, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.King, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.King, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Clubs));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(FullHouse.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.King, ((FullHouse) actualHandStrength).getKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.King, ((FullHouse) actualHandStrength).getKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthFlush() {
-		player.acceptDealtCard(new Card(Card.Kind.Four, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Jack, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Two, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Four, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Jack, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Two, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Diamonds));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(Flush.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Jack, ((Flush) actualHandStrength).getHighCardKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Jack, ((Flush) actualHandStrength).getHighCardKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthStraight() {
-		player.acceptDealtCard(new Card(Card.Kind.Four, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Clubs));
-		player.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Four, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Clubs));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Six, FrenchSuitedPlayingCard.Suit.Diamonds));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(Straight.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Eight, ((Straight) actualHandStrength).getHighCardKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Eight, ((Straight) actualHandStrength).getHighCardKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthAceLowStraight() {
-		player.acceptDealtCard(new Card(Card.Kind.Four, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Two, Card.Suit.Clubs));
-		player.acceptDealtCard(new Card(Card.Kind.Three, Card.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Four, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Two, FrenchSuitedPlayingCard.Suit.Clubs));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Three, FrenchSuitedPlayingCard.Suit.Diamonds));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(Straight.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Five, ((Straight) actualHandStrength).getHighCardKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Five, ((Straight) actualHandStrength).getHighCardKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthThreeOfAKind() {
-		player.acceptDealtCard(new Card(Card.Kind.Four, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Four, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Clubs));
-		player.acceptDealtCard(new Card(Card.Kind.Four, Card.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Four, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Four, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Clubs));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Four, FrenchSuitedPlayingCard.Suit.Hearts));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(ThreeOfAKind.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Four, ((ThreeOfAKind) actualHandStrength).getKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Four, ((ThreeOfAKind) actualHandStrength).getKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthTwoPair() {
 		// Dead man's hand, A's and 8's.
-		player.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Clubs));
-		player.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Clubs));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Hearts));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(TwoPair.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Ace, ((TwoPair) actualHandStrength).getHigherValuedKind());
-		Assert.assertEquals(Card.Kind.Eight, ((TwoPair) actualHandStrength).getLowerValuedKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Ace, ((TwoPair) actualHandStrength).getHigherValuedKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Eight, ((TwoPair) actualHandStrength).getLowerValuedKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthPair() {
-		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Queen, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Clubs));
-		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Queen, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Clubs));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Hearts));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(Pair.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Ten, ((Pair) actualHandStrength).getKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Ten, ((Pair) actualHandStrength).getKind());
 	}
 	
 	@Test
 	public void testDetermineHandStrengthHighCard() {
-		player.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
-		player.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Spades));
-		player.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Hearts));
-		player.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Clubs));
-		player.acceptDealtCard(new Card(Card.Kind.Two, Card.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Spades));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Hearts));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Clubs));
+		player.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Two, FrenchSuitedPlayingCard.Suit.Hearts));
 		HandStrength actualHandStrength = underTest.determinePlayerHandStrength(player);
 		Assert.assertEquals(HighCard.class, actualHandStrength.getClass());
-		Assert.assertEquals(Card.Kind.Ten, ((HighCard) actualHandStrength).getHighCardKind());
+		Assert.assertEquals(FrenchSuitedPlayingCard.Kind.Ten, ((HighCard) actualHandStrength).getHighCardKind());
 	}
 }

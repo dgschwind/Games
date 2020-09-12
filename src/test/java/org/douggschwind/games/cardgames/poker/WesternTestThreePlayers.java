@@ -1,6 +1,6 @@
 package org.douggschwind.games.cardgames.poker;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.common.Player;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,25 +30,25 @@ public class WesternTestThreePlayers {
 	@Test
 	public void testDetermineWinnersAscendingStrengthHands() {
 		// Player 1 has a ten high straight
-		player1.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Clubs));
-		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
-		player1.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Clubs));
-		player1.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Hearts));
-		player1.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Six, FrenchSuitedPlayingCard.Suit.Clubs));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Spades));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Clubs));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Hearts));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Spades));
 
 		// Player 2 has a flush
-		player2.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Diamonds));
 
 		// Player 3 has a full house
-		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Clubs));
-		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Hearts));
-		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
-		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Clubs));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Clubs));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Hearts));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Hearts));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Clubs));
 		
 		// In this case, player three is the winner with a full house.
 		Set<Player> handWinners = underTest.determineWinners();
@@ -59,25 +59,25 @@ public class WesternTestThreePlayers {
 	@Test
 	public void testDetermineWinnersDescendingStrengthHands() {
 		// Player 1 has a full house
-		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
-		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Clubs));
-		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Hearts));
-		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
-		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Clubs));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Clubs));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Hearts));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Hearts));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Clubs));
 
 		// Player 2 has a flush
-		player2.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Diamonds));
 
 		// Player 3 has a ten high straight
-		player3.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Clubs));
-		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Clubs));
-		player3.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Hearts));
-		player3.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Six, FrenchSuitedPlayingCard.Suit.Clubs));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Clubs));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Hearts));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Spades));
 		
 		// In this case, player one is the winner
 		Set<Player> handWinners = underTest.determineWinners();
@@ -88,23 +88,23 @@ public class WesternTestThreePlayers {
 	
 	@Test
 	public void testDetermineWinnersThreeMatchingFlushHands() {
-		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Diamonds));
 		
-		player2.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Clubs));
 		
-		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Spades));
 		
 		// In this case, all three hands match identically, and not one of
 		// them loses to the others.
@@ -117,23 +117,23 @@ public class WesternTestThreePlayers {
 	
 	@Test
 	public void testDetermineWinnersThreeVeryCloseFlushHands() {
-		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Three, Card.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Three, FrenchSuitedPlayingCard.Suit.Diamonds));
 		
-		player2.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Clubs));
 		
-		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Six, FrenchSuitedPlayingCard.Suit.Spades));
 		
 		// In this case, player two is the winner
 		Set<Player> handWinners = underTest.determineWinners();
@@ -143,23 +143,23 @@ public class WesternTestThreePlayers {
 	
 	@Test
 	public void testDetermineWinnersThreeMatchingeHighCardHands() {
-		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
-		player1.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Hearts));
-		player1.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Clubs));
-		player1.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Hearts));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Spades));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Hearts));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Clubs));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Hearts));
 		
-		player2.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Spades));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Spades));
 		
-		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
-		player3.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Diamonds));
-		player3.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Clubs));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Hearts));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Clubs));
 		
 		// In this case, all three hands match identically, and not one of
 		// them loses to the others.
@@ -172,23 +172,23 @@ public class WesternTestThreePlayers {
 	
 	@Test
 	public void testDetermineWinnersThreeVeryCloseHighCardHands() {
-		player1.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Diamonds));
-		player1.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Spades));
-		player1.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Hearts));
-		player1.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Clubs));
-		player1.acceptDealtCard(new Card(Card.Kind.Three, Card.Suit.Hearts));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Spades));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Hearts));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Clubs));
+		player1.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Three, FrenchSuitedPlayingCard.Suit.Hearts));
 		
-		player2.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Clubs));
-		player2.acceptDealtCard(new Card(Card.Kind.Eight, Card.Suit.Diamonds));
-		player2.acceptDealtCard(new Card(Card.Kind.Five, Card.Suit.Spades));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Clubs));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Eight, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Five, FrenchSuitedPlayingCard.Suit.Spades));
 		
-		player3.acceptDealtCard(new Card(Card.Kind.Ace, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Ten, Card.Suit.Hearts));
-		player3.acceptDealtCard(new Card(Card.Kind.Nine, Card.Suit.Diamonds));
-		player3.acceptDealtCard(new Card(Card.Kind.Seven, Card.Suit.Spades));
-		player3.acceptDealtCard(new Card(Card.Kind.Six, Card.Suit.Clubs));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Hearts));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Nine, FrenchSuitedPlayingCard.Suit.Diamonds));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Spades));
+		player3.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Six, FrenchSuitedPlayingCard.Suit.Clubs));
 		
 		// Player two is the winner
 		Set<Player> handWinners = underTest.determineWinners();

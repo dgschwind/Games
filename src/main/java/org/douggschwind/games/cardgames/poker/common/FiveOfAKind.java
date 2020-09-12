@@ -1,6 +1,6 @@
 package org.douggschwind.games.cardgames.poker.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * This hand is only possible when there are wild card(s)
@@ -10,7 +10,7 @@ import org.douggschwind.games.cardgames.common.Card;
  */
 public class FiveOfAKind extends MatchedKind {
 
-	public FiveOfAKind(Card.Kind kind) {
+	public FiveOfAKind(FrenchSuitedPlayingCard.Kind kind) {
 		super(kind);
 	}
 

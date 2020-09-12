@@ -1,13 +1,13 @@
 package org.douggschwind.games.cardgames.poker.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * @author Doug Gschwind
  */
 public class ThreeOfAKind extends MatchedKind {
 
-	public ThreeOfAKind(Card.Kind kind) {
+	public ThreeOfAKind(FrenchSuitedPlayingCard.Kind kind) {
 		super(kind);
 	}
 

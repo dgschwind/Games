@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.common.DeckFactory;
 import org.douggschwind.games.cardgames.common.Player;
 import org.douggschwind.games.cardgames.common.StandardDeckCardGame;
@@ -29,7 +29,7 @@ import org.douggschwind.games.cardgames.poker.common.TwoPair;
  */
 public class TexasHoldEm extends StandardDeckCardGame {
 	
-	private Set<Card> riverCards = new HashSet<>();
+	private Set<FrenchSuitedPlayingCard> riverCards = new HashSet<>();
 
 	public TexasHoldEm() {
 		super(DeckFactory.createStandardDeck());
@@ -54,24 +54,24 @@ public class TexasHoldEm extends StandardDeckCardGame {
 	}
 	
 	private HandStrength determinePlayerHandStrengthNoMatchingKinds(Player player) {
-		Map<Card.Suit, Integer> numSuitOccurrences = determineNumSuitOccurrencesInHand(player);
+		Map<FrenchSuitedPlayingCard.Suit, Integer> numSuitOccurrences = determineNumSuitOccurrencesInHand(player);
 		// Make a copy of the player's hand so that we leave the players hand in
 		// its originally dealt form.
-		List<Card> playerHand = new ArrayList<>(player.getHand());
+		List<FrenchSuitedPlayingCard> playerHand = new ArrayList<>(player.getHand());
 		Collections.sort(playerHand);
-		Card lowCard = playerHand.get(4);
-		Card highCard = playerHand.get(0);
-		Card secondHighestCard = playerHand.get(1);
-		int lowToHighDistance = Card.Kind.computeDistance(lowCard.getKind(), highCard.getKind());
+		FrenchSuitedPlayingCard lowCard = playerHand.get(4);
+		FrenchSuitedPlayingCard highCard = playerHand.get(0);
+		FrenchSuitedPlayingCard secondHighestCard = playerHand.get(1);
+		int lowToHighDistance = FrenchSuitedPlayingCard.Kind.computeDistance(lowCard.getKind(), highCard.getKind());
 		if (numSuitOccurrences.size() == 1) {
 			// Player has a flush, straight flush, or royal flush
 			if (lowToHighDistance == 4) {
 				// Player has a straight flush or a royal flush
 				return highCard.isAce() ? new RoyalFlush() : new StraightFlush(highCard.getKind());
 			} else if (highCard.isAce()) {
-				lowToHighDistance = Card.Kind.computeDistance(lowCard.getKind(), secondHighestCard.getKind());
+				lowToHighDistance = FrenchSuitedPlayingCard.Kind.computeDistance(lowCard.getKind(), secondHighestCard.getKind());
 				if ((lowToHighDistance == 3) &&
-					(lowCard.getKind() == Card.Kind.Two)) {
+					(lowCard.getKind() == FrenchSuitedPlayingCard.Kind.Two)) {
 					// Ace low straight flush
 					return new StraightFlush(secondHighestCard.getKind());
 				}
@@ -84,9 +84,9 @@ public class TexasHoldEm extends StandardDeckCardGame {
 			if (lowToHighDistance == 4) {
 				return new Straight(highCard.getKind());
 			} else if (highCard.isAce()) {
-				lowToHighDistance = Card.Kind.computeDistance(lowCard.getKind(), secondHighestCard.getKind());
+				lowToHighDistance = FrenchSuitedPlayingCard.Kind.computeDistance(lowCard.getKind(), secondHighestCard.getKind());
 				if ((lowToHighDistance == 3) &&
-					(lowCard.getKind() == Card.Kind.Two)) {
+					(lowCard.getKind() == FrenchSuitedPlayingCard.Kind.Two)) {
 					// Ace low straight
 					return new Straight(secondHighestCard.getKind());
 				}
@@ -97,9 +97,9 @@ public class TexasHoldEm extends StandardDeckCardGame {
 	
 	@Override
 	public HandStrength determinePlayerHandStrength(Player player) {
-		List<Card> playersHand = new ArrayList<>(riverCards);
+		List<FrenchSuitedPlayingCard> playersHand = new ArrayList<>(riverCards);
 		playersHand.addAll(player.getHand());
-		Map<Card.Kind, Integer> numKindOccurrences = determineNumKindOccurrencesInHand(playersHand);
+		Map<FrenchSuitedPlayingCard.Kind, Integer> numKindOccurrences = determineNumKindOccurrencesInHand(playersHand);
 		
 		if (numKindOccurrences.size() == 7) {
 			// Player has no matching kinds, but instead could have a

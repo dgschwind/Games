@@ -1,6 +1,6 @@
 package org.douggschwind.games.cardgames.poker.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * @author Doug Gschwind
@@ -8,7 +8,7 @@ import org.douggschwind.games.cardgames.common.Card;
 public class RoyalFlush extends StraightFlush {
 
 	public RoyalFlush() {
-		super(Card.Kind.Ace);
+		super(FrenchSuitedPlayingCard.Kind.Ace);
 	}
 	
 	@Override

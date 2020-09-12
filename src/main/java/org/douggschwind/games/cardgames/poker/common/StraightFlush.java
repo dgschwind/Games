@@ -1,13 +1,13 @@
 package org.douggschwind.games.cardgames.poker.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * @author Doug Gschwind
  */
 public class StraightFlush extends Straight {
 
-	public StraightFlush(Card.Kind highCardKind) {
+	public StraightFlush(FrenchSuitedPlayingCard.Kind highCardKind) {
 		super(highCardKind);
 	}
 	

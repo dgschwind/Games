@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.common.DeckFactory;
 import org.douggschwind.games.cardgames.common.Player;
 import org.douggschwind.games.cardgames.poker.common.Flush;
@@ -29,8 +29,8 @@ public class DeucesWild extends WildCardGame {
 		// Since Card instances are essentially ValueObjects, just create
 		// new Card instances to specify wild cards, rather than trying
 		// to obtain the correct Card references out of the deck.
-		for (Card.Suit suit : Card.Suit.values()) {
-			addWildCard(new Card(Card.Kind.Two, suit));
+		for (FrenchSuitedPlayingCard.Suit suit : FrenchSuitedPlayingCard.Suit.values()) {
+			addWildCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Two, suit));
 		}
 	}
 
@@ -47,17 +47,17 @@ public class DeucesWild extends WildCardGame {
 			return super.determinePlayerHandStrength(player);
 		}
 		
-		final Map<Card.Kind, Integer> numKindOccurrencesMap = determineNumKindOccurrencesInHand(player.getHand());
+		final Map<FrenchSuitedPlayingCard.Kind, Integer> numKindOccurrencesMap = determineNumKindOccurrencesInHand(player.getHand());
 		
 		// Now that we know the non-zero number of wild cards in the player's hand
 		// we can remove Card.Kind.Two from the map.
-		Map<Card.Kind, Integer> numNonWildKindOccurrencesMap = new HashMap<>(numKindOccurrencesMap);
-		numNonWildKindOccurrencesMap.remove(Card.Kind.Two);
+		Map<FrenchSuitedPlayingCard.Kind, Integer> numNonWildKindOccurrencesMap = new HashMap<>(numKindOccurrencesMap);
+		numNonWildKindOccurrencesMap.remove(FrenchSuitedPlayingCard.Kind.Two);
 		
-		List<Card> sortedNonWildCards = eliminateWildCards(player.getHand());
+		List<FrenchSuitedPlayingCard> sortedNonWildCards = eliminateWildCards(player.getHand());
 		// Sort the natural non wild cards into descending order.
 		Collections.sort(sortedNonWildCards);
-		Map<Card.Suit,Integer> nonWildCardNumSuitOccurrencesMap = determineNumSuitOccurrencesInHand(sortedNonWildCards);
+		Map<FrenchSuitedPlayingCard.Suit,Integer> nonWildCardNumSuitOccurrencesMap = determineNumSuitOccurrencesInHand(sortedNonWildCards);
 		
 		WildCardHand wildCardHand = WildCardHandFactory.create(numberOfWildCardsInHand,
 				                                               numNonWildKindOccurrencesMap,

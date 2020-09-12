@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.common.DeckFactory;
 import org.douggschwind.games.cardgames.common.Player;
 import org.douggschwind.games.cardgames.poker.common.Flush;
@@ -24,8 +24,8 @@ import org.douggschwind.games.cardgames.poker.common.TwoPair;
  */
 public class OneEyedJacksWild extends WildCardGame {
 	
-	private static final Card JACK_OF_SPADES = new Card(Card.Kind.Jack, Card.Suit.Spades);
-	private static final Card JACK_OF_HEARTS = new Card(Card.Kind.Jack, Card.Suit.Hearts);
+	private static final FrenchSuitedPlayingCard JACK_OF_SPADES = new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Jack, FrenchSuitedPlayingCard.Suit.Spades);
+	private static final FrenchSuitedPlayingCard JACK_OF_HEARTS = new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Jack, FrenchSuitedPlayingCard.Suit.Hearts);
 
 	public OneEyedJacksWild() {
 		super(DeckFactory.createStandardDeck());
@@ -49,26 +49,26 @@ public class OneEyedJacksWild extends WildCardGame {
 			return super.determinePlayerHandStrength(player);
 		}
 		
-		final Map<Card.Kind, Integer> numKindOccurrencesMap = determineNumKindOccurrencesInHand(player.getHand());
+		final Map<FrenchSuitedPlayingCard.Kind, Integer> numKindOccurrencesMap = determineNumKindOccurrencesInHand(player.getHand());
 
 		// Now lets determine if we have non-wild Jacks in the Player's hand.
-		Map<Card.Kind, Integer> numNonWildKindOccurrencesMap = new HashMap<>(numKindOccurrencesMap);
+		Map<FrenchSuitedPlayingCard.Kind, Integer> numNonWildKindOccurrencesMap = new HashMap<>(numKindOccurrencesMap);
 		int numberOfNonWildJacksInHand = 0;
-		for (Card card : player.getHand()) {
+		for (FrenchSuitedPlayingCard card : player.getHand()) {
 			if (card.isJack() && !isWildCard(card)) {
 				numberOfNonWildJacksInHand++;
 			}
 		}
 		if (numberOfNonWildJacksInHand > 0) {
-			numNonWildKindOccurrencesMap.put(Card.Kind.Jack, numberOfNonWildJacksInHand);
+			numNonWildKindOccurrencesMap.put(FrenchSuitedPlayingCard.Kind.Jack, numberOfNonWildJacksInHand);
 		} else {
-			numNonWildKindOccurrencesMap.remove(Card.Kind.Jack);
+			numNonWildKindOccurrencesMap.remove(FrenchSuitedPlayingCard.Kind.Jack);
 		}
 		
-		List<Card> sortedNonWildCards = eliminateWildCards(player.getHand());
+		List<FrenchSuitedPlayingCard> sortedNonWildCards = eliminateWildCards(player.getHand());
 		// Sort the natural non wild cards into descending order.
 		Collections.sort(sortedNonWildCards);
-		Map<Card.Suit,Integer> nonWildCardNumSuitOccurrencesMap = determineNumSuitOccurrencesInHand(sortedNonWildCards);
+		Map<FrenchSuitedPlayingCard.Suit,Integer> nonWildCardNumSuitOccurrencesMap = determineNumSuitOccurrencesInHand(sortedNonWildCards);
 		
 		WildCardHand wildCardHand = WildCardHandFactory.create(numberOfWildCardsInHand,
 				                                               numNonWildKindOccurrencesMap,

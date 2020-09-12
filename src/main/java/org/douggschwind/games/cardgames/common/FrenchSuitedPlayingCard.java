@@ -9,10 +9,10 @@ import org.douggschwind.games.common.AbstractCard;
 
 /**
  * An instance of the Card class represents a card from a standard deck of 52 cards, each
- * having a suit (e.g. Spades) and a kind (e.g. Ace).
+ * having a French suit (i.e. Spades, Clubs, Hearts, Diamonds) and a kind (e.g. Ace).
  * @author Doug Gschwind
  */
-public class Card implements AbstractCard, Comparable<Card> {
+public class FrenchSuitedPlayingCard implements AbstractCard, Comparable<FrenchSuitedPlayingCard> {
 	
 	public enum Kind implements Comparator<Kind> {
 		Ace(1, "A"),
@@ -115,7 +115,7 @@ public class Card implements AbstractCard, Comparable<Card> {
 		 * Sorts Kinds into descending order.
 		 */
 		@Override
-		public int compare(Card.Kind kind1, Card.Kind kind2) {
+		public int compare(FrenchSuitedPlayingCard.Kind kind1, FrenchSuitedPlayingCard.Kind kind2) {
 			return kind1.getRank() - kind2.getRank();
 		}
 	}
@@ -140,13 +140,13 @@ public class Card implements AbstractCard, Comparable<Card> {
 	private final Kind kind;
 	private final Suit suit;
 	
-	public static Set<Card.Kind> getDistinctCardKinds(List<Card> cards) {
-		Set<Card.Kind> result = new HashSet<>();
+	public static Set<FrenchSuitedPlayingCard.Kind> getDistinctCardKinds(List<FrenchSuitedPlayingCard> cards) {
+		Set<FrenchSuitedPlayingCard.Kind> result = new HashSet<>();
 		cards.forEach(cardInHand -> result.add(cardInHand.getKind()));
 		return result;
 	}
 	
-	public Card(Kind kind, Suit suit) {
+	public FrenchSuitedPlayingCard(Kind kind, Suit suit) {
 		this.kind = kind;
 		this.suit = suit;
 	}
@@ -169,7 +169,7 @@ public class Card implements AbstractCard, Comparable<Card> {
 			return false;
 		}
 		
-		Card that = (Card) wideThat;
+		FrenchSuitedPlayingCard that = (FrenchSuitedPlayingCard) wideThat;
 		
 		return this.getKind().equals(that.getKind()) && this.getSuit().equals(that.getSuit());
 	}
@@ -200,7 +200,7 @@ public class Card implements AbstractCard, Comparable<Card> {
 	}
 
 	@Override
-	public int compareTo(Card that) {
+	public int compareTo(FrenchSuitedPlayingCard that) {
 		return this.getKind().getRank() - that.getKind().getRank();
 	}
 	

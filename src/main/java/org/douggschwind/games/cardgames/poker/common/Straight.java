@@ -1,15 +1,15 @@
 package org.douggschwind.games.cardgames.poker.common;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * @author Doug Gschwind
  */
 public class Straight extends HandStrength {
 	
-	private final Card.Kind highCardKind;
+	private final FrenchSuitedPlayingCard.Kind highCardKind;
 
-	public Straight(Card.Kind highCardKind) {
+	public Straight(FrenchSuitedPlayingCard.Kind highCardKind) {
 		super();
 		this.highCardKind = highCardKind;
 	}
@@ -19,7 +19,7 @@ public class Straight extends HandStrength {
 		return 6;
 	}
 	
-	public final Card.Kind getHighCardKind() {
+	public final FrenchSuitedPlayingCard.Kind getHighCardKind() {
 		return highCardKind;
 	}
 	

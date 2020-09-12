@@ -3,7 +3,7 @@ package org.douggschwind.games.cardgames.wildcardpoker;
 import java.util.List;
 import java.util.Map;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 
 /**
  * Creates an appropriate WildCardHand instance to most easily
@@ -25,9 +25,9 @@ public class WildCardHandFactory {
 	 * @throws IllegalArgumentException
 	 */
 	public static WildCardHand create(int numberWildCardsInHand,
-			                          Map<Card.Kind, Integer> numNonWildKindOccurrencesMap,
+			                          Map<FrenchSuitedPlayingCard.Kind, Integer> numNonWildKindOccurrencesMap,
 			                          int numDistinctNonWildSuits,
-			                          List<Card> sortedNonWildCardsInHand) {
+			                          List<FrenchSuitedPlayingCard> sortedNonWildCardsInHand) {
 		switch (numberWildCardsInHand) {
 			case 1:
 				return new OneWildCardHand(numNonWildKindOccurrencesMap, numDistinctNonWildSuits, sortedNonWildCardsInHand);

@@ -3,7 +3,7 @@ package org.douggschwind.games.cardgames.euchre;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.common.DeckFactory;
 import org.douggschwind.games.cardgames.common.Player;
 import org.douggschwind.games.cardgames.common.StandardDeckCardGame;
@@ -27,7 +27,7 @@ import org.douggschwind.games.cardgames.poker.common.HandStrength;
  */
 public class ClassicEuchre extends StandardDeckCardGame {
 	
-	private List<Card> kitty = new ArrayList<>(4);
+	private List<FrenchSuitedPlayingCard> kitty = new ArrayList<>(4);
 
 	public ClassicEuchre() {
 		super(DeckFactory.createEuchreDeck());
@@ -71,7 +71,7 @@ public class ClassicEuchre extends StandardDeckCardGame {
 		dealCardsIntoKitty();
 	}
 	
-	public Card getInitialTrumpBiddingCardFromKitty() {
+	public FrenchSuitedPlayingCard getInitialTrumpBiddingCardFromKitty() {
 		return kitty.get(0); // Top card in kitty.
 	}
 }

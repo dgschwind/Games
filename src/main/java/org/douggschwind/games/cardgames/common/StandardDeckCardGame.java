@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import org.douggschwind.games.cardgames.common.Card.Kind;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard.Kind;
 import org.douggschwind.games.cardgames.poker.common.Flush;
 import org.douggschwind.games.cardgames.poker.common.FourOfAKind;
 import org.douggschwind.games.cardgames.poker.common.FullHouse;
@@ -33,14 +33,14 @@ import org.douggschwind.games.common.DeckOfCards;
  */
 public abstract class StandardDeckCardGame {
 	
-	private final DeckOfCards<Card> deck;
+	private final DeckOfCards<FrenchSuitedPlayingCard> deck;
 	private final List<Player> players = new ArrayList<>();
 	
-	protected StandardDeckCardGame(DeckOfCards<Card> deck) {
+	protected StandardDeckCardGame(DeckOfCards<FrenchSuitedPlayingCard> deck) {
 		this.deck = deck;
 	}
 	
-	public DeckOfCards<Card> getDeck() {
+	public DeckOfCards<FrenchSuitedPlayingCard> getDeck() {
 		return deck;
 	}
 	
@@ -74,10 +74,10 @@ public abstract class StandardDeckCardGame {
 		}
 	}
 	
-	protected final Map<Card.Kind, Integer> determineNumKindOccurrencesInHand(List<Card> playersHand) {
-		Map<Card.Kind, Integer> result = new HashMap<>();
+	protected final Map<FrenchSuitedPlayingCard.Kind, Integer> determineNumKindOccurrencesInHand(List<FrenchSuitedPlayingCard> playersHand) {
+		Map<FrenchSuitedPlayingCard.Kind, Integer> result = new HashMap<>();
 		
-		Consumer<? super Card> cardVisitor = cardInHand -> {
+		Consumer<? super FrenchSuitedPlayingCard> cardVisitor = cardInHand -> {
 			Kind cardKind = cardInHand.getKind();
 			result.put(cardKind, Optional.ofNullable(result.get(cardKind)).map(n -> n + 1).orElse(1));
 		};
@@ -86,11 +86,11 @@ public abstract class StandardDeckCardGame {
 		return result;
 	}
 	
-	protected final Map<Card.Suit, Integer> determineNumSuitOccurrencesInHand(List<Card> playersHand) {
-		Map<Card.Suit, Integer> result = new HashMap<>();
+	protected final Map<FrenchSuitedPlayingCard.Suit, Integer> determineNumSuitOccurrencesInHand(List<FrenchSuitedPlayingCard> playersHand) {
+		Map<FrenchSuitedPlayingCard.Suit, Integer> result = new HashMap<>();
 		
-		Consumer<? super Card> cardVisitor = cardInHand -> {
-			Card.Suit cardSuit = cardInHand.getSuit();
+		Consumer<? super FrenchSuitedPlayingCard> cardVisitor = cardInHand -> {
+			FrenchSuitedPlayingCard.Suit cardSuit = cardInHand.getSuit();
 			result.put(cardSuit, Optional.ofNullable(result.get(cardSuit)).map(n -> n + 1).orElse(1));
 		};
 		
@@ -98,18 +98,18 @@ public abstract class StandardDeckCardGame {
 		return result;
 	}
 	
-	protected final Map<Card.Suit, Integer> determineNumSuitOccurrencesInHand(Player player) {
+	protected final Map<FrenchSuitedPlayingCard.Suit, Integer> determineNumSuitOccurrencesInHand(Player player) {
 		return determineNumSuitOccurrencesInHand(player.getHand());
 	}
 	
-	protected final int determineMaximumNumberMatchingKind(Map<Card.Kind, Integer> numKindOccurrences) {
+	protected final int determineMaximumNumberMatchingKind(Map<FrenchSuitedPlayingCard.Kind, Integer> numKindOccurrences) {
 		final Comparator<Integer> numKindOccurrencesComparator = (n1, n2) -> Integer.compare(n1, n2);
 		Optional<Integer> comparisonResultMax = numKindOccurrences.keySet().stream().map(cardKind -> numKindOccurrences.get(cardKind)).max(numKindOccurrencesComparator);
 		return comparisonResultMax.map(i -> i.intValue()).orElse(0);
 	}
 	
-	protected final Map<Player, List<Card.Kind>> getPlayerSortedDistinctCardKindsMap(Set<Player> players) {
-		Map<Player, List<Card.Kind>> result = new HashMap<>();
+	protected final Map<Player, List<FrenchSuitedPlayingCard.Kind>> getPlayerSortedDistinctCardKindsMap(Set<Player> players) {
+		Map<Player, List<FrenchSuitedPlayingCard.Kind>> result = new HashMap<>();
 		Consumer<? super Player> computePlayerDistinctSortedCardKinds = player -> {
 			List<Kind> playerSortedDistinctKinds = new ArrayList<>(player.getDistinctCardKinds());
 			Collections.sort(playerSortedDistinctKinds);
@@ -119,35 +119,35 @@ public abstract class StandardDeckCardGame {
 		return result;
 	}
 	
-	protected final Card.Kind determineDominantMatchingKind(Map<Card.Kind, Integer> numKindOccurrences, int numDominantMatchesExpected) {
-		Optional<Card.Kind> foundCardKind = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == numDominantMatchesExpected).findFirst();
+	protected final FrenchSuitedPlayingCard.Kind determineDominantMatchingKind(Map<FrenchSuitedPlayingCard.Kind, Integer> numKindOccurrences, int numDominantMatchesExpected) {
+		Optional<FrenchSuitedPlayingCard.Kind> foundCardKind = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == numDominantMatchesExpected).findFirst();
 		return foundCardKind.map(kind -> kind).orElse(null);
 	}
 	
-	protected final Pair determinePlayerHandPair(Map<Card.Kind, Integer> numKindOccurrences) {
-		Optional<Card.Kind> foundCardKind = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == 2).findFirst();
+	protected final Pair determinePlayerHandPair(Map<FrenchSuitedPlayingCard.Kind, Integer> numKindOccurrences) {
+		Optional<FrenchSuitedPlayingCard.Kind> foundCardKind = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == 2).findFirst();
 		return foundCardKind.map(kind -> new Pair(kind)).orElse(null);
 	}
 	
 	private HandStrength determinePlayerHandStrengthNoMatchingKinds(Player player) {
-		Map<Card.Suit, Integer> numSuitOccurrences = determineNumSuitOccurrencesInHand(player);
+		Map<FrenchSuitedPlayingCard.Suit, Integer> numSuitOccurrences = determineNumSuitOccurrencesInHand(player);
 		// Make a copy of the player's hand so that we leave the players hand in
 		// its originally dealt form.
-		List<Card> playerHand = new ArrayList<>(player.getHand());
+		List<FrenchSuitedPlayingCard> playerHand = new ArrayList<>(player.getHand());
 		Collections.sort(playerHand);
-		Card lowCard = playerHand.get(4);
-		Card highCard = playerHand.get(0);
-		Card secondHighestCard = playerHand.get(1);
-		int lowToHighDistance = Card.Kind.computeDistance(lowCard.getKind(), highCard.getKind());	
+		FrenchSuitedPlayingCard lowCard = playerHand.get(4);
+		FrenchSuitedPlayingCard highCard = playerHand.get(0);
+		FrenchSuitedPlayingCard secondHighestCard = playerHand.get(1);
+		int lowToHighDistance = FrenchSuitedPlayingCard.Kind.computeDistance(lowCard.getKind(), highCard.getKind());
 		if (numSuitOccurrences.size() == 1) {
 			// Player has a flush, straight flush, or royal flush
 			if (lowToHighDistance == 4) {
 				// Player has a straight flush or a royal flush
 				return highCard.isAce() ? new RoyalFlush() : new StraightFlush(highCard.getKind());
 			} else if (highCard.isAce()) {
-				lowToHighDistance = Card.Kind.computeDistance(lowCard.getKind(), secondHighestCard.getKind());
+				lowToHighDistance = FrenchSuitedPlayingCard.Kind.computeDistance(lowCard.getKind(), secondHighestCard.getKind());
 				if ((lowToHighDistance == 3) &&
-					(lowCard.getKind() == Card.Kind.Two)) {
+					(lowCard.getKind() == FrenchSuitedPlayingCard.Kind.Two)) {
 					// Ace low straight flush
 					return new StraightFlush(secondHighestCard.getKind());
 				}
@@ -160,9 +160,9 @@ public abstract class StandardDeckCardGame {
 			if (lowToHighDistance == 4) {
 				return new Straight(highCard.getKind());
 			} else if (highCard.isAce()) {
-				lowToHighDistance = Card.Kind.computeDistance(lowCard.getKind(), secondHighestCard.getKind());
+				lowToHighDistance = FrenchSuitedPlayingCard.Kind.computeDistance(lowCard.getKind(), secondHighestCard.getKind());
 				if ((lowToHighDistance == 3) &&
-					(lowCard.getKind() == Card.Kind.Two)) {
+					(lowCard.getKind() == FrenchSuitedPlayingCard.Kind.Two)) {
 					// Ace low straight
 					return new Straight(secondHighestCard.getKind());
 				}
@@ -171,15 +171,15 @@ public abstract class StandardDeckCardGame {
 		}
 	}
 	
-	protected final HandStrength determinePlayerHandStrengthThreeDistinctKindsInHand(int maxNumberMatchingKind, Map<Card.Kind, Integer> numKindOccurrences) {
+	protected final HandStrength determinePlayerHandStrengthThreeDistinctKindsInHand(int maxNumberMatchingKind, Map<FrenchSuitedPlayingCard.Kind, Integer> numKindOccurrences) {
 		if (maxNumberMatchingKind == 3) {
 			// Player has three of a kind.
 			return new ThreeOfAKind(determineDominantMatchingKind(numKindOccurrences, 3));
 		} else {
 			// Player has two pair. Filter out those kinds that are paired in the players hand.
-			List<Card.Kind> pairedKinds = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == 2).collect(Collectors.toList());
-			Card.Kind pair1 = pairedKinds.get(0);
-			Card.Kind pair2 = pairedKinds.get(1);
+			List<FrenchSuitedPlayingCard.Kind> pairedKinds = numKindOccurrences.keySet().stream().filter(cardKind -> numKindOccurrences.get(cardKind) == 2).collect(Collectors.toList());
+			FrenchSuitedPlayingCard.Kind pair1 = pairedKinds.get(0);
+			FrenchSuitedPlayingCard.Kind pair2 = pairedKinds.get(1);
 			return (pair1.hasHigherRank(pair2)) ? new TwoPair(pair1, pair2) : new TwoPair(pair2, pair1);
 		}
 	}
@@ -191,7 +191,7 @@ public abstract class StandardDeckCardGame {
 	 * @return Will be non-null.
 	 */
 	public HandStrength determinePlayerHandStrength(Player player) {
-		Map<Card.Kind, Integer> numKindOccurrences = determineNumKindOccurrencesInHand(player.getHand());
+		Map<FrenchSuitedPlayingCard.Kind, Integer> numKindOccurrences = determineNumKindOccurrencesInHand(player.getHand());
 		
 		if (numKindOccurrences.size() == getNumberCardsDealtToEachPlayer()) {
 			// Player has no matching kinds, but instead could have a
@@ -291,8 +291,8 @@ public abstract class StandardDeckCardGame {
 	 * @param playerSortedDistinctCardKindsMap
 	 * @return
 	 */
-	private Set<Card.Kind> getDistinctGameCommonCardKinds(Map<Player, List<Card.Kind>> playerSortedDistinctCardKindsMap) {
-		final Set<Card.Kind> result = new HashSet<>();
+	private Set<FrenchSuitedPlayingCard.Kind> getDistinctGameCommonCardKinds(Map<Player, List<FrenchSuitedPlayingCard.Kind>> playerSortedDistinctCardKindsMap) {
+		final Set<FrenchSuitedPlayingCard.Kind> result = new HashSet<>();
 		
 		Consumer<? super Player> playerVisitor = player -> {
 			List<Kind> playerSortedDistinctCardKinds = playerSortedDistinctCardKindsMap.get(player);
@@ -313,9 +313,9 @@ public abstract class StandardDeckCardGame {
 	 * @param players
 	 * @return
 	 */
-	private Map<Player, List<Card.Kind>> getCommonEliminatedSortedPlayerCardKindsMap(Set<Player> players) {
-		Map<Player, List<Card.Kind>> result = getPlayerSortedDistinctCardKindsMap(players);
-		Set<Card.Kind> distinctGameCommonCardKinds = getDistinctGameCommonCardKinds(result);
+	private Map<Player, List<FrenchSuitedPlayingCard.Kind>> getCommonEliminatedSortedPlayerCardKindsMap(Set<Player> players) {
+		Map<Player, List<FrenchSuitedPlayingCard.Kind>> result = getPlayerSortedDistinctCardKindsMap(players);
+		Set<FrenchSuitedPlayingCard.Kind> distinctGameCommonCardKinds = getDistinctGameCommonCardKinds(result);
 		players.forEach(player -> result.get(player).removeAll(distinctGameCommonCardKinds));
 		return result;
 	}
@@ -350,9 +350,9 @@ public abstract class StandardDeckCardGame {
 		// that need to be evaluated further to see which one has the winning hand. The
 		// only time this can happen is when more than one player has :
 		// two pair, one pair, flush, or high card.
-		Map<Player, List<Card.Kind>> playerSortedDistinctCardKindsMap = getCommonEliminatedSortedPlayerCardKindsMap(leadingPlayers);
+		Map<Player, List<FrenchSuitedPlayingCard.Kind>> playerSortedDistinctCardKindsMap = getCommonEliminatedSortedPlayerCardKindsMap(leadingPlayers);
 		Player aLeadingPlayer = playerSortedDistinctCardKindsMap.keySet().iterator().next();
-		List<Card.Kind> aLeadingPlayerUniqueDistinctCardKinds = playerSortedDistinctCardKindsMap.get(aLeadingPlayer);
+		List<FrenchSuitedPlayingCard.Kind> aLeadingPlayerUniqueDistinctCardKinds = playerSortedDistinctCardKindsMap.get(aLeadingPlayer);
 		if (aLeadingPlayerUniqueDistinctCardKinds.isEmpty()) {
 			// Here, the cards in the players hands that do not contribute to 
 			// HandStrength still match. For example, two players each with two
@@ -365,14 +365,14 @@ public abstract class StandardDeckCardGame {
 		// the same number of elements in its List<Card.Kind>.
 		Set<Player> eliminatedPlayers = new HashSet<Player>();
 		for (int cardIndex = 0;cardIndex < aLeadingPlayerUniqueDistinctCardKinds.size();cardIndex++) {
-			Card.Kind cardKindLeadingAtIndex = null;
+			FrenchSuitedPlayingCard.Kind cardKindLeadingAtIndex = null;
 			Player playerContributingLeadingCardKind = null;
 			for (Player player : playerSortedDistinctCardKindsMap.keySet()) {
 				if (eliminatedPlayers.contains(player)) {
 					continue; // to next player
 				}
 				
-				List<Card.Kind> uniqueDistinctPlayerCardKinds = playerSortedDistinctCardKindsMap.get(player);
+				List<FrenchSuitedPlayingCard.Kind> uniqueDistinctPlayerCardKinds = playerSortedDistinctCardKindsMap.get(player);
 				Kind playerCardKindAtIndex = uniqueDistinctPlayerCardKinds.get(cardIndex);
 				if (cardKindLeadingAtIndex == null) {
 					cardKindLeadingAtIndex = playerCardKindAtIndex;

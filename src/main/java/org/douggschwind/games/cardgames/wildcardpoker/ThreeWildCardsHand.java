@@ -3,7 +3,7 @@ package org.douggschwind.games.cardgames.wildcardpoker;
 import java.util.List;
 import java.util.Map;
 
-import org.douggschwind.games.cardgames.common.Card;
+import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.douggschwind.games.cardgames.poker.common.FourOfAKind;
 import org.douggschwind.games.cardgames.poker.common.HandStrength;
 import org.douggschwind.games.cardgames.poker.common.RoyalFlush;
@@ -23,9 +23,9 @@ public class ThreeWildCardsHand extends WildCardHand {
 	 * @param numDistinctNonWildSuits One of : 1 or 2.
 	 * @param sortedNonWildCardsInHand Must be non-null.
 	 */
-	public ThreeWildCardsHand(Map<Card.Kind, Integer> numNonWildKindOccurrencesMap,
+	public ThreeWildCardsHand(Map<FrenchSuitedPlayingCard.Kind, Integer> numNonWildKindOccurrencesMap,
 			                  int numDistinctNonWildSuits,
-			                  List<Card> sortedNonWildCardsInHand) {
+			                  List<FrenchSuitedPlayingCard> sortedNonWildCardsInHand) {
 		super(numNonWildKindOccurrencesMap, numDistinctNonWildSuits, sortedNonWildCardsInHand);
 	}
 	
@@ -40,14 +40,14 @@ public class ThreeWildCardsHand extends WildCardHand {
 		// The player does not have a natural pair. They do however at worst
 		// have four of a kind, but could instead have a Straight Flush or a
 		// Royal Flush.
-		Card highCard = getNonWildHighCard();
+		FrenchSuitedPlayingCard highCard = getNonWildHighCard();
 		
 		if (isSingleSuited()) {
 			TypeOfStraightThatCanBeFormed typeOfStraightThatCanBeFormed = determineTypeOfStraightThatCanBeFormed();
 			if (typeOfStraightThatCanBeFormed.isAceHighStraight()) {
 				return new RoyalFlush();
 			} else if (typeOfStraightThatCanBeFormed.isAceLowStraight()) {
-				return new StraightFlush(Card.Kind.Five);
+				return new StraightFlush(FrenchSuitedPlayingCard.Kind.Five);
 			} else if (typeOfStraightThatCanBeFormed.isStraight()) {
 				return new StraightFlush(typeOfStraightThatCanBeFormed.getHighCardKind());
 			}

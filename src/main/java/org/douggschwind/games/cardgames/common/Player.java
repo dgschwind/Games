@@ -19,7 +19,7 @@ public class Player {
 	// other Player's also hold one or more of that same card. Thus, the List
 	// type supports both needs, whereas a Set type here would not work for games
 	// like Uno.
-	private final List<Card> hand = new ArrayList<>();
+	private final List<FrenchSuitedPlayingCard> hand = new ArrayList<>();
 	
 	public int getPlayerNumber() {
 		return playerNumber;
@@ -41,16 +41,16 @@ public class Player {
 		return getPlayerNumber();
 	}
 	
-	public void acceptDealtCard(Card dealtCard) {
+	public void acceptDealtCard(FrenchSuitedPlayingCard dealtCard) {
 		hand.add(dealtCard);
 	}
 	
-	public List<Card> getHand() {
+	public List<FrenchSuitedPlayingCard> getHand() {
 		return hand;
 	}
 	
-	public Set<Card.Kind> getDistinctCardKinds() {
-		return Card.getDistinctCardKinds(getHand());
+	public Set<FrenchSuitedPlayingCard.Kind> getDistinctCardKinds() {
+		return FrenchSuitedPlayingCard.getDistinctCardKinds(getHand());
 	}
 	
 	public void newHand() {
