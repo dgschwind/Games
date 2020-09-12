@@ -11,6 +11,7 @@ import org.douggschwind.games.common.AbstractCard;
  * An instance of the Card class represents a card from a standard deck of 52 cards, each
  * having a French suit (i.e. Spades, Clubs, Hearts, Diamonds) and a kind (e.g. Ace).
  * @author Doug Gschwind
+ * @see https://en.wikipedia.org/wiki/French_playing_cards
  */
 public class FrenchSuitedPlayingCard implements AbstractCard, Comparable<FrenchSuitedPlayingCard> {
 	
