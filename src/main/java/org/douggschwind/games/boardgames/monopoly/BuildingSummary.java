@@ -6,6 +6,9 @@ package org.douggschwind.games.boardgames.monopoly;
  * @author Doug Gschwind
  */
 public class BuildingSummary {
+
+	private static final int MAX_NUM_HOUSES = 4;
+	private static final int MAX_NUM_HOTELS = 1;
 	
 	private int numberHouses;
 	private int numberHotels;
@@ -20,11 +23,11 @@ public class BuildingSummary {
 
 	public boolean canImprove() {
 		// A property can have at most one Hotel or at most four Houses.
-		return numberHotels < 1 && numberHouses < 4;
+		return numberHotels < MAX_NUM_HOTELS || numberHouses <= MAX_NUM_HOUSES;
 	}
 	
 	public void addHouse() {
-		if (numberHouses == 4) {
+		if (numberHouses == MAX_NUM_HOUSES) {
 			// Adding a House to a property that already has four Houses
 			// on it results in an additional Hotel on the property and no
 			// longer any Houses.

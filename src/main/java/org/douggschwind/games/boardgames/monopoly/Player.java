@@ -278,12 +278,15 @@ public class Player {
 				                                                               .map(ownedMonopoly -> ownedMonopoly.findLeastImprovedTitleDeed());
 		
 		// TODO : Configurable purchase policy here.
-		// For now, only choose to improve upon a property if the improvement cost
-		// is less than a certain percentage of the Player's liquid wealth.
-		
-		if ((titleDeedToImprove.isPresent()) &&
-			(((double) titleDeedToImprove.get().getPlayerBuildingPurchasePrice()) <= this.getBankAccountBalance() * 0.25d)) {
-			return titleDeedToImprove;
+		// For now, only choose to improve upon a property if the property can be improved upon and if the improvement
+		// cost is less than a certain percentage of the Player's cash on hand.
+		if (titleDeedToImprove.isPresent()) {
+		    TitleDeed titleDeed = titleDeedToImprove.get();
+			BuildingSummary buildingSummary = DeedRecorder.getBuildingSummary(titleDeed);
+			if (buildingSummary.canImprove() &&
+				(((double) titleDeedToImprove.get().getPlayerBuildingPurchasePrice()) <= this.getBankAccountBalance() * 0.25d)) {
+				return titleDeedToImprove;
+			}
 		}
 		return Optional.empty(); // Choose to not build another house.
 	}
