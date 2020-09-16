@@ -20,6 +20,9 @@ public class BuildingSummary {
 	
 	public void addHouse() {
 		if (numberHouses == 4) {
+			// Adding a House to a property that already has four Houses
+			// on it results in an additional Hotel on the property and no
+			// longer any Houses.
 			addHotel();
 			numberHouses = 0;
 		} else {
