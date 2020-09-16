@@ -2,6 +2,7 @@ package org.douggschwind.games.boardgames.monopoly;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -41,7 +42,7 @@ public class Monopoly {
 	private int computeOwedRent(PrivateBoardSpace<? extends Title> boardSpace, Player spaceOwner, int diceRollTotal) {
 		if (boardSpace.isProperty()) {
 			PropertyBoardSpace propertyBoardSpace = (PropertyBoardSpace) boardSpace;
-			return propertyBoardSpace.computeRent(spaceOwner);
+			return propertyBoardSpace.computeRent();
 		} else if (boardSpace.isRailroad()) {
 			return ((RailroadBoardSpace) boardSpace).computeRent(spaceOwner.getNumberOwnedRailroads());
 		} else {
@@ -234,8 +235,9 @@ public class Monopoly {
 		Set<MonopolyDefinition> monopolizedProperties = player.getMonopolizedProperties();
 		if (!monopolizedProperties.isEmpty()) {
 			System.out.println("Player " + player.getName() + " can improve upon their property if they so choose");
-			TitleDeed propertyToImprove = player.findOwnedPropertyToImprove(monopolizedProperties);
-			if (propertyToImprove != null) {
+			Optional<TitleDeed> propertyToImproveOptional = player.findOwnedPropertyToImprove(monopolizedProperties);
+			if (propertyToImproveOptional.isPresent()) {
+				TitleDeed propertyToImprove = propertyToImproveOptional.get();
 				System.out.println("Player " + player.getName() + " has elected to improve upon " + propertyToImprove.getName() + " by adding one more house");
 				playerMakesPaymentToBank(player, propertyToImprove.getPlayerBuildingPurchasePrice());
 				DeedRecorder.addHouse(propertyToImprove);

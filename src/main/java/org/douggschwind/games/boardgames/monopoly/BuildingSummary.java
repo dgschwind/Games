@@ -17,6 +17,11 @@ public class BuildingSummary {
 	public void setNumberHouses(int newValue) {
 		numberHouses = newValue;
 	}
+
+	public boolean canImprove() {
+		// A property can have at most one Hotel or at most four Houses.
+		return numberHotels < 1 && numberHouses < 4;
+	}
 	
 	public void addHouse() {
 		if (numberHouses == 4) {

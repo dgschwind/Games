@@ -272,7 +272,7 @@ public class Player {
 		return getOwnedProperties().stream().filter(td -> td.isPartOfMonopoly()).map(td -> td.getMonopolyDefinition()).collect(Collectors.toSet());
 	}
 	
-	public TitleDeed findOwnedPropertyToImprove(Set<MonopolyDefinition> monopolizedProperties) {
+	public Optional<TitleDeed> findOwnedPropertyToImprove(Set<MonopolyDefinition> monopolizedProperties) {
 		Optional<TitleDeed> titleDeedToImprove = monopolizedProperties.stream().filter(ownedMonopoly -> ownedMonopoly.findLeastImprovedTitleDeed() != null)
 				                                                               .findFirst()
 				                                                               .map(ownedMonopoly -> ownedMonopoly.findLeastImprovedTitleDeed());
@@ -283,9 +283,9 @@ public class Player {
 		
 		if ((titleDeedToImprove.isPresent()) &&
 			(((double) titleDeedToImprove.get().getPlayerBuildingPurchasePrice()) <= this.getBankAccountBalance() * 0.25d)) {
-			return titleDeedToImprove.get();
+			return titleDeedToImprove;
 		}
-		return null; // Choose to not build another house.
+		return Optional.empty(); // Choose to not build another house.
 	}
 	
 	public boolean isInJail() {

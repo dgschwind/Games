@@ -96,7 +96,7 @@ public class TitleDeed extends Title {
 		return ((isOwner(player)) && (getMonopolyDefinition().hasBeenMonopolized()));
 	}
 
-	public int computeRent(Player guest) {
+	public int computeRent() {
 		if (isBankOwned()) {
 			// No one owns this property as yet. Free Rent!
 			return 0;
