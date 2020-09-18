@@ -341,7 +341,9 @@ public class WesternTestTwoPlayers {
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ace, FrenchSuitedPlayingCard.Suit.Spades));
 		
 		// In this case, the two players have matching hands, but only one
-		// winner since the odd card is used for the tiebreaker.
+		// winner since the odd card is used for the tiebreaker. Player 1
+		// wins because their tiebreaking card 7 beats Player 2s tiebreaking
+		// card, a 6.
 		Set<Player> handWinners = underTest.determineWinners();
 		assertGivenPlayerIsWinner(handWinners, player1);
 	}
@@ -360,7 +362,7 @@ public class WesternTestTwoPlayers {
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Seven, FrenchSuitedPlayingCard.Suit.Diamonds));
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Four, FrenchSuitedPlayingCard.Suit.Spades));
 		
-		// Player two is the winner
+		// Player two is the winner with a pair of Jacks and a pair of Fours.
 		Set<Player> handWinners = underTest.determineWinners();
 		assertGivenPlayerIsWinner(handWinners, player2);
 	}
@@ -455,8 +457,9 @@ public class WesternTestTwoPlayers {
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Ten, FrenchSuitedPlayingCard.Suit.Clubs));
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Three, FrenchSuitedPlayingCard.Suit.Diamonds));
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.King, FrenchSuitedPlayingCard.Suit.Diamonds));
-		
-		// Player one wins with a pair of Jacks
+
+		// In this case, the two players have matching hands, and since there
+		// are no other competitors, they both are declared winners.
 		Set<Player> handWinners = underTest.determineWinners();
 		assertPlayersHaveMatchingHands(handWinners);
 	}
@@ -494,7 +497,7 @@ public class WesternTestTwoPlayers {
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Three, FrenchSuitedPlayingCard.Suit.Diamonds));
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Queen, FrenchSuitedPlayingCard.Suit.Diamonds));
 		
-		// Player one wins
+		// Player one wins with Queen, Jack, Ten high
 		Set<Player> handWinners = underTest.determineWinners();
 		assertGivenPlayerIsWinner(handWinners, player1);
 	}
@@ -513,7 +516,8 @@ public class WesternTestTwoPlayers {
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Three, FrenchSuitedPlayingCard.Suit.Diamonds));
 		player2.acceptDealtCard(new FrenchSuitedPlayingCard(FrenchSuitedPlayingCard.Kind.Queen, FrenchSuitedPlayingCard.Suit.Diamonds));
 		
-		// Player two wins
+		// Player two wins with Queen, Jack, Ten, Seven, Three high. The lowest ranking card in both players hands
+		// ends up being the tiebreaker here.
 		Set<Player> handWinners = underTest.determineWinners();
 		assertGivenPlayerIsWinner(handWinners, player2);
 	}
