@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+// Since Square has no state of its own, other than props, lets use a simple
+// Stateless Functional Component here.
 const Square = props =>
     <button className="square" onClick={props.clickHandler}>
         {props.owner}
