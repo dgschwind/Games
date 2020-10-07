@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import './index.css';
 
 // Since Square has no state of its own, other than props, lets use a simple
@@ -8,6 +9,13 @@ const Square = props =>
     <button className="square" onClick={props.clickHandler}>
         {props.owner}
     </button>
+
+// Instruct React to do property type validation on Square instances.
+// Both properties are required.
+Square.propTypes = {
+    owner: PropTypes.string.isRequired,
+    clickHandler: PropTypes.func.isRequired
+}
 
 class Board extends React.Component {
   constructor(props) {
