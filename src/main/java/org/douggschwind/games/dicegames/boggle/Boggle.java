@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * This class is the entry point into which you can see the game being setup and the possible words on
@@ -282,80 +285,34 @@ public class Boggle {
             return result;
         }
 
-        // In each of the blocks below, we clone the argument boardLocationsVisited so as to not disturb the other
-        // consumers of it in this method.
-        if (canAdvanceToBoardLocation(row - 1, column - 1, boardLocationsVisited)) {
-            BoardLocationsVisited clone = boardLocationsVisited.clone();
-            clone.markVisited(row - 1, column - 1);
-            result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row - 1][column - 1].asWordPart(),
-                                           row - 1,
-                                           column - 1,
-                                           clone));
-        }
-        if (canAdvanceToBoardLocation(row - 1, column, boardLocationsVisited)) {
-            BoardLocationsVisited clone = boardLocationsVisited.clone();
-            clone.markVisited(row - 1, column);
-            result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row - 1][column].asWordPart(),
-                                           row - 1,
-                                           column,
-                                           clone));
-        }
-        if (canAdvanceToBoardLocation(row - 1, column + 1, boardLocationsVisited)) {
-            BoardLocationsVisited clone = boardLocationsVisited.clone();
-            clone.markVisited(row - 1, column + 1);
-            result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row - 1][column + 1].asWordPart(),
-                                           row - 1,
-                                           column + 1,
-                                           clone));
-        }
-        if (canAdvanceToBoardLocation(row, column - 1, boardLocationsVisited)) {
-            BoardLocationsVisited clone = boardLocationsVisited.clone();
-            clone.markVisited(row, column - 1);
-            result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row][column - 1].asWordPart(),
-                                           row,
-                                           column - 1,
-                                           clone));
-        }
-        if (canAdvanceToBoardLocation(row, column + 1, boardLocationsVisited)) {
-            BoardLocationsVisited clone = boardLocationsVisited.clone();
-            clone.markVisited(row, column + 1);
-            result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row][column + 1].asWordPart(),
-                                           row,
-                                           column + 1,
-                                           clone));
-        }
-        if (canAdvanceToBoardLocation(row + 1, column - 1, boardLocationsVisited)) {
-            BoardLocationsVisited clone = boardLocationsVisited.clone();
-            clone.markVisited(row + 1, column - 1);
-            result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row + 1][column - 1].asWordPart(),
-                                           row + 1,
-                                           column - 1,
-                                           clone));
-        }
-        if (canAdvanceToBoardLocation(row + 1, column, boardLocationsVisited)) {
-            BoardLocationsVisited clone = boardLocationsVisited.clone();
-            clone.markVisited(row + 1, column);
-            result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row + 1][column].asWordPart(),
-                                           row + 1,
-                                           column,
-                                           clone));
-        }
-        if (canAdvanceToBoardLocation(row + 1, column + 1, boardLocationsVisited)) {
-            BoardLocationsVisited clone = boardLocationsVisited.clone();
-            clone.markVisited(row + 1, column + 1);
-            result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row + 1][column + 1].asWordPart(),
-                                           row + 1,
-                                           column + 1,
-                                           clone));
-        }
+        // Make use of BiConsumer here to make the remaining reading of how this method is implemented much easier
+        // to understand with far less code to read.
+        BiConsumer<Integer, Integer> growWordInProgress = (pr, pc) -> {
+            final int proposedRow = pr.intValue();
+            final int proposedColumn = pc.intValue();
+            if (canAdvanceToBoardLocation(proposedRow, proposedColumn, boardLocationsVisited)) {
+                // We clone the argument boardLocationsVisited so as to not disturb the other
+                // consumers of it in this method.
+                BoardLocationsVisited clone = boardLocationsVisited.clone();
+                clone.markVisited(proposedRow, proposedColumn);
+                result.addAll(findWordsPresent(gameBoard,
+                                               partialWordInProgress + gameBoard[proposedRow][proposedColumn].asWordPart(),
+                                               proposedRow,
+                                               proposedColumn,
+                                               clone));
+            }
+        };
+
+        // Now lets attempt to grow the word we are building by one more letter by including all of the possible
+        // choices around our current letter as possible.
+        growWordInProgress.accept(row - 1, column - 1);
+        growWordInProgress.accept(row - 1, column);
+        growWordInProgress.accept(row - 1, column + 1);
+        growWordInProgress.accept(row, column - 1);
+        growWordInProgress.accept(row, column + 1);
+        growWordInProgress.accept(row + 1, column - 1);
+        growWordInProgress.accept(row + 1, column);
+        growWordInProgress.accept(row + 1, column + 1);
 
         return result;
     }
