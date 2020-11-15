@@ -89,24 +89,89 @@ public class Boggle {
                                          BoardLocationsVisited boardLocationsVisited) {
         Set<String> result = new HashSet<>();
 
-        // Lets first determine if the partial word in progress can possibly lead to valid words.
-        // If not, we can just stop right here.
+        // Lets see if the partial word we have already formed is found in the list of valid words.
+        if (wordTree.isValidWord(partialWordInProgress)) {
+            result.add(partialWordInProgress);
+        }
+
+        // If the partial word in progress cannot possibly lead to valid words, we can just stop right here.
         if (!wordTree.hasWordsThatBeginWith(partialWordInProgress)) {
             return result;
         }
 
+        // In each of the blocks below, we clone the argument boardLocationsVisited so as to not disturb the other
+        // consumers of it in this method.
         if (canAdvanceToBoardLocation(row - 1, column - 1, boardLocationsVisited)) {
-            // Clone boardLocationsVisited so as to not disturb the other consumers of it in this method.
-            boardLocationsVisited.markVisited(row - 1, column - 1);
+            BoardLocationsVisited clone = boardLocationsVisited.clone();
+            clone.markVisited(row - 1, column - 1);
             result.addAll(findWordsPresent(gameBoard,
                                            partialWordInProgress + gameBoard[row - 1][column - 1].getLetter(),
                                            row - 1,
                                            column - 1,
-                                           boardLocationsVisited));
+                                           clone));
         }
         if (canAdvanceToBoardLocation(row - 1, column, boardLocationsVisited)) {
+            BoardLocationsVisited clone = boardLocationsVisited.clone();
+            clone.markVisited(row - 1, column);
+            result.addAll(findWordsPresent(gameBoard,
+                                           partialWordInProgress + gameBoard[row - 1][column].getLetter(),
+                                           row - 1,
+                                           column,
+                                           clone));
         }
         if (canAdvanceToBoardLocation(row - 1, column + 1, boardLocationsVisited)) {
+            BoardLocationsVisited clone = boardLocationsVisited.clone();
+            clone.markVisited(row - 1, column + 1);
+            result.addAll(findWordsPresent(gameBoard,
+                                           partialWordInProgress + gameBoard[row - 1][column + 1].getLetter(),
+                                           row - 1,
+                                           column + 1,
+                                           clone));
+        }
+        if (canAdvanceToBoardLocation(row, column - 1, boardLocationsVisited)) {
+            BoardLocationsVisited clone = boardLocationsVisited.clone();
+            clone.markVisited(row, column - 1);
+            result.addAll(findWordsPresent(gameBoard,
+                    partialWordInProgress + gameBoard[row][column - 1].getLetter(),
+                    row,
+                    column - 1,
+                    clone));
+        }
+        if (canAdvanceToBoardLocation(row, column + 1, boardLocationsVisited)) {
+            BoardLocationsVisited clone = boardLocationsVisited.clone();
+            clone.markVisited(row, column + 1);
+            result.addAll(findWordsPresent(gameBoard,
+                                           partialWordInProgress + gameBoard[row][column + 1].getLetter(),
+                                           row,
+                                           column + 1,
+                                           clone));
+        }
+        if (canAdvanceToBoardLocation(row + 1, column - 1, boardLocationsVisited)) {
+            BoardLocationsVisited clone = boardLocationsVisited.clone();
+            clone.markVisited(row + 1, column - 1);
+            result.addAll(findWordsPresent(gameBoard,
+                                           partialWordInProgress + gameBoard[row + 1][column - 1].getLetter(),
+                                           row + 1,
+                                           column - 1,
+                                           clone));
+        }
+        if (canAdvanceToBoardLocation(row + 1, column, boardLocationsVisited)) {
+            BoardLocationsVisited clone = boardLocationsVisited.clone();
+            clone.markVisited(row + 1, column);
+            result.addAll(findWordsPresent(gameBoard,
+                                           partialWordInProgress + gameBoard[row + 1][column].getLetter(),
+                                           row + 1,
+                                           column,
+                                           clone));
+        }
+        if (canAdvanceToBoardLocation(row + 1, column + 1, boardLocationsVisited)) {
+            BoardLocationsVisited clone = boardLocationsVisited.clone();
+            clone.markVisited(row + 1, column + 1);
+            result.addAll(findWordsPresent(gameBoard,
+                                           partialWordInProgress + gameBoard[row + 1][column + 1].getLetter(),
+                                           row + 1,
+                                           column + 1,
+                                           clone));
         }
 
         return result;
