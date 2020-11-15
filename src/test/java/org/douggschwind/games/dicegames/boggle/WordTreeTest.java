@@ -87,5 +87,16 @@ public class WordTreeTest {
         Assert.assertFalse(subject.isValidWord(""));
         invalidWords.forEach(invalidWord -> Assert.assertFalse(subject.isValidWord(invalidWord)));
         validWords.forEach(validWord -> Assert.assertTrue(subject.isValidWord(validWord)));
+
+        Assert.assertTrue(subject.hasWordsThatBeginWith("t"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("th"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("tha"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("thi"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("tho"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("to"));
+
+        Assert.assertTrue(subject.hasWordsThatBeginWith("z"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("ze"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("zo"));
     }
 }

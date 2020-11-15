@@ -24,6 +24,7 @@ public class Boggle {
         validWords.add("act");
         validWords.add("acted");
         validWords.add("actor");
+        validWords.add("and");
         validWords.add("any");
         validWords.add("anything");
         validWords.add("apple");
@@ -31,13 +32,62 @@ public class Boggle {
         validWords.add("axe");
         validWords.add("axed");
         validWords.add("axes");
+        validWords.add("bail");
+        validWords.add("bait");
+        validWords.add("ban");
+        validWords.add("banana");
+        validWords.add("bane");
+        validWords.add("bans");
+        validWords.add("banned");
         validWords.add("bat");
         validWords.add("bats");
+        validWords.add("bee");
+        validWords.add("been");
         validWords.add("bet");
         validWords.add("bets");
+        validWords.add("boat");
+        validWords.add("boats");
+        validWords.add("boo");
+        validWords.add("booed");
+        validWords.add("boos");
+        validWords.add("boot");
+        validWords.add("boots");
         validWords.add("borrow");
         validWords.add("bought");
+        validWords.add("cat");
+        validWords.add("cot");
+        validWords.add("cut");
+        validWords.add("dane");
+        validWords.add("dig");
+        validWords.add("dog");
+        validWords.add("easy");
+        validWords.add("fat");
+        validWords.add("fate");
+        validWords.add("fit");
+        validWords.add("fits");
+        validWords.add("fitter");
+        validWords.add("fun");
+        validWords.add("gem");
+        validWords.add("gems");
+        validWords.add("get");
+        validWords.add("gets");
+        validWords.add("gone");
+        validWords.add("hand");
+        validWords.add("handsome");
+        validWords.add("handy");
+        validWords.add("hello");
+        validWords.add("help");
+        validWords.add("hide");
+        validWords.add("jail");
+        validWords.add("kit");
+        validWords.add("kits");
+        validWords.add("kite");
+        validWords.add("kites");
+        validWords.add("list");
+        validWords.add("log");
         validWords.add("orange");
+        validWords.add("net");
+        validWords.add("oat");
         validWords.add("part");
         validWords.add("parts");
         validWords.add("port");
@@ -56,6 +106,28 @@ public class Boggle {
         validWords.add("quote");
         validWords.add("quoted");
         validWords.add("quotes");
+        validWords.add("rat");
+        validWords.add("rate");
+        validWords.add("rated");
+        validWords.add("rates");
+        validWords.add("return");
+        validWords.add("rot");
+        validWords.add("safe");
+        validWords.add("safety");
+        validWords.add("sane");
+        validWords.add("sanity");
+        validWords.add("sat");
+        validWords.add("saw");
+        validWords.add("saws");
+        validWords.add("see");
+        validWords.add("seen");
+        validWords.add("sees");
+        validWords.add("set");
+        validWords.add("sets");
+        validWords.add("sit");
+        validWords.add("sits");
+        validWords.add("soon");
+        validWords.add("ten");
         validWords.add("zap");
         validWords.add("zaps");
         validWords.add("zebra");
@@ -89,8 +161,9 @@ public class Boggle {
                                          BoardLocationsVisited boardLocationsVisited) {
         Set<String> result = new HashSet<>();
 
-        // Lets see if the partial word we have already formed is found in the list of valid words.
-        if (wordTree.isValidWord(partialWordInProgress)) {
+        // Lets see if the partial word we have already formed is found in the list of valid words. Recall in Boggle
+        // that words must be at least three letters in length and cannot be pronouns.
+        if (partialWordInProgress.length() >= 3 && wordTree.isValidWord(partialWordInProgress)) {
             result.add(partialWordInProgress);
         }
 
@@ -182,7 +255,7 @@ public class Boggle {
 
         for (int row = 0;row < BoggleDice.ROWS_X_COLS;row++) {
             for (int column = 0;column < BoggleDice.ROWS_X_COLS;column++) {
-                String firstLetterOfWord = "" + gameBoard[row][column];
+                String firstLetterOfWord = "" + gameBoard[row][column].getLetter();
                 BoardLocationsVisited boardLocationsVisited = new BoardLocationsVisited(BoggleDice.ROWS_X_COLS);
                 boardLocationsVisited.markVisited(row, column);
                 result.addAll(findWordsPresent(gameBoard, firstLetterOfWord, row, column, boardLocationsVisited));

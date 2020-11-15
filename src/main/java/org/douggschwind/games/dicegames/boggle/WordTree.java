@@ -63,6 +63,7 @@ public class WordTree {
                 if (!previousLetterNodeOptional.isPresent()) {
                     return false;
                 }
+                previousLetterNode = previousLetterNodeOptional.get();
             }
         }
 
