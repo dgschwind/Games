@@ -90,11 +90,15 @@ public class Boggle {
         validWords.add("fit");
         validWords.add("fits");
         validWords.add("fitter");
+        validWords.add("float");
+        validWords.add("floats");
         validWords.add("fun");
         validWords.add("gem");
         validWords.add("gems");
         validWords.add("get");
         validWords.add("gets");
+        validWords.add("goat");
+        validWords.add("goats");
         validWords.add("gone");
         validWords.add("hand");
         validWords.add("handsome");
