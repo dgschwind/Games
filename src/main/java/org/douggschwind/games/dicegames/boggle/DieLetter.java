@@ -2,7 +2,7 @@ package org.douggschwind.games.dicegames.boggle;
 
 /**
  * Instances of this class represent the state of one die on the Boggle game board. There is one die within the
- * set of Boggle dice that represents the letter combination of Q and U. That condition is handled by the isQu
+ * set of Boggle dice that represents the letter combination of Q and U. That condition is handled by the qu
  * boolean instance variable here.
  * @author Doug Gschwind
  */

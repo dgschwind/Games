@@ -3,7 +3,11 @@ package org.douggschwind.games.dicegames.boggle;
 import java.util.Arrays;
 
 /**
- * Records the board locations that have been visited. Allows an instance of this class to be easily cloned.
+ * Records the board locations that have been visited. A board location (i.e. die in the game board) is visited when
+ * the letter on the die is considered for a part of a word being built. Since a given die can only be used once
+ * within a valid word in the game of Boggle, this logic is required.
+ *
+ * Allows an instance of this class to be easily cloned.
  * @author Doug Gschwind
  */
 public class BoardLocationsVisited implements Cloneable {

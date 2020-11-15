@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This is the dice configuration for the English Boggle:
- * English 16 dice version
+ * This is the dice configuration for the English Boggle 16 dice version:
  * Die0: R, I, F, O, B, X
  * Die1: I, F, E, H, E, Y
  * Die2: D, E, N, O, W, S
