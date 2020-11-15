@@ -102,6 +102,8 @@ public class WordTreeTest {
         Assert.assertTrue(subject.hasWordsThatBeginWith("ba"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("ban"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("bana"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("banan"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("banana"));
         Assert.assertFalse(subject.hasWordsThatBeginWith("bb"));
         Assert.assertFalse(subject.hasWordsThatBeginWith("bz"));
 
@@ -138,7 +140,11 @@ public class WordTreeTest {
         Assert.assertTrue(subject.hasWordsThatBeginWith("z"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("ze"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("zeb"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("zebr"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("zebra"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("zer"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("zero"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("zo"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("zz"));
     }
 }
