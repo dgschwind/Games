@@ -3,6 +3,9 @@ package org.douggschwind.games.dicegames.boggle;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * @author Doug Gschwind
+ */
 public class BoardLocationsVisitedTest {
     @Test
     public void testClone() {

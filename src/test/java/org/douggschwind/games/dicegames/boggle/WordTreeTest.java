@@ -44,6 +44,7 @@ public class WordTreeTest {
         validWords.add("thorough");
         validWords.add("you");
         validWords.add("zebra");
+        validWords.add("zero");
         validWords.add("zoo");
 
         final WordTree subject = new WordTree();
@@ -88,6 +89,40 @@ public class WordTreeTest {
         invalidWords.forEach(invalidWord -> Assert.assertFalse(subject.isValidWord(invalidWord)));
         validWords.forEach(validWord -> Assert.assertTrue(subject.isValidWord(validWord)));
 
+        Assert.assertTrue(subject.hasWordsThatBeginWith("a"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("ab"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("az"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("ap"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("ar"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("art"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("arti"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("az"));
+
+        Assert.assertTrue(subject.hasWordsThatBeginWith("b"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("ba"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("ban"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("bana"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("bb"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("bz"));
+
+        Assert.assertFalse(subject.hasWordsThatBeginWith("c"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("d"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("e"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("f"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("g"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("h"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("i"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("j"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("k"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("l"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("m"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("n"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("o"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("p"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("q"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("r"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("s"));
+
         Assert.assertTrue(subject.hasWordsThatBeginWith("t"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("th"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("tha"));
@@ -95,8 +130,15 @@ public class WordTreeTest {
         Assert.assertTrue(subject.hasWordsThatBeginWith("tho"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("to"));
 
+        Assert.assertFalse(subject.hasWordsThatBeginWith("u"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("v"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("w"));
+        Assert.assertFalse(subject.hasWordsThatBeginWith("x"));
+
         Assert.assertTrue(subject.hasWordsThatBeginWith("z"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("ze"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("zeb"));
+        Assert.assertTrue(subject.hasWordsThatBeginWith("zer"));
         Assert.assertTrue(subject.hasWordsThatBeginWith("zo"));
     }
 }

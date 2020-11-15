@@ -9,7 +9,8 @@ import java.util.Set;
 
 /**
  * This class is the entry point into which you can see the game being setup and the possible words on
- * the game board to be found.
+ * the game board to be found. I have chosen to only model the 4x4 game board, saving all the typing to codify the
+ * 5x5 die configuration.
  * @author Doug Gschwind
  */
 public class Boggle {

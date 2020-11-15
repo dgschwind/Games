@@ -13,6 +13,9 @@ import java.util.Set;
 public class WordTree {
     private final Map<Character, LetterNode> rootLetterMap = new HashMap<>();
 
+    // Retain the set of validWords to make the isValidWord() implementation very simple.
+    private Set<String> validWords;
+
     private void seed(String validWord) {
         LetterNode previousLetterNode = null;
         for (int letterIndex = 0;letterIndex < validWord.length();letterIndex++) {
@@ -36,6 +39,7 @@ public class WordTree {
      */
     public void seed(Set<String> validWords) {
         validWords.forEach(word -> seed(word));
+        this.validWords = validWords;
     }
 
     /**
@@ -71,30 +75,6 @@ public class WordTree {
     }
 
     public boolean isValidWord(String input) {
-        if ((input == null) || (input.isEmpty())) {
-            return false;
-        }
-
-        LetterNode previousLetterNode = null;
-        for (int letterIndex = 0;letterIndex < input.length();letterIndex++) {
-            char currentLetter = input.charAt(letterIndex);
-            if (letterIndex == 0) {
-                previousLetterNode = rootLetterMap.get(currentLetter);
-                if (previousLetterNode == null) {
-                    // Can only get here if our list of valid words doesn't have coverage for at least one
-                    // word that begins with each different letter of the alphabet.
-                    return false;
-                }
-            } else {
-                Optional<LetterNode> previousLetterNodeOptional = previousLetterNode.getChildNode(currentLetter);
-                if (!previousLetterNodeOptional.isPresent()) {
-                    return false;
-                } else {
-                    previousLetterNode = previousLetterNodeOptional.get();
-                }
-            }
-        }
-
-        return previousLetterNode.isWord();
+        return validWords.contains(input);
     }
 }

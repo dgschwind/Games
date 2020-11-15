@@ -1,6 +1,8 @@
 package org.douggschwind.games.dicegames.boggle;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This is the dice configuration for the English Boggle:
