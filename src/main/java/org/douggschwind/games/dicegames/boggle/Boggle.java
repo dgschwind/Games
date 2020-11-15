@@ -15,9 +15,83 @@ import java.util.Set;
 public class Boggle {
     private static final String GAME_BOARD_HEADER = "\t-----------";
 
-    private Set<String> findAllWordsPresent(DieLetter[][] gameBoard) {
+    private static final Set<String> validWords = new HashSet<>();
+
+    static {
+        // Obviously a heavily abbreviated set of valid words from those of the English language, just to keep
+        // this reasonable and allow for testing to be considered conclusive.
+        validWords.add("act");
+        validWords.add("acted");
+        validWords.add("actor");
+        validWords.add("any");
+        validWords.add("anything");
+        validWords.add("apple");
+        validWords.add("ask");
+        validWords.add("axe");
+        validWords.add("axed");
+        validWords.add("axes");
+        validWords.add("bat");
+        validWords.add("bats");
+        validWords.add("bet");
+        validWords.add("bets");
+        validWords.add("borrow");
+        validWords.add("bought");
+        validWords.add("orange");
+        validWords.add("part");
+        validWords.add("parts");
+        validWords.add("port");
+        validWords.add("ports");
+        validWords.add("pot");
+        validWords.add("pots");
+        validWords.add("put");
+        validWords.add("puts");
+        validWords.add("queen");
+        validWords.add("queens");
+        validWords.add("quiet");
+        validWords.add("quiets");
+        validWords.add("quit");
+        validWords.add("quits");
+        validWords.add("quite");
+        validWords.add("quote");
+        validWords.add("quoted");
+        validWords.add("quotes");
+        validWords.add("zap");
+        validWords.add("zaps");
+        validWords.add("zebra");
+        validWords.add("zebras");
+        validWords.add("zest");
+        validWords.add("zesty");
+        validWords.add("zip");
+        validWords.add("zips");
+        validWords.add("zipped");
+        validWords.add("zipper");
+        validWords.add("zippers");
+        validWords.add("zone");
+        validWords.add("zoned");
+        validWords.add("zones");
+        validWords.add("zoo");
+        validWords.add("zoos");
+    }
+
+    private Set<String> findWordsPresent(DieLetter[][] gameBoard,
+                                         String partialWordInProgress,
+                                         int row,
+                                         int column) {
         Set<String> result = new HashSet<>();
         // Big TODO here!
+        return result;
+    }
+
+    private Set<String> findWordsPresent(DieLetter[][] gameBoard) {
+        Set<String> result = new HashSet<>();
+
+        for (int row = 0;row < BoggleDice.ROWS_X_COLS;row++) {
+            for (int col = 0;col < BoggleDice.ROWS_X_COLS;col++) {
+                String firstLetterOfWord = "" + gameBoard[row][col];
+                result.addAll(findWordsPresent(gameBoard, firstLetterOfWord, row, col));
+            }
+        }
+
         return result;
     }
 
@@ -25,9 +99,9 @@ public class Boggle {
         System.out.println("Here is the game board:");
         System.out.println(GAME_BOARD_HEADER);
 
-        for (int row = 0;row < 4;row++) {
+        for (int row = 0;row < BoggleDice.ROWS_X_COLS;row++) {
             System.out.print("\t");
-            for (int col = 0;col < 4;col++) {
+            for (int col = 0;col < BoggleDice.ROWS_X_COLS;col++) {
                 DieLetter dieLetter = gameBoard[row][col];
                 if (dieLetter.isQu()) {
                     System.out.print("Qu");
@@ -47,7 +121,7 @@ public class Boggle {
         DieLetter[][] gameBoard = BoggleDice.shake();
         displayGameBoard(gameBoard);
 
-        Set<String> validWordsPresent = findAllWordsPresent((gameBoard));
+        Set<String> validWordsPresent = findWordsPresent((gameBoard));
         List<String> sortedValidWords = new ArrayList(validWordsPresent);
         Collections.sort(sortedValidWords);
         System.out.println("Here are all the valid words present in this game board:");

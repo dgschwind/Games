@@ -24,7 +24,7 @@ import java.util.*;
  * @author Doug Gschwind
  */
 public class BoggleDice {
-    private static final int ROWS_X_COLS = 4;
+    public static final int ROWS_X_COLS = 4;
 
     private static final List<DieLetter> DIE0 = new ArrayList();
     private static final List<DieLetter> DIE1 = new ArrayList();
