@@ -23,6 +23,10 @@ public class DieLetter {
         return letter;
     }
 
+    protected String asWordPart() {
+        return isQu() ? "qu" : "" + getLetter();
+    }
+
     protected boolean isQu() {
         return qu;
     }

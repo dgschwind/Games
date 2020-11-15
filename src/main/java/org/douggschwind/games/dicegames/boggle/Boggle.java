@@ -39,8 +39,14 @@ public class Boggle {
         validWords.add("bane");
         validWords.add("bans");
         validWords.add("banned");
+        validWords.add("bar");
+        validWords.add("bare");
+        validWords.add("bars");
+        validWords.add("bares");
         validWords.add("bat");
         validWords.add("bats");
+        validWords.add("bear");
+        validWords.add("bears");
         validWords.add("bee");
         validWords.add("been");
         validWords.add("bet");
@@ -58,8 +64,13 @@ public class Boggle {
         validWords.add("cot");
         validWords.add("cut");
         validWords.add("dane");
+        validWords.add("danes");
         validWords.add("dig");
+        validWords.add("digs");
         validWords.add("dog");
+        validWords.add("dogs");
+        validWords.add("duck");
+        validWords.add("ducks");
         validWords.add("easy");
         validWords.add("fat");
         validWords.add("fate");
@@ -83,23 +94,34 @@ public class Boggle {
         validWords.add("kits");
         validWords.add("kite");
         validWords.add("kites");
+        validWords.add("knob");
+        validWords.add("life");
         validWords.add("list");
+        validWords.add("live");
+        validWords.add("lives");
         validWords.add("log");
+        validWords.add("logs");
         validWords.add("orange");
         validWords.add("net");
         validWords.add("oat");
         validWords.add("part");
         validWords.add("parts");
+        validWords.add("poor");
         validWords.add("port");
         validWords.add("ports");
+        validWords.add("pour");
+        validWords.add("pours");
         validWords.add("pot");
         validWords.add("pots");
         validWords.add("put");
         validWords.add("puts");
+        validWords.add("quaint");
         validWords.add("queen");
         validWords.add("queens");
         validWords.add("quiet");
         validWords.add("quiets");
+        validWords.add("quick");
+        validWords.add("quickly");
         validWords.add("quit");
         validWords.add("quits");
         validWords.add("quite");
@@ -111,6 +133,7 @@ public class Boggle {
         validWords.add("rated");
         validWords.add("rates");
         validWords.add("return");
+        validWords.add("rob");
         validWords.add("rot");
         validWords.add("safe");
         validWords.add("safety");
@@ -124,8 +147,12 @@ public class Boggle {
         validWords.add("sees");
         validWords.add("set");
         validWords.add("sets");
+        validWords.add("settle");
+        validWords.add("settles");
         validWords.add("sit");
         validWords.add("sits");
+        validWords.add("slog");
+        validWords.add("slogs");
         validWords.add("soon");
         validWords.add("ten");
         validWords.add("zap");
@@ -178,7 +205,7 @@ public class Boggle {
             BoardLocationsVisited clone = boardLocationsVisited.clone();
             clone.markVisited(row - 1, column - 1);
             result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row - 1][column - 1].getLetter(),
+                                           partialWordInProgress + gameBoard[row - 1][column - 1].asWordPart(),
                                            row - 1,
                                            column - 1,
                                            clone));
@@ -187,7 +214,7 @@ public class Boggle {
             BoardLocationsVisited clone = boardLocationsVisited.clone();
             clone.markVisited(row - 1, column);
             result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row - 1][column].getLetter(),
+                                           partialWordInProgress + gameBoard[row - 1][column].asWordPart(),
                                            row - 1,
                                            column,
                                            clone));
@@ -196,7 +223,7 @@ public class Boggle {
             BoardLocationsVisited clone = boardLocationsVisited.clone();
             clone.markVisited(row - 1, column + 1);
             result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row - 1][column + 1].getLetter(),
+                                           partialWordInProgress + gameBoard[row - 1][column + 1].asWordPart(),
                                            row - 1,
                                            column + 1,
                                            clone));
@@ -205,16 +232,16 @@ public class Boggle {
             BoardLocationsVisited clone = boardLocationsVisited.clone();
             clone.markVisited(row, column - 1);
             result.addAll(findWordsPresent(gameBoard,
-                    partialWordInProgress + gameBoard[row][column - 1].getLetter(),
-                    row,
-                    column - 1,
-                    clone));
+                                           partialWordInProgress + gameBoard[row][column - 1].asWordPart(),
+                                           row,
+                                           column - 1,
+                                           clone));
         }
         if (canAdvanceToBoardLocation(row, column + 1, boardLocationsVisited)) {
             BoardLocationsVisited clone = boardLocationsVisited.clone();
             clone.markVisited(row, column + 1);
             result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row][column + 1].getLetter(),
+                                           partialWordInProgress + gameBoard[row][column + 1].asWordPart(),
                                            row,
                                            column + 1,
                                            clone));
@@ -223,7 +250,7 @@ public class Boggle {
             BoardLocationsVisited clone = boardLocationsVisited.clone();
             clone.markVisited(row + 1, column - 1);
             result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row + 1][column - 1].getLetter(),
+                                           partialWordInProgress + gameBoard[row + 1][column - 1].asWordPart(),
                                            row + 1,
                                            column - 1,
                                            clone));
@@ -232,7 +259,7 @@ public class Boggle {
             BoardLocationsVisited clone = boardLocationsVisited.clone();
             clone.markVisited(row + 1, column);
             result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row + 1][column].getLetter(),
+                                           partialWordInProgress + gameBoard[row + 1][column].asWordPart(),
                                            row + 1,
                                            column,
                                            clone));
@@ -241,7 +268,7 @@ public class Boggle {
             BoardLocationsVisited clone = boardLocationsVisited.clone();
             clone.markVisited(row + 1, column + 1);
             result.addAll(findWordsPresent(gameBoard,
-                                           partialWordInProgress + gameBoard[row + 1][column + 1].getLetter(),
+                                           partialWordInProgress + gameBoard[row + 1][column + 1].asWordPart(),
                                            row + 1,
                                            column + 1,
                                            clone));
@@ -255,7 +282,7 @@ public class Boggle {
 
         for (int row = 0;row < BoggleDice.ROWS_X_COLS;row++) {
             for (int column = 0;column < BoggleDice.ROWS_X_COLS;column++) {
-                String firstLetterOfWord = "" + gameBoard[row][column].getLetter();
+                String firstLetterOfWord = "" + gameBoard[row][column].asWordPart();
                 BoardLocationsVisited boardLocationsVisited = new BoardLocationsVisited(BoggleDice.ROWS_X_COLS);
                 boardLocationsVisited.markVisited(row, column);
                 result.addAll(findWordsPresent(gameBoard, firstLetterOfWord, row, column, boardLocationsVisited));
@@ -291,12 +318,12 @@ public class Boggle {
         DieLetter[][] gameBoard = BoggleDice.shake();
         displayGameBoard(gameBoard);
 
-        Set<String> validWordsPresent = findWordsPresent((gameBoard));
-        List<String> sortedValidWords = new ArrayList(validWordsPresent);
-        Collections.sort(sortedValidWords);
-        System.out.println("Here are all the valid words present in this game board:");
-        for (String validWordPresent : sortedValidWords) {
-            System.out.println("\t" + validWordPresent);
+        Set<String> validWordsFound = findWordsPresent((gameBoard));
+        List<String> sortedValidWordsFound = new ArrayList(validWordsFound);
+        Collections.sort(sortedValidWordsFound);
+        System.out.println("Found " + sortedValidWordsFound.size() + " of " + validWords.size() + " valid words present in this game board:");
+        for (String validWordFound : sortedValidWordsFound) {
+            System.out.println("\t" + validWordFound);
         }
     }
 
