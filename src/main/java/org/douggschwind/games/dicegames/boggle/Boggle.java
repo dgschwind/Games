@@ -73,10 +73,17 @@ public class Boggle {
         validWords.add("zoos");
     }
 
+    private boolean canAdvanceToBoardLocation(int row, int column, BoardLocationsVisited boardLocationsVisited) {
+        return (((row >= 0) && (row < BoggleDice.ROWS_X_COLS)) &&
+                ((column >= 0) && (column < BoggleDice.ROWS_X_COLS)) &&
+                !boardLocationsVisited.hasBeenVisited(row, column));
+    }
+
     private Set<String> findWordsPresent(DieLetter[][] gameBoard,
                                          String partialWordInProgress,
                                          int row,
-                                         int column) {
+                                         int column,
+                                         BoardLocationsVisited boardLocationsVisited) {
         Set<String> result = new HashSet<>();
         // Big TODO here!
         return result;
@@ -86,9 +93,11 @@ public class Boggle {
         Set<String> result = new HashSet<>();
 
         for (int row = 0;row < BoggleDice.ROWS_X_COLS;row++) {
-            for (int col = 0;col < BoggleDice.ROWS_X_COLS;col++) {
-                String firstLetterOfWord = "" + gameBoard[row][col];
-                result.addAll(findWordsPresent(gameBoard, firstLetterOfWord, row, col));
+            for (int column = 0;column < BoggleDice.ROWS_X_COLS;column++) {
+                String firstLetterOfWord = "" + gameBoard[row][column];
+                BoardLocationsVisited boardLocationsVisited = new BoardLocationsVisited(BoggleDice.ROWS_X_COLS);
+                boardLocationsVisited.markVisited(row, column);
+                result.addAll(findWordsPresent(gameBoard, firstLetterOfWord, row, column, boardLocationsVisited));
             }
         }
 
