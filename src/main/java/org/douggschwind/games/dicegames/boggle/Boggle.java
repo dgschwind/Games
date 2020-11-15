@@ -96,6 +96,7 @@ public class Boggle {
         }
 
         if (canAdvanceToBoardLocation(row - 1, column - 1, boardLocationsVisited)) {
+            // Clone boardLocationsVisited so as to not disturb the other consumers of it in this method.
             boardLocationsVisited.markVisited(row - 1, column - 1);
             result.addAll(findWordsPresent(gameBoard,
                                            partialWordInProgress + gameBoard[row - 1][column - 1].getLetter(),
