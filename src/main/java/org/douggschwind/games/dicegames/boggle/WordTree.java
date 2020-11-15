@@ -38,6 +38,37 @@ public class WordTree {
         validWords.forEach(word -> seed(word));
     }
 
+    /**
+     * Determines if this instance has one or more words that begin with the given prefix.
+     * @param prefix Expected to be non-empty and non-null.
+     * @return
+     */
+    public boolean hasWordsThatBeginWith(String prefix) {
+        if ((prefix == null) || (prefix.isEmpty())) {
+            return false;
+        }
+
+        LetterNode previousLetterNode = null;
+        for (int letterIndex = 0;letterIndex < prefix.length();letterIndex++) {
+            char currentLetter = prefix.charAt(letterIndex);
+            if (letterIndex == 0) {
+                previousLetterNode = rootLetterMap.get(currentLetter);
+                if (previousLetterNode == null) {
+                    // Can only get here if our list of valid words doesn't have coverage for at least one
+                    // word that begins with each different letter of the alphabet.
+                    return false;
+                }
+            } else {
+                Optional<LetterNode> previousLetterNodeOptional = previousLetterNode.getChildNode(currentLetter);
+                if (!previousLetterNodeOptional.isPresent()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     public boolean isValidWord(String input) {
         if ((input == null) || (input.isEmpty())) {
             return false;

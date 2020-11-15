@@ -16,6 +16,7 @@ public class Boggle {
     private static final String GAME_BOARD_HEADER = "\t-----------";
 
     private static final Set<String> validWords = new HashSet<>();
+    private static final WordTree wordTree = new WordTree();
 
     static {
         // Obviously a heavily abbreviated set of valid words from those of the English language, just to keep
@@ -71,6 +72,8 @@ public class Boggle {
         validWords.add("zones");
         validWords.add("zoo");
         validWords.add("zoos");
+
+        wordTree.seed(validWords);
     }
 
     private boolean canAdvanceToBoardLocation(int row, int column, BoardLocationsVisited boardLocationsVisited) {
@@ -85,7 +88,26 @@ public class Boggle {
                                          int column,
                                          BoardLocationsVisited boardLocationsVisited) {
         Set<String> result = new HashSet<>();
-        // Big TODO here!
+
+        // Lets first determine if the partial word in progress can possibly lead to valid words.
+        // If not, we can just stop right here.
+        if (!wordTree.hasWordsThatBeginWith(partialWordInProgress)) {
+            return result;
+        }
+
+        if (canAdvanceToBoardLocation(row - 1, column - 1, boardLocationsVisited)) {
+            boardLocationsVisited.markVisited(row - 1, column - 1);
+            result.addAll(findWordsPresent(gameBoard,
+                                           partialWordInProgress + gameBoard[row - 1][column - 1].getLetter(),
+                                           row - 1,
+                                           column - 1,
+                                           boardLocationsVisited));
+        }
+        if (canAdvanceToBoardLocation(row - 1, column, boardLocationsVisited)) {
+        }
+        if (canAdvanceToBoardLocation(row - 1, column + 1, boardLocationsVisited)) {
+        }
+
         return result;
     }
 
