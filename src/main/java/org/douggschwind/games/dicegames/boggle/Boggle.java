@@ -29,6 +29,7 @@ public class Boggle {
         validWords.add("anything");
         validWords.add("apple");
         validWords.add("ask");
+        validWords.add("ate");
         validWords.add("axe");
         validWords.add("axed");
         validWords.add("axes");
@@ -53,6 +54,7 @@ public class Boggle {
         validWords.add("bets");
         validWords.add("boat");
         validWords.add("boats");
+        validWords.add("bold");
         validWords.add("boo");
         validWords.add("booed");
         validWords.add("boos");
@@ -72,8 +74,19 @@ public class Boggle {
         validWords.add("duck");
         validWords.add("ducks");
         validWords.add("easy");
+        validWords.add("eat");
+        validWords.add("eaten");
+        validWords.add("eats");
+        validWords.add("false");
         validWords.add("fat");
         validWords.add("fate");
+        validWords.add("fight");
+        validWords.add("fighter");
+        validWords.add("fin");
+        validWords.add("fine");
+        validWords.add("fines");
+        validWords.add("finest");
+        validWords.add("fins");
         validWords.add("fit");
         validWords.add("fits");
         validWords.add("fitter");
@@ -101,11 +114,25 @@ public class Boggle {
         validWords.add("lives");
         validWords.add("log");
         validWords.add("logs");
+        validWords.add("mast");
+        validWords.add("masts");
+        validWords.add("meat");
+        validWords.add("meats");
+        validWords.add("meet");
+        validWords.add("meets");
+        validWords.add("moist");
+        validWords.add("moisten");
+        validWords.add("mold");
+        validWords.add("most");
         validWords.add("orange");
         validWords.add("net");
         validWords.add("oat");
+        validWords.add("old");
         validWords.add("part");
         validWords.add("parts");
+        validWords.add("pin");
+        validWords.add("pine");
+        validWords.add("pines");
         validWords.add("poor");
         validWords.add("port");
         validWords.add("ports");
@@ -132,6 +159,7 @@ public class Boggle {
         validWords.add("rate");
         validWords.add("rated");
         validWords.add("rates");
+        validWords.add("resume");
         validWords.add("return");
         validWords.add("rob");
         validWords.add("rot");
@@ -142,7 +170,11 @@ public class Boggle {
         validWords.add("sat");
         validWords.add("saw");
         validWords.add("saws");
+        validWords.add("sea");
+        validWords.add("seas");
         validWords.add("see");
+        validWords.add("seed");
+        validWords.add("seeds");
         validWords.add("seen");
         validWords.add("sees");
         validWords.add("set");
@@ -154,11 +186,56 @@ public class Boggle {
         validWords.add("slog");
         validWords.add("slogs");
         validWords.add("soon");
+        validWords.add("star");
+        validWords.add("starred");
+        validWords.add("stars");
+        validWords.add("stare");
+        validWords.add("steer");
+        validWords.add("store");
+        validWords.add("stores");
+        validWords.add("stored");
+        validWords.add("tar");
+        validWords.add("tare");
+        validWords.add("tea");
+        validWords.add("teas");
+        validWords.add("tee");
+        validWords.add("teed");
+        validWords.add("tees");
         validWords.add("ten");
+        validWords.add("tens");
+        validWords.add("tomorrow");
+        validWords.add("ton");
+        validWords.add("tons");
+        validWords.add("true");
+        validWords.add("turret");
+        validWords.add("under");
+        validWords.add("utmost");
+        validWords.add("vale");
+        validWords.add("vales");
+        validWords.add("valor");
+        validWords.add("vanity");
+        validWords.add("variety");
+        validWords.add("various");
+        validWords.add("vary");
+        validWords.add("very");
+        validWords.add("wag");
+        validWords.add("wage");
+        validWords.add("wages");
+        validWords.add("waggle");
+        validWords.add("was");
+        validWords.add("wed");
+        validWords.add("what");
+        validWords.add("worry");
+        validWords.add("yap");
+        validWords.add("yaps");
+        validWords.add("yell");
+        validWords.add("yellow");
+        validWords.add("yesterday");
         validWords.add("zap");
         validWords.add("zaps");
         validWords.add("zebra");
         validWords.add("zebras");
+        validWords.add("zero");
         validWords.add("zest");
         validWords.add("zesty");
         validWords.add("zip");
@@ -277,7 +354,7 @@ public class Boggle {
         return result;
     }
 
-    private Set<String> findWordsPresent(DieLetter[][] gameBoard) {
+    Set<String> findWordsPresent(DieLetter[][] gameBoard) {
         Set<String> result = new HashSet<>();
 
         for (int row = 0;row < BoggleDice.ROWS_X_COLS;row++) {
@@ -318,7 +395,7 @@ public class Boggle {
         DieLetter[][] gameBoard = BoggleDice.shake();
         displayGameBoard(gameBoard);
 
-        Set<String> validWordsFound = findWordsPresent((gameBoard));
+        Set<String> validWordsFound = findWordsPresent(gameBoard);
         List<String> sortedValidWordsFound = new ArrayList(validWordsFound);
         Collections.sort(sortedValidWordsFound);
         System.out.println("Found " + sortedValidWordsFound.size() + " of " + validWords.size() + " valid words present in this game board:");
