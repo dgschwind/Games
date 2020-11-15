@@ -137,6 +137,7 @@ public class Boggle {
         validWords.add("pin");
         validWords.add("pine");
         validWords.add("pines");
+        validWords.add("pins");
         validWords.add("poor");
         validWords.add("port");
         validWords.add("ports");

@@ -183,7 +183,7 @@ public class BoggleDice {
      */
     public static DieLetter[][] shake() {
         Random random = new Random();
-        Set<Integer> dieIndicators = new HashSet<>();
+        List<Integer> dieIndicators = new ArrayList<>(ROWS_X_COLS * ROWS_X_COLS);
         for (int i = 0;i < ROWS_X_COLS * ROWS_X_COLS;i++) {
             dieIndicators.add(i);
         }
@@ -198,10 +198,11 @@ public class BoggleDice {
 
                 int dieIndicator;
                 if (dieIndicators.size() > 1) {
-                    dieIndicator = random.nextInt(dieIndicators.size());
+                    dieIndicator = dieIndicators.get(random.nextInt(dieIndicators.size()));
                     // Remove the die now being used from those available so that it cannot be
-                    // selected the next time through this loop.
-                    dieIndicators.remove(dieIndicator);
+                    // selected the next time through this loop. I am being careful to ensure
+                    // List.remove(Object o) is being called here rather than List.remove(int index).
+                    dieIndicators.remove(Integer.valueOf(dieIndicator));
                 } else {
                     dieIndicator = dieIndicators.iterator().next().intValue();
                 }

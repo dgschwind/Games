@@ -64,5 +64,37 @@ public class BoggleTest {
 
     @Test
     public void testBoggleWordFindingQuPresent() {
+        DieLetter[][] gameBoard = new DieLetter[4][];
+        gameBoard[0] = new DieLetter[4];
+        gameBoard[0][0] = new DieLetter('k');
+        gameBoard[0][1] = new DieLetter('p');
+        gameBoard[0][2] = new DieLetter('t');
+        gameBoard[0][3] = new DieLetter('a');
+        gameBoard[1] = new DieLetter[4];
+        gameBoard[1][0] = new DieLetter('r');
+        gameBoard[1][1] = new DieLetter('i');
+        gameBoard[1][2] = new DieLetter('n');
+        gameBoard[1][3] = new DieLetter('s');
+        gameBoard[2] = new DieLetter[4];
+        gameBoard[2][0] = new DieLetter('n');
+        gameBoard[2][1] = new DieLetter('h');
+        gameBoard[2][2] = new DieLetter('q', true);
+        gameBoard[2][3] = new DieLetter('c');
+        gameBoard[3] = new DieLetter[4];
+        gameBoard[3][0] = new DieLetter('i');
+        gameBoard[3][1] = new DieLetter('l');
+        gameBoard[3][2] = new DieLetter('d');
+        gameBoard[3][3] = new DieLetter('h');
+
+        Boggle subject = new Boggle();
+        Set<String> wordsFound = subject.findWordsPresent(gameBoard);
+        Assert.assertEquals(7, wordsFound.size());
+        Assert.assertTrue(wordsFound.contains("kit"));
+        Assert.assertTrue(wordsFound.contains("kits"));
+        Assert.assertTrue(wordsFound.contains("pin"));
+        Assert.assertTrue(wordsFound.contains("pins"));
+        Assert.assertTrue(wordsFound.contains("quit"));
+        Assert.assertTrue(wordsFound.contains("quits"));
+        Assert.assertTrue(wordsFound.contains("sat"));
     }
 }
