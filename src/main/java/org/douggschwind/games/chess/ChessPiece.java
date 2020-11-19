@@ -10,16 +10,41 @@ public abstract class ChessPiece {
         WHITE;
     }
 
-    private Player owner;
+    private final Player owner;
     private final BoardPosition initialPosition;
     private boolean captured;
 
     protected ChessPiece(Player owner, BoardPosition initialPosition) {
+        this.owner = owner;
         this.initialPosition = initialPosition;
     }
 
     protected BoardPosition getInitialPosition() {
         return initialPosition;
+    }
+
+    public boolean isPawn() {
+        return false;
+    }
+
+    public boolean isRook() {
+        return false;
+    }
+
+    public boolean isKnight() {
+        return false;
+    }
+
+    public boolean isBishop() {
+        return false;
+    }
+
+    public boolean isQueen() {
+        return false;
+    }
+
+    public boolean isKing() {
+        return false;
     }
 
     /**

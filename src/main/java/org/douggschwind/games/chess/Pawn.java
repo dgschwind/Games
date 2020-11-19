@@ -13,6 +13,11 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
+    public final boolean isPawn() {
+        return true;
+    }
+
+    @Override
     public boolean canMoveTo(BoardPosition from, BoardPosition to) {
         if (hasReachedFarSideOfBoard()) {
             // Also need to consider once Pawn has in fact reached the far side of the board.

@@ -11,6 +11,11 @@ public class Knight extends ChessPiece {
     }
 
     @Override
+    public final boolean isKnight() {
+        return true;
+    }
+
+    @Override
     public boolean canMoveTo(BoardPosition from, BoardPosition to) {
         return false; //TODO
     }

@@ -11,6 +11,11 @@ public class Rook extends ChessPiece {
     }
 
     @Override
+    public final boolean isRook() {
+        return true;
+    }
+
+    @Override
     public boolean canMoveTo(BoardPosition from, BoardPosition to) {
         return false; //TODO
     }

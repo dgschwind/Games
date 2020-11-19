@@ -11,6 +11,11 @@ public class Queen extends ChessPiece {
     }
 
     @Override
+    public final boolean isQueen() {
+        return true;
+    }
+
+    @Override
     public boolean canMoveTo(BoardPosition from, BoardPosition to) {
         return false; //TODO
     }

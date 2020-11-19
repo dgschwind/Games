@@ -11,6 +11,11 @@ public class King extends ChessPiece {
     }
 
     @Override
+    public final boolean isKing() {
+        return true;
+    }
+
+    @Override
     public boolean canMoveTo(BoardPosition from, BoardPosition to) {
         return false; //TODO
     }
