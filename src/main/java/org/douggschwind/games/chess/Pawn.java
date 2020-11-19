@@ -8,8 +8,8 @@ public class Pawn extends ChessPiece {
     private Boolean initialMoveWasTwoSquares;
     private boolean reachedFarSideOfBoard;
 
-    public Pawn(Player player, BoardPosition initialPosition) {
-        super(player, initialPosition);
+    public Pawn(Player player) {
+        super(player);
     }
 
     @Override

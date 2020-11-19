@@ -5,89 +5,60 @@ package org.douggschwind.games.chess;
  * @author Doug Gschwind
  */
 public class ChessBoard {
-    private final ChessPiece[][] squares;
+    private final Square[] squares;
 
     {
-        squares = new ChessPiece[8][];
-        for (int row = 0;row < 8;row++) {
-            squares[row] = new ChessPiece[8];
+        squares = new Square[64];
+
+        int index = 0;
+        for (BoardPosition.Row row : BoardPosition.Row.values()) {
+            for (BoardPosition.Column column : BoardPosition.Column.values()) {
+                squares[index++] = new Square(new BoardPosition(row, column));
+            }
         }
     }
 
     private void setUpInitialState() {
-        squares[0][0] = new Rook(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R8, BoardPosition.Column.A));
-        squares[0][1] = new Knight(ChessPiece.Player.BLACK,
-                                   new BoardPosition(BoardPosition.Row.R8, BoardPosition.Column.B));
-        squares[0][2] = new Bishop(ChessPiece.Player.BLACK,
-                                   new BoardPosition(BoardPosition.Row.R8, BoardPosition.Column.C));
-        squares[0][3] = new Queen(ChessPiece.Player.BLACK,
-                                  new BoardPosition(BoardPosition.Row.R8, BoardPosition.Column.D));
-        squares[0][4] = new King(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R8, BoardPosition.Column.E));
-        squares[0][5] = new Bishop(ChessPiece.Player.BLACK,
-                                   new BoardPosition(BoardPosition.Row.R8, BoardPosition.Column.F));
-        squares[0][6] = new Knight(ChessPiece.Player.BLACK,
-                                   new BoardPosition(BoardPosition.Row.R8, BoardPosition.Column.G));
-        squares[0][7] = new Rook(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R8, BoardPosition.Column.H));
-        squares[1][0] = new Pawn(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R7, BoardPosition.Column.A));
-        squares[1][1] = new Pawn(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R7, BoardPosition.Column.B));
-        squares[1][2] = new Pawn(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R7, BoardPosition.Column.C));
-        squares[1][3] = new Pawn(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R7, BoardPosition.Column.D));
-        squares[1][4] = new Pawn(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R7, BoardPosition.Column.E));
-        squares[1][5] = new Pawn(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R7, BoardPosition.Column.F));
-        squares[1][6] = new Pawn(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R7, BoardPosition.Column.G));
-        squares[1][7] = new Pawn(ChessPiece.Player.BLACK,
-                                 new BoardPosition(BoardPosition.Row.R7, BoardPosition.Column.H));
+        squares[0].setInitialResident(new Rook(ChessPiece.Player.BLACK));
+        squares[1].setInitialResident(new Knight(ChessPiece.Player.BLACK));
+        squares[2].setInitialResident(new Bishop(ChessPiece.Player.BLACK));
+        squares[3].setInitialResident(new Queen(ChessPiece.Player.BLACK));
+        squares[4].setInitialResident(new King(ChessPiece.Player.BLACK));
+        squares[5].setInitialResident(new Bishop(ChessPiece.Player.BLACK));
+        squares[6].setInitialResident(new Knight(ChessPiece.Player.BLACK));
+        squares[7].setInitialResident(new Rook(ChessPiece.Player.BLACK));
+
+        for (int index = 8;index <= 15;index++) {
+            squares[index].setInitialResident(new Pawn(ChessPiece.Player.BLACK));
+        }
 
         // Now for the opponents pieces on the opposite end of the board.
-        squares[6][0] = new Pawn(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R2, BoardPosition.Column.A));
-        squares[6][1] = new Pawn(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R2, BoardPosition.Column.B));
-        squares[6][2] = new Pawn(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R2, BoardPosition.Column.C));
-        squares[6][3] = new Pawn(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R2, BoardPosition.Column.D));
-        squares[6][4] = new Pawn(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R2, BoardPosition.Column.E));
-        squares[6][5] = new Pawn(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R2, BoardPosition.Column.F));
-        squares[6][6] = new Pawn(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R2, BoardPosition.Column.G));
-        squares[6][7] = new Pawn(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R2, BoardPosition.Column.H));
-        squares[7][0] = new Rook(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R1, BoardPosition.Column.A));
-        squares[7][1] = new Knight(ChessPiece.Player.WHITE,
-                                   new BoardPosition(BoardPosition.Row.R1, BoardPosition.Column.B));
-        squares[7][2] = new Bishop(ChessPiece.Player.WHITE,
-                                   new BoardPosition(BoardPosition.Row.R1, BoardPosition.Column.C));
-        squares[7][3] = new Queen(ChessPiece.Player.WHITE,
-                                  new BoardPosition(BoardPosition.Row.R1, BoardPosition.Column.D));
-        squares[7][4] = new King(ChessPiece.Player.WHITE,
-                                  new BoardPosition(BoardPosition.Row.R1, BoardPosition.Column.E));
-        squares[7][5] = new Bishop(ChessPiece.Player.WHITE,
-                                   new BoardPosition(BoardPosition.Row.R1, BoardPosition.Column.F));
-        squares[7][6] = new Knight(ChessPiece.Player.WHITE,
-                                   new BoardPosition(BoardPosition.Row.R1, BoardPosition.Column.G));
-        squares[7][7] = new Rook(ChessPiece.Player.WHITE,
-                                 new BoardPosition(BoardPosition.Row.R1, BoardPosition.Column.H));
+        for (int index = 48;index <= 55;index++) {
+            squares[index].setInitialResident(new Pawn(ChessPiece.Player.WHITE));
+        }
+
+        squares[56].setInitialResident(new Rook(ChessPiece.Player.WHITE));
+        squares[57].setInitialResident(new Knight(ChessPiece.Player.WHITE));
+        squares[58].setInitialResident(new Bishop(ChessPiece.Player.WHITE));
+        squares[59].setInitialResident(new Queen(ChessPiece.Player.WHITE));
+        squares[60].setInitialResident(new King(ChessPiece.Player.WHITE));
+        squares[61].setInitialResident(new Bishop(ChessPiece.Player.WHITE));
+        squares[62].setInitialResident(new Knight(ChessPiece.Player.WHITE));
+        squares[63].setInitialResident(new Rook(ChessPiece.Player.WHITE));
     }
 
     public ChessBoard() {
         setUpInitialState();
     }
 
+    private void clearSquareResidents() {
+        for (Square square : squares) {
+            square.setResident(null);
+        }
+    }
+
     public void reset() {
+        clearSquareResidents();
         setUpInitialState();
     }
 }

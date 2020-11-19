@@ -6,8 +6,8 @@ package org.douggschwind.games.chess;
  */
 public class Rook extends ChessPiece {
 
-    public Rook(Player player, BoardPosition initialPosition) {
-        super(player, initialPosition);
+    public Rook(Player player) {
+        super(player);
     }
 
     @Override

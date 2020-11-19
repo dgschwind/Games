@@ -6,8 +6,8 @@ package org.douggschwind.games.chess;
  */
 public class Bishop extends ChessPiece {
 
-    public Bishop(Player player, BoardPosition initialPosition) {
-        super(player, initialPosition);
+    public Bishop(Player player) {
+        super(player);
     }
 
     @Override

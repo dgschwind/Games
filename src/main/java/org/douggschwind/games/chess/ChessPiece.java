@@ -11,16 +11,19 @@ public abstract class ChessPiece {
     }
 
     private final Player owner;
-    private final BoardPosition initialPosition;
+    private BoardPosition initialPosition;
     private boolean captured;
 
-    protected ChessPiece(Player owner, BoardPosition initialPosition) {
+    protected ChessPiece(Player owner) {
         this.owner = owner;
-        this.initialPosition = initialPosition;
     }
 
     protected BoardPosition getInitialPosition() {
         return initialPosition;
+    }
+
+    protected void setInitialPosition(BoardPosition initialPosition) {
+        this.initialPosition = initialPosition;
     }
 
     public boolean isPawn() {
