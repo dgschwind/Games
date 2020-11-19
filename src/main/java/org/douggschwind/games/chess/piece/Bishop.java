@@ -1,4 +1,6 @@
-package org.douggschwind.games.chess;
+package org.douggschwind.games.chess.piece;
+
+import org.douggschwind.games.chess.BoardPosition;
 
 /**
  * Represents one of the two Bishop pieces in the game of Chess, for a given Player.

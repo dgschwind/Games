@@ -1,5 +1,7 @@
 package org.douggschwind.games.chess;
 
+import org.douggschwind.games.chess.piece.ChessPiece;
+
 import java.util.Optional;
 
 /**

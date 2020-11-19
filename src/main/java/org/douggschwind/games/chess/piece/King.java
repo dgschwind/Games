@@ -1,4 +1,7 @@
-package org.douggschwind.games.chess;
+package org.douggschwind.games.chess.piece;
+
+import org.douggschwind.games.chess.BoardPosition;
+import org.douggschwind.games.chess.piece.ChessPiece;
 
 /**
  * Represents the King piece in the game of Chess, for a given Player.

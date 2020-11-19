@@ -1,5 +1,13 @@
 package org.douggschwind.games.chess;
 
+import org.douggschwind.games.chess.piece.Bishop;
+import org.douggschwind.games.chess.piece.ChessPiece;
+import org.douggschwind.games.chess.piece.King;
+import org.douggschwind.games.chess.piece.Knight;
+import org.douggschwind.games.chess.piece.Pawn;
+import org.douggschwind.games.chess.piece.Queen;
+import org.douggschwind.games.chess.piece.Rook;
+
 /**
  * An instance of this class represents the state of the Chess board during the playing of a game.
  * @author Doug Gschwind

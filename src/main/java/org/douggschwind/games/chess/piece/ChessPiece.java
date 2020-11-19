@@ -1,4 +1,6 @@
-package org.douggschwind.games.chess;
+package org.douggschwind.games.chess.piece;
+
+import org.douggschwind.games.chess.BoardPosition;
 
 /**
  * Represents the abstraction of which all pieces in a game of Chess are.
@@ -22,7 +24,7 @@ public abstract class ChessPiece {
         return initialPosition;
     }
 
-    protected void setInitialPosition(BoardPosition initialPosition) {
+    public void setInitialPosition(BoardPosition initialPosition) {
         this.initialPosition = initialPosition;
     }
 
