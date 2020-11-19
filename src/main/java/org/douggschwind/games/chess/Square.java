@@ -38,4 +38,8 @@ public class Square {
     public void setResident(ChessPiece newValue) {
         resident = Optional.ofNullable(newValue);
     }
+
+    public boolean isOccupied() {
+        return getResident().isPresent();
+    }
 }
