@@ -1,6 +1,7 @@
 package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.BoardPosition;
+import org.douggschwind.games.chess.Square;
 
 /**
  * Represents the abstraction of which all pieces in a game of Chess are.
@@ -58,8 +59,8 @@ public abstract class ChessPiece {
      * @param to The piece's proposed destination square.
      * @return true if so, false if the piece is not allowed to be moved to the destination.
      */
-    public abstract boolean canMoveTo(BoardPosition from, BoardPosition to);
-    public abstract void moveTo(BoardPosition from, BoardPosition to);
+    public abstract boolean canMoveTo(Square from, Square to);
+    public abstract void moveTo(Square from, Square to);
 
     public void capture() {
         captured = true;

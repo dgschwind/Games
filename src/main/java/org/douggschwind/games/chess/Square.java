@@ -44,4 +44,12 @@ public class Square {
     public boolean isOccupied() {
         return getResident().isPresent();
     }
+
+    public BoardPosition.Row getRow() {
+        return getBoardPosition().getRow();
+    }
+
+    public int getNumberRowsDistance(Square to) {
+        return this.getBoardPosition().getNumberRowsDistance(to.getBoardPosition());
+    }
 }

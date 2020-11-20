@@ -1,7 +1,6 @@
 package org.douggschwind.games.chess.piece;
 
-import org.douggschwind.games.chess.BoardPosition;
-import org.douggschwind.games.chess.piece.ChessPiece;
+import org.douggschwind.games.chess.Square;
 
 /**
  * Represents one of the two Rook pieces in the game of Chess, for a given Player.
@@ -19,11 +18,11 @@ public class Rook extends ChessPiece {
     }
 
     @Override
-    public boolean canMoveTo(BoardPosition from, BoardPosition to) {
+    public boolean canMoveTo(Square from, Square to) {
         return false; //TODO
     }
 
     @Override
-    public void moveTo(BoardPosition from, BoardPosition to) {
+    public void moveTo(Square from, Square to) {
     }
 }

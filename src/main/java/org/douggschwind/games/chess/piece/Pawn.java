@@ -1,6 +1,7 @@
 package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.BoardPosition;
+import org.douggschwind.games.chess.Square;
 
 /**
  * Represents one of the eight Pawn pieces in the game of Chess, for a given Player.
@@ -20,7 +21,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public boolean canMoveTo(BoardPosition from, BoardPosition to) {
+    public boolean canMoveTo(Square from, Square to) {
         if (hasReachedFarSideOfBoard()) {
             // Also need to consider once Pawn has in fact reached the far side of the board.
         } else {
@@ -29,7 +30,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void moveTo(BoardPosition from, BoardPosition to) {
+    public void moveTo(Square from, Square to) {
         if (!hasEverBeenMoved()) {
             initialMoveWasTwoSquares = (from.getNumberRowsDistance(to) == 2);
         } else if (!reachedFarSideOfBoard) {
