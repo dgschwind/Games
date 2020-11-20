@@ -41,6 +41,13 @@ public class Square {
         resident = Optional.ofNullable(newValue);
     }
 
+    /**
+     * Empties or clears this instance to note that a ChessPiece no longer resides here.
+     */
+    public void empty() {
+        setResident(null);
+    }
+
     public boolean isOccupied() {
         return getResident().isPresent();
     }
@@ -64,5 +71,9 @@ public class Square {
 
     public int getNumberRowsDistance(Square to) {
         return this.getBoardPosition().getNumberRowsDistance(to.getBoardPosition());
+    }
+
+    public int getNumberColumnsDistance(Square to) {
+        return this.getBoardPosition().getNumberColumnsDistance(to.getBoardPosition());
     }
 }

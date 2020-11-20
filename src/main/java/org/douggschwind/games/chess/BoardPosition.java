@@ -74,4 +74,13 @@ public class BoardPosition {
     public int getNumberRowsDistance(BoardPosition to) {
         return Math.abs(this.getRow().getId() - to.getRow().getId());
     }
+
+    /**
+     * Determines the distance in the number of columns from this position to the to position.
+     * @param to Must be non-null.
+     * @return Will be a non-negative number.
+     */
+    public int getNumberColumnsDistance(BoardPosition to) {
+        return Math.abs(this.getColumn().getId() - to.getColumn().getId());
+    }
 }

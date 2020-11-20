@@ -8,8 +8,8 @@ import org.douggschwind.games.chess.Square;
  * @author Doug Gschwind
  */
 public class Pawn extends ChessPiece {
-    private Boolean initialMoveWasTwoSquares;
-    private boolean movedMoreThanOnce;
+    private boolean initialMoveWasTwoSquares;
+    private int numTimesMoved;
     private boolean reachedFarSideOfBoard;
 
     public Pawn(Player player) {
@@ -65,6 +65,7 @@ public class Pawn extends ChessPiece {
                 return true;
             } else {
                 // Attacking to capture.
+                //TODO Address En Passant here.
                 return to.isOccupied() && to.isOccupiedByMyOpponent(from);
             }
         }
@@ -72,29 +73,29 @@ public class Pawn extends ChessPiece {
 
     @Override
     public void moveTo(Square from, Square to) {
+        basicMove(from, to);
+
         if (!hasEverBeenMoved()) {
             initialMoveWasTwoSquares = (from.getNumberRowsDistance(to) == 2);
         } else if (!reachedFarSideOfBoard) {
             int initialRow = getInitialPosition().getRow().getId();
             reachedFarSideOfBoard =
-                    (((initialRow == BoardPosition.MAX_ROW) && (to.getRow().getId() == BoardPosition.MIN_ROW)) ||
-                     ((initialRow == BoardPosition.MIN_ROW) && (to.getRow().getId() == BoardPosition.MAX_ROW)));
+                (((initialRow == BoardPosition.MAX_ROW) && (to.getRow().getId() == BoardPosition.MIN_ROW)) ||
+                 ((initialRow == BoardPosition.MIN_ROW) && (to.getRow().getId() == BoardPosition.MAX_ROW)));
         }
+
+        numTimesMoved++;
     }
 
     public boolean hasEverBeenMoved() {
-        return initialMoveWasTwoSquares != null;
+        return numTimesMoved > 0;
     }
 
     public boolean isSubjectToEnPassant() {
-        return hasEverBeenMoved() && initialMoveWasTwoSquares.booleanValue();
+        return ((numTimesMoved == 1) && initialMoveWasTwoSquares);
     }
 
-    public boolean hasReachedFarSideOfBoard() {
+    private boolean hasReachedFarSideOfBoard() {
         return reachedFarSideOfBoard;
-    }
-
-    public void farSideOfBoardReached() {
-        reachedFarSideOfBoard = true;
     }
 }

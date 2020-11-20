@@ -66,11 +66,20 @@ public abstract class ChessPiece {
     public abstract boolean canMoveTo(Square from, Square to);
     public abstract void moveTo(Square from, Square to);
 
-    public void capture() {
-        captured = true;
+    protected final void basicMove(Square from, Square to) {
+        boolean isAttackingToCapture = to.isOccupied();
+        if (isAttackingToCapture) {
+            to.getResident().get().markCaptured();
+        }
+        to.setResident(from.getResident().get());
+        from.empty();
     }
 
     public boolean hasBeenCaptured() {
         return captured;
+    }
+
+    private void markCaptured() {
+        captured = true;
     }
 }
