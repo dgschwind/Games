@@ -45,8 +45,21 @@ public class Square {
         return getResident().isPresent();
     }
 
+    public boolean isOccupiedByMyOpponent(Square that) {
+        if (!this.isOccupied() || !that.isOccupied()) {
+            return false;
+        } else {
+            ChessPiece occupant = this.getResident().get();
+            return occupant.isOpponent(that.getResident().get());
+        }
+    }
+
     public BoardPosition.Row getRow() {
         return getBoardPosition().getRow();
+    }
+
+    public BoardPosition.Column getColumn() {
+        return getBoardPosition().getColumn();
     }
 
     public int getNumberRowsDistance(Square to) {

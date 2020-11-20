@@ -21,6 +21,10 @@ public abstract class ChessPiece {
         this.owner = owner;
     }
 
+    public boolean isOpponent(ChessPiece that) {
+        return this.owner != that.owner;
+    }
+
     protected BoardPosition getInitialPosition() {
         return initialPosition;
     }
