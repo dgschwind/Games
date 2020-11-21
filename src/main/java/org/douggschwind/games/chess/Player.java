@@ -1,5 +1,7 @@
 package org.douggschwind.games.chess;
 
+import org.douggschwind.games.chess.piece.ChessPiece;
+
 /**
  * @author Doug Gschwind
  */
@@ -15,5 +17,9 @@ public enum Player {
 
     public String getAbbreviation() {
         return abbreviation;
+    }
+
+    public boolean canMove(ChessPiece subject, Square from) {
+        return ((subject != null) && (from != null) && subject.canMove(this, from));
     }
 }
