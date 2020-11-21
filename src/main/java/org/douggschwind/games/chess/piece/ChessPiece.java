@@ -67,6 +67,15 @@ public abstract class ChessPiece {
      */
     public abstract boolean canMoveTo(ChessBoard chessBoard, Square from, Square to);
 
+    protected boolean basicCanMoveTo(Square from, Square to) {
+        if (to.isOccupied()) {
+            // Cannot move to a Square that is occupied by the same Player
+            return from.isOccupiedByMyOpponent(to);
+        } else {
+            return true;
+        }
+    }
+
     /**
      * Demands that the ChessPiece in the from Square be moved to the to Square.
      * @param chessBoard Must be non-null.
@@ -76,8 +85,8 @@ public abstract class ChessPiece {
     public abstract void moveTo(ChessBoard chessBoard, Square from, Square to);
 
     protected final void basicMove(Square from, Square to) {
-        boolean isAttackingToCapture = to.isOccupied();
-        if (isAttackingToCapture) {
+        boolean isCapturing = to.isOccupied();
+        if (isCapturing) {
             to.getResident().get().markCaptured();
         }
         to.setResident(from.getResident().get());

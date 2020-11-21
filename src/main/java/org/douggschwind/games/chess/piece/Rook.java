@@ -29,21 +29,16 @@ public class Rook extends ChessPiece {
      */
     @Override
     public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
+        if (!basicCanMoveTo(from, to)) {
+            return false;
+        }
+
         if ((from.getRow() != to.getRow()) || (from.getColumn() != to.getColumn())) {
             // Rooks can only move horizontally or vertically.
             return false;
         }
 
-        if (!chessBoard.isPathClear(from, to)) {
-            return false;
-        }
-
-        if (to.isOccupied() && !from.isOccupiedByMyOpponent(to)) {
-            // Cannot move to a Square that is occupied by the same Player
-            return false;
-        }
-
-        return true;
+        return chessBoard.isPathClear(from, to);
     }
 
     @Override

@@ -61,7 +61,7 @@ public class Pawn extends ChessPiece {
             if ((numHorizontalSquaresToMove < -1) || (numHorizontalSquaresToMove > 1)) {
                 return false;
             } else if (numHorizontalSquaresToMove == 0) {
-                // Just advancing. Can move two spaces on the first move, or just one, but since just advancing,
+                // Advancing mode. Can move two spaces on the first move, or just one, but since just advancing,
                 // the target Square must be unoccupied since a Pawn cannot capture when advancing.
                 if (to.isOccupied()) {
                     return false;
@@ -76,7 +76,7 @@ public class Pawn extends ChessPiece {
                 }
                 return true;
             } else {
-                // Attacking to capture.
+                // Capturing mode.
                 if (to.isOccupied()) {
                     return to.isOccupiedByMyOpponent(from);
                 } else {
