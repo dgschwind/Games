@@ -5,6 +5,7 @@ import org.douggschwind.games.chess.Square;
 
 /**
  * Represents one of the two Rook pieces in the game of Chess, for a given Player.
+ * TODO: Support for castling.
  * @author Doug Gschwind
  */
 public class Rook extends ChessPiece {
@@ -18,12 +19,35 @@ public class Rook extends ChessPiece {
         return true;
     }
 
+    /**
+     * Rooks move horizontally or vertically any number of squares. They are unable to jump over pieces.
+     * Rooks move when the king castles.
+     * @param chessBoard Must be non-null.
+     * @param from The piece's current BoardPosition.
+     * @param to The piece's proposed destination square.
+     * @return
+     */
     @Override
     public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
-        return false; //TODO
+        if ((from.getRow() != to.getRow()) || (from.getColumn() != to.getColumn())) {
+            // Rooks can only move horizontally or vertically.
+            return false;
+        }
+
+        if (!chessBoard.isPathClear(from, to)) {
+            return false;
+        }
+
+        if (to.isOccupied() && !from.isOccupiedByMyOpponent(to)) {
+            // Cannot move to a Square that is occupied by the same Player
+            return false;
+        }
+
+        return true;
     }
 
     @Override
     public void moveTo(ChessBoard chessBoard, Square from, Square to) {
+        basicMove(from, to);
     }
 }

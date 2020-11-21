@@ -22,6 +22,17 @@ public class Pawn extends ChessPiece {
         return true;
     }
 
+    /**
+     * Pawns move vertically forward one square, with the option to move two squares if they have not yet moved.
+     * Pawns are the only piece to capture different to how they move. Pawns capture one square diagonally in a forward
+     * direction. Pawns are unable to move backwards on captures or moves. Upon reaching the other side of the board a
+     * pawn promotes into any other piece, except for a king. Additionally, pawns can make a special move named
+     * En Passant.
+     * @param chessBoard Must be non-null.
+     * @param from The piece's current BoardPosition.
+     * @param to The piece's proposed destination square.
+     * @return
+     */
     @Override
     public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
         if (hasReachedFarSideOfBoard()) {

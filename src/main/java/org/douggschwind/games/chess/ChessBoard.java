@@ -125,7 +125,7 @@ public class ChessBoard {
             return isVerticalPathClear(from, to);
         }
 
-        // Otherwise, this is a Knight or a Bishop.
+        // Otherwise, the path is diagonal.
         return true; //TODO
     }
 
