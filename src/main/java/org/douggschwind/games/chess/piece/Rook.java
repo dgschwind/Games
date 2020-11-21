@@ -9,7 +9,7 @@ import org.douggschwind.games.chess.Square;
  * TODO: Support for castling.
  * @author Doug Gschwind
  */
-public class Rook extends ChessPiece {
+public class Rook extends ChessPiece implements CaptureUponAdvance {
 
     public Rook(Player player) {
         super(player);

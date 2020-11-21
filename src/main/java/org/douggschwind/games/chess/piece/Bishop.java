@@ -8,7 +8,7 @@ import org.douggschwind.games.chess.Square;
  * Represents one of the two Bishop pieces in the game of Chess, for a given Player.
  * @author Doug Gschwind
  */
-public class Bishop extends ChessPiece {
+public class Bishop extends ChessPiece implements CaptureUponAdvance {
 
     public Bishop(Player player) {
         super(player);

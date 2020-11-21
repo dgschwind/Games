@@ -8,7 +8,7 @@ import org.douggschwind.games.chess.Square;
  * Represents one of the two Knight pieces in the game of Chess, for a given Player.
  * @author Doug Gschwind
  */
-public class Knight extends ChessPiece {
+public class Knight extends ChessPiece implements CaptureUponAdvance {
 
     public Knight(Player player) {
         super(player);
