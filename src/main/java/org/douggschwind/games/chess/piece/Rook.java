@@ -24,6 +24,6 @@ public class Rook extends ChessPiece {
     }
 
     @Override
-    public void moveTo(Square from, Square to) {
+    public void moveTo(ChessBoard chessBoard, Square from, Square to) {
     }
 }

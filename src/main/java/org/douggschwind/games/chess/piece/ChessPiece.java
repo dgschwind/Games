@@ -69,10 +69,11 @@ public abstract class ChessPiece {
 
     /**
      * Demands that the ChessPiece in the from Square be moved to the to Square.
+     * @param chessBoard Must be non-null.
      * @param from Must be non-null and occupied.
      * @param to Must be non-null.
      */
-    public abstract void moveTo(Square from, Square to);
+    public abstract void moveTo(ChessBoard chessBoard, Square from, Square to);
 
     protected final void basicMove(Square from, Square to) {
         boolean isAttackingToCapture = to.isOccupied();
@@ -87,7 +88,7 @@ public abstract class ChessPiece {
         return captured;
     }
 
-    private void markCaptured() {
+    public void markCaptured() {
         captured = true;
     }
 }

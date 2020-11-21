@@ -71,11 +71,11 @@ public class Pawn extends ChessPiece {
                 } else {
                     // The square being moved to is unoccupied. The only way this move is possible for a Pawn is
                     // if the En Passant rule comes into play.
-                    Square possibleEnPassantPawn = chessBoard.getSquare(from.getRow(), to.getColumn());
-                    if (!possibleEnPassantPawn.isOccupied()) {
+                    Square possibleEnPassantSquare = getPossibleEnPassantSquare(chessBoard, from, to);
+                    if (!possibleEnPassantSquare.isOccupied()) {
                         return false;
                     } else {
-                        ChessPiece resident = possibleEnPassantPawn.getResident().get();
+                        ChessPiece resident = possibleEnPassantSquare.getResident().get();
                         return resident.isPawn() && ((Pawn) resident).canBeCapturedDueToEnPassant();
                     }
                 }
@@ -83,9 +83,34 @@ public class Pawn extends ChessPiece {
         }
     }
 
+    /**
+     * Finds the Square that could house an En Passant victim.
+     * @param chessBoard
+     * @param from Must be non-null.
+     * @param to Must be non-null.
+     * @return Will be non-null.
+     */
+    private Square getPossibleEnPassantSquare(ChessBoard chessBoard, Square from, Square to) {
+        return chessBoard.getSquare(from.getRow(), to.getColumn());
+    }
+
+    private void attemptCaptureDueToEnPassant(Square possibleEnPassantSquare) {
+        if (possibleEnPassantSquare.isOccupied()) {
+            ChessPiece residentSubject = possibleEnPassantSquare.getResident().get();
+            if (residentSubject.isPawn() && ((Pawn) residentSubject).canBeCapturedDueToEnPassant()) {
+                // Boom. The Pawn in the possibleEnPassantSquare can in fact be captured
+                // as a result of this move.
+                residentSubject.markCaptured();
+                possibleEnPassantSquare.empty();
+            }
+        }
+    }
+
     @Override
-    public void moveTo(Square from, Square to) {
+    public void moveTo(ChessBoard chessBoard, Square from, Square to) {
         basicMove(from, to);
+
+        attemptCaptureDueToEnPassant(getPossibleEnPassantSquare(chessBoard, from, to));
 
         if (!hasEverBeenMoved()) {
             initialMoveWasTwoSquares = (from.getNumberRowsDistance(to) == 2);
