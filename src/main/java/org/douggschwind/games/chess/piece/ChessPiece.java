@@ -67,6 +67,12 @@ public abstract class ChessPiece {
      */
     public abstract boolean canMoveTo(ChessBoard chessBoard, Square from, Square to);
 
+    /**
+     * A method for use by all subclasses with the exception of Pawn.
+     * @param from
+     * @param to
+     * @return
+     */
     protected boolean basicCanMoveTo(Square from, Square to) {
         if (to.isOccupied()) {
             // Cannot move to a Square that is occupied by the same Player
