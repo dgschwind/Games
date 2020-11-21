@@ -59,6 +59,16 @@ public abstract class ChessPiece {
     }
 
     /**
+     * Determines if the given player can move the ChessPiece located in the from Square.
+     * @param player Must be non-null.
+     * @param from Must be non-null.
+     * @return
+     */
+    public final boolean canMove(Player player, Square from) {
+        return from.isOccupied() && player == from.getResident().get().getOwner();
+    }
+
+    /**
      * Determines if the given piece can be moved from its current square to a target destination square.
      * @param chessBoard Must be non-null.
      * @param from The piece's current BoardPosition.

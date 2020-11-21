@@ -9,6 +9,8 @@ import org.douggschwind.games.chess.piece.Queen;
 import org.douggschwind.games.chess.piece.Rook;
 
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * An instance of this class represents the state of the Chess board during the playing of a game.
@@ -68,6 +70,15 @@ public class ChessBoard {
         final String ROW_DELIMITER = "-----------------------------";
         final String SQUARE_DELIMITER = "|";
         System.out.println(ROW_DELIMITER);
+
+        String columnIdentifiersOutputRow = SQUARE_DELIMITER + "   ";
+        for (BoardPosition.Column column : BoardPosition.Column.values()) {
+            columnIdentifiersOutputRow += SQUARE_DELIMITER + column.name() + " ";
+        }
+        columnIdentifiersOutputRow += SQUARE_DELIMITER;
+
+        System.out.println(columnIdentifiersOutputRow);
+        System.out.println(ROW_DELIMITER);
         for (BoardPosition.Row row : BoardPosition.Row.values()) {
             System.out.print(SQUARE_DELIMITER + " " + row.getId() + " ");
             for (BoardPosition.Column column : BoardPosition.Column.values()) {
@@ -78,6 +89,7 @@ public class ChessBoard {
             System.out.println(SQUARE_DELIMITER);
             System.out.println(ROW_DELIMITER);
         }
+        System.out.println(columnIdentifiersOutputRow);
     }
 
     public Square getSquare(BoardPosition.Row row, BoardPosition.Column column) {
