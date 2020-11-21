@@ -59,6 +59,10 @@ public class ChessBoard {
         setUpInitialState();
     }
 
+    public Square getSquare(BoardPosition.Row row, BoardPosition.Column column) {
+        return squares[(row.getId() - 8) + (column.getId() - 1)];
+    }
+
     private void clearSquareResidents() {
         for (Square square : squares) {
             square.setResident(null);

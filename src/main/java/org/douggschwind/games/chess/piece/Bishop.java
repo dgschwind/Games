@@ -1,5 +1,6 @@
 package org.douggschwind.games.chess.piece;
 
+import org.douggschwind.games.chess.ChessBoard;
 import org.douggschwind.games.chess.Square;
 
 /**
@@ -13,7 +14,7 @@ public class Bishop extends ChessPiece {
     }
 
     @Override
-    public boolean canMoveTo(Square from, Square to) {
+    public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
         return false; //TODO
     }
 

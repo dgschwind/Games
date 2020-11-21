@@ -1,6 +1,7 @@
 package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.BoardPosition;
+import org.douggschwind.games.chess.ChessBoard;
 import org.douggschwind.games.chess.Square;
 
 /**
@@ -22,7 +23,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public boolean canMoveTo(Square from, Square to) {
+    public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
         if (hasReachedFarSideOfBoard()) {
             // Also need to consider once Pawn has in fact reached the far side of the board.
             return false; //TODO
@@ -65,8 +66,19 @@ public class Pawn extends ChessPiece {
                 return true;
             } else {
                 // Attacking to capture.
-                //TODO Address En Passant here.
-                return to.isOccupied() && to.isOccupiedByMyOpponent(from);
+                if (to.isOccupied()) {
+                    return to.isOccupiedByMyOpponent(from);
+                } else {
+                    // The square being moved to is unoccupied. The only way this move is possible for a Pawn is
+                    // if the En Passant rule comes into play.
+                    Square possibleEnPassantPawn = chessBoard.getSquare(from.getRow(), to.getColumn());
+                    if (!possibleEnPassantPawn.isOccupied()) {
+                        return false;
+                    } else {
+                        ChessPiece resident = possibleEnPassantPawn.getResident().get();
+                        return resident.isPawn() && ((Pawn) resident).canBeCapturedDueToEnPassant();
+                    }
+                }
             }
         }
     }
@@ -91,7 +103,7 @@ public class Pawn extends ChessPiece {
         return numTimesMoved > 0;
     }
 
-    public boolean isSubjectToEnPassant() {
+    public boolean canBeCapturedDueToEnPassant() {
         return ((numTimesMoved == 1) && initialMoveWasTwoSquares);
     }
 
