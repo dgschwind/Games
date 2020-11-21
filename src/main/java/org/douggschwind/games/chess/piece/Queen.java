@@ -23,15 +23,17 @@ public class Queen extends ChessPiece implements CaptureUponAdvance {
     /**
      * Queens move diagonally, horizontally, or vertically any number of squares. They are unable to jump over pieces.
      * @param chessBoard Must be non-null.
-     * @param from The piece's current BoardPosition.
-     * @param to The piece's proposed destination square.
+     * @param proposedMove Must be non-null and properly populated.
      * @return
      */
     @Override
-    public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
-        if (!basicCanMoveTo(from, to)) {
+    public boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove) {
+        if (!basicCanMoveTo(proposedMove)) {
             return false;
         }
+
+        final Square from = proposedMove.getFrom();
+        final Square to = proposedMove.getTo();
 
         // Number of rows of movement must equal number of columns to move diagonally.
         final int numRowsMovement = Math.abs(from.getRow().getId() - to.getRow().getId());
@@ -45,7 +47,7 @@ public class Queen extends ChessPiece implements CaptureUponAdvance {
             return false;
         }
 
-        return chessBoard.isPathClear(from, to);
+        return chessBoard.isPathClear(proposedMove);
     }
 
     @Override

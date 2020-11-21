@@ -24,15 +24,17 @@ public class Knight extends ChessPiece implements CaptureUponAdvance {
      * Knights move in an ‘L’ shape’: two squares in a horizontal or vertical direction, then move one square
      * horizontally or vertically. They are the only piece able to jump over other pieces.
      * @param chessBoard Must be non-null.
-     * @param from The piece's current BoardPosition.
-     * @param to The piece's proposed destination square.
+     * @param proposedMove Must be non-null and properly populated.
      * @return
      */
     @Override
-    public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
-        if (!basicCanMoveTo(from, to)) {
+    public boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove) {
+        if (!basicCanMoveTo(proposedMove)) {
             return false;
         }
+
+        final Square from = proposedMove.getFrom();
+        final Square to = proposedMove.getTo();
 
         final int rowDifference = Math.abs(from.getRow().getId() - to.getRow().getId());
         final int columnDifference = Math.abs(from.getColumn().getId() - to.getColumn().getId());

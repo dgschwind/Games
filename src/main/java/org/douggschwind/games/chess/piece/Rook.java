@@ -25,22 +25,24 @@ public class Rook extends ChessPiece implements CaptureUponAdvance {
      * Rooks move horizontally or vertically any number of squares. They are unable to jump over pieces.
      * Rooks move when the king castles.
      * @param chessBoard Must be non-null.
-     * @param from The piece's current BoardPosition.
-     * @param to The piece's proposed destination square.
+     * @param proposedMove Must be non-null and properly populated.
      * @return
      */
     @Override
-    public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
-        if (!basicCanMoveTo(from, to)) {
+    public boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove) {
+        if (!basicCanMoveTo(proposedMove)) {
             return false;
         }
+
+        final Square from = proposedMove.getFrom();
+        final Square to = proposedMove.getTo();
 
         if ((from.getRow() != to.getRow()) || (from.getColumn() != to.getColumn())) {
             // Rooks can only move horizontally or vertically.
             return false;
         }
 
-        return chessBoard.isPathClear(from, to);
+        return chessBoard.isPathClear(proposedMove);
     }
 
     @Override

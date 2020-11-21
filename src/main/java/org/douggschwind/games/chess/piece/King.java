@@ -25,15 +25,17 @@ public class King extends ChessPiece implements CaptureUponAdvance {
      * Kings move one square in any direction, so long as that square is not attacked by an enemy piece.
      * Additionally, kings are able to make a special move, know as castling.
      * @param chessBoard Must be non-null.
-     * @param from The piece's current BoardPosition.
-     * @param to The piece's proposed destination square.
+     * @param proposedMove Must be non-null and properly populated.
      * @return
      */
     @Override
-    public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
-        if (!basicCanMoveTo(from, to)) {
+    public boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove) {
+        if (!basicCanMoveTo(proposedMove)) {
             return false;
         }
+
+        final Square from = proposedMove.getFrom();
+        final Square to = proposedMove.getTo();
 
         if (to.isOccupied() && from.isOccupiedByMyOpponent(to)) {
             return false;

@@ -1,5 +1,6 @@
 package org.douggschwind.games.chess.piece;
 
+import org.douggschwind.games.chess.ChessMove;
 import org.douggschwind.games.chess.Square;
 
 /**
@@ -9,10 +10,10 @@ import org.douggschwind.games.chess.Square;
  * @author Doug Gschwind
  */
 public interface CaptureUponAdvance {
-    default boolean basicCanMoveTo(Square from, Square to) {
-        if (to.isOccupied()) {
+    default boolean basicCanMoveTo(ChessMove proposedMove) {
+        if (proposedMove.getTo().isOccupied()) {
             // Cannot move to a Square that is occupied by the same Player
-            return from.isOccupiedByMyOpponent(to);
+            return proposedMove.getFrom().isOccupiedByMyOpponent(proposedMove.getTo());
         } else {
             return true;
         }

@@ -23,24 +23,25 @@ public class Bishop extends ChessPiece implements CaptureUponAdvance {
     /**
      * Bishops move diagonally any number of squares. They are unable to jump over pieces.
      * @param chessBoard Must be non-null.
-     * @param from The piece's current BoardPosition.
-     * @param to The piece's proposed destination square.
+     * @param proposedMove Must be non-null and properly populated.
      * @return
      */
     @Override
-    public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
-        if (!basicCanMoveTo(from, to)) {
+    public boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove) {
+        if (!basicCanMoveTo(proposedMove)) {
             return false;
         }
 
         // Number of rows of movement must equal number of columns to move diagonally.
+        final Square from = proposedMove.getFrom();
+        final Square to = proposedMove.getTo();
         final int numRowsMovement = Math.abs(from.getRow().getId() - to.getRow().getId());
         final int numColumnsMovement = Math.abs(from.getColumn().getId() - to.getColumn().getId());
         if (numRowsMovement != numColumnsMovement) {
             return false;
         }
 
-        return chessBoard.isPathClear(from, to);
+        return chessBoard.isPathClear(proposedMove);
     }
 
     @Override

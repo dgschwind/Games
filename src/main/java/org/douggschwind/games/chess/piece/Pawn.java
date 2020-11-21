@@ -31,17 +31,20 @@ public class Pawn extends ChessPiece {
      * pawn promotes into any other piece, except for a king. Additionally, pawns can make a special move named
      * En Passant.
      * @param chessBoard Must be non-null.
-     * @param from The piece's current BoardPosition.
-     * @param to The piece's proposed destination square.
+     * @param proposedMove Must be non-null and properly populated.
      * @return
      */
     @Override
-    public boolean canMoveTo(ChessBoard chessBoard, Square from, Square to) {
+    public boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove) {
         if (hasReachedFarSideOfBoard()) {
             // Also need to consider once Pawn has in fact reached the far side of the board.
             return false; //TODO
         } else {
             int initialRow = getInitialPosition().getRow().getId();
+
+            final Square from = proposedMove.getFrom();
+            final Square to = proposedMove.getTo();
+
             int fromRow = from.getRow().getId();
             int toRow = to.getRow().getId();
 
@@ -73,7 +76,7 @@ public class Pawn extends ChessPiece {
                         return false;
                     } else {
                         // Square being passed must be empty.
-                        return chessBoard.isPathClear(from, to);
+                        return chessBoard.isPathClear(proposedMove);
                     }
                 }
                 return true;

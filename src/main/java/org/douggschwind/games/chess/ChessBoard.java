@@ -143,11 +143,13 @@ public class ChessBoard {
     /**
      * Determines if the path that exists between from and to is clear, or if one or more ChessPieces occupy
      * Squares along the path.
-     * @param from Must be non-null.
-     * @param to Must be non-null.
+     * @param proposedMove Must be non-null and properly populated.
      * @return true if the path is clear, false otherwise.
      */
-    public boolean isPathClear(Square from, Square to) {
+    public boolean isPathClear(ChessMove proposedMove) {
+        final Square from = proposedMove.getFrom();
+        final Square to = proposedMove.getTo();
+
         boolean isHorizontalOnlyPath = (from.getRow() == to.getRow());
         if (isHorizontalOnlyPath) {
             return isHorizontalPathClear(from, to);

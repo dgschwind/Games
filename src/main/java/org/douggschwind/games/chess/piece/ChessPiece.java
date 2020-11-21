@@ -72,17 +72,15 @@ public abstract class ChessPiece {
     /**
      * Determines if the given piece can be moved from its current square to a target destination square.
      * @param chessBoard Must be non-null.
-     * @param from The piece's current BoardPosition.
-     * @param to The piece's proposed destination square.
+     * @param proposedMove Must be non-null and properly populated.
      * @return true if so, false if the piece is not allowed to be moved to the destination.
      */
-    public abstract boolean canMoveTo(ChessBoard chessBoard, Square from, Square to);
+    public abstract boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove);
 
     /**
      * Demands that the ChessPiece in the from Square be moved to the to Square.
      * @param chessBoard Must be non-null.
-     * @param from Must be non-null and occupied.
-     * @param to Must be non-null.
+     * @param move Must be non-null and properly populated.
      */
     public abstract void moveTo(ChessBoard chessBoard, ChessMove move);
 
