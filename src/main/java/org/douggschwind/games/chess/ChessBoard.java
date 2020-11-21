@@ -63,6 +63,26 @@ public class ChessBoard {
         return squares[(row.getId() - 8) + (column.getId() - 1)];
     }
 
+    /**
+     * Determines if the path that exists between from and to is clear, or if one or more ChessPieces occupy
+     * Squares along the path.
+     * @param from Must be non-null.
+     * @param to Must be non-null.
+     * @return true if the path is clear, false otherwise.
+     */
+    public boolean isPathClear(Square from, Square to) {
+        boolean isHorizontalOnlyPath = (from.getRow() == to.getRow());
+        if (isHorizontalOnlyPath) {
+        }
+
+        boolean isVerticalOnlyPath = (from.getColumn() == to.getColumn());
+        if (isVerticalOnlyPath) {
+        }
+
+        // Otherwise, this is a Knight or a Bishop.
+        return true; //TODO
+    }
+
     private void clearSquareResidents() {
         for (Square square : squares) {
             square.setResident(null);

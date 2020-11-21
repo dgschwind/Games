@@ -60,7 +60,7 @@ public class Pawn extends ChessPiece {
                         return false;
                     } else {
                         // Square being passed must be empty.
-                        return true; //TODO!
+                        return chessBoard.isPathClear(from, to);
                     }
                 }
                 return true;
