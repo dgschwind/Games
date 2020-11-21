@@ -14,6 +14,11 @@ public class Bishop extends ChessPiece {
         super(player);
     }
 
+    @Override
+    public final boolean isBishop() {
+        return true;
+    }
+
     /**
      * Bishops move diagonally any number of squares. They are unable to jump over pieces.
      * @param chessBoard Must be non-null.

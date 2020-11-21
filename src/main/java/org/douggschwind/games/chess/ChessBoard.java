@@ -8,6 +8,8 @@ import org.douggschwind.games.chess.piece.Pawn;
 import org.douggschwind.games.chess.piece.Queen;
 import org.douggschwind.games.chess.piece.Rook;
 
+import java.util.Optional;
+
 /**
  * An instance of this class represents the state of the Chess board during the playing of a game.
  * @author Doug Gschwind
@@ -59,8 +61,27 @@ public class ChessBoard {
         setUpInitialState();
     }
 
+    /**
+     * Prints the current state of the board to System.out.
+     */
+    public void print() {
+        final String ROW_DELIMITER = "-----------------------------";
+        final String SQUARE_DELIMITER = "|";
+        System.out.println(ROW_DELIMITER);
+        for (BoardPosition.Row row : BoardPosition.Row.values()) {
+            System.out.print(SQUARE_DELIMITER + " " + row.getId() + " ");
+            for (BoardPosition.Column column : BoardPosition.Column.values()) {
+                System.out.print(SQUARE_DELIMITER);
+                Optional<String> printAbbreviation = getSquare(row, column).getPrintAbbreviation();
+                System.out.print(printAbbreviation.map(i -> i).orElse("  "));
+            }
+            System.out.println(SQUARE_DELIMITER);
+            System.out.println(ROW_DELIMITER);
+        }
+    }
+
     public Square getSquare(BoardPosition.Row row, BoardPosition.Column column) {
-        return squares[(row.getId() - BoardPosition.MAX_ROW) + (column.getId() - BoardPosition.MIN_ROW)];
+        return squares[BoardPosition.MAX_ROW*(BoardPosition.MAX_ROW - row.getId()) + (column.getId() - BoardPosition.MIN_ROW)];
     }
 
     private boolean isHorizontalPathClear(Square from, Square to) {

@@ -18,6 +18,10 @@ public abstract class ChessPiece {
         this.owner = owner;
     }
 
+    public Player getOwner() {
+        return owner;
+    }
+
     public boolean isOpponent(ChessPiece that) {
         return this.owner != that.owner;
     }
@@ -101,5 +105,21 @@ public abstract class ChessPiece {
 
     public void markCaptured() {
         captured = true;
+    }
+
+    public String getPrintAbbreviation() {
+        if (isPawn()) {
+            return "p";
+        } else if (isRook()) {
+            return "r";
+        } else if (isKnight()) {
+            return "k";
+        } else if (isBishop()) {
+            return "b";
+        } else if (isQueen()) {
+            return "Q";
+        } else {
+            return "K";
+        }
     }
 }
