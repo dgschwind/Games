@@ -60,7 +60,51 @@ public class ChessBoard {
     }
 
     public Square getSquare(BoardPosition.Row row, BoardPosition.Column column) {
-        return squares[(row.getId() - 8) + (column.getId() - 1)];
+        return squares[(row.getId() - BoardPosition.MAX_ROW) + (column.getId() - BoardPosition.MIN_ROW)];
+    }
+
+    private boolean isHorizontalPathClear(Square from, Square to) {
+        int startColumnId;
+        int endColumnId;
+        if (from.getColumn().getId() > to.getColumn().getId()) {
+            startColumnId = to.getColumn().getId();
+            endColumnId = from.getColumn().getId();
+        } else {
+            startColumnId = from.getColumn().getId();
+            endColumnId = to.getColumn().getId();
+        }
+
+        for (int columnId = startColumnId;columnId <= endColumnId;columnId++) {
+            Square onPath = getSquare(from.getRow(), BoardPosition.Column.getById(columnId));
+            if (onPath.isOccupied()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isVerticalPathClear(Square from, Square to) {
+        int startRowId;
+        int endRowId;
+        if (from.getRow().getId() > to.getRow().getId()) {
+            // Walk from bottom to top
+            startRowId = to.getRow().getId();
+            endRowId = from.getRow().getId();
+        } else {
+            // Also walk from bottom to top
+            startRowId = from.getRow().getId();
+            endRowId = to.getRow().getId();
+        }
+
+        for (int rowId = startRowId;rowId <= endRowId;rowId++) {
+            Square onPath = getSquare(BoardPosition.Row.getById(rowId), to.getColumn());
+            if (onPath.isOccupied()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -73,10 +117,12 @@ public class ChessBoard {
     public boolean isPathClear(Square from, Square to) {
         boolean isHorizontalOnlyPath = (from.getRow() == to.getRow());
         if (isHorizontalOnlyPath) {
+            return isHorizontalPathClear(from, to);
         }
 
         boolean isVerticalOnlyPath = (from.getColumn() == to.getColumn());
         if (isVerticalOnlyPath) {
+            return isVerticalPathClear(from, to);
         }
 
         // Otherwise, this is a Knight or a Bishop.

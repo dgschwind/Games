@@ -20,6 +20,15 @@ public class BoardPosition {
 
         private final int id;
 
+        public static Row getById(int idSought) {
+            for (Row row : Row.values()) {
+                if (row.getId() == idSought) {
+                    return row;
+                }
+            }
+            return null;
+        }
+
         Row(int id) {
             this.id = id;
         }
@@ -40,6 +49,15 @@ public class BoardPosition {
         H(8);
 
         private final int id;
+
+        public static Column getById(int idSought) {
+            for (Column column : Column.values()) {
+                if (column.getId() == idSought) {
+                    return column;
+                }
+            }
+            return null;
+        }
 
         Column(int id) {
             this.id = id;
