@@ -27,32 +27,32 @@ public class ChessBoard {
     }
 
     private void setUpInitialState() {
-        squares[0].setInitialResident(new Rook(ChessPiece.Player.BLACK));
-        squares[1].setInitialResident(new Knight(ChessPiece.Player.BLACK));
-        squares[2].setInitialResident(new Bishop(ChessPiece.Player.BLACK));
-        squares[3].setInitialResident(new Queen(ChessPiece.Player.BLACK));
-        squares[4].setInitialResident(new King(ChessPiece.Player.BLACK));
-        squares[5].setInitialResident(new Bishop(ChessPiece.Player.BLACK));
-        squares[6].setInitialResident(new Knight(ChessPiece.Player.BLACK));
-        squares[7].setInitialResident(new Rook(ChessPiece.Player.BLACK));
+        squares[0].setInitialResident(new Rook(Player.BLACK));
+        squares[1].setInitialResident(new Knight(Player.BLACK));
+        squares[2].setInitialResident(new Bishop(Player.BLACK));
+        squares[3].setInitialResident(new Queen(Player.BLACK));
+        squares[4].setInitialResident(new King(Player.BLACK));
+        squares[5].setInitialResident(new Bishop(Player.BLACK));
+        squares[6].setInitialResident(new Knight(Player.BLACK));
+        squares[7].setInitialResident(new Rook(Player.BLACK));
 
         for (int index = 8;index <= 15;index++) {
-            squares[index].setInitialResident(new Pawn(ChessPiece.Player.BLACK));
+            squares[index].setInitialResident(new Pawn(Player.BLACK));
         }
 
         // Now for the opponents pieces on the opposite end of the board.
         for (int index = 48;index <= 55;index++) {
-            squares[index].setInitialResident(new Pawn(ChessPiece.Player.WHITE));
+            squares[index].setInitialResident(new Pawn(Player.WHITE));
         }
 
-        squares[56].setInitialResident(new Rook(ChessPiece.Player.WHITE));
-        squares[57].setInitialResident(new Knight(ChessPiece.Player.WHITE));
-        squares[58].setInitialResident(new Bishop(ChessPiece.Player.WHITE));
-        squares[59].setInitialResident(new Queen(ChessPiece.Player.WHITE));
-        squares[60].setInitialResident(new King(ChessPiece.Player.WHITE));
-        squares[61].setInitialResident(new Bishop(ChessPiece.Player.WHITE));
-        squares[62].setInitialResident(new Knight(ChessPiece.Player.WHITE));
-        squares[63].setInitialResident(new Rook(ChessPiece.Player.WHITE));
+        squares[56].setInitialResident(new Rook(Player.WHITE));
+        squares[57].setInitialResident(new Knight(Player.WHITE));
+        squares[58].setInitialResident(new Bishop(Player.WHITE));
+        squares[59].setInitialResident(new Queen(Player.WHITE));
+        squares[60].setInitialResident(new King(Player.WHITE));
+        squares[61].setInitialResident(new Bishop(Player.WHITE));
+        squares[62].setInitialResident(new Knight(Player.WHITE));
+        squares[63].setInitialResident(new Rook(Player.WHITE));
     }
 
     public ChessBoard() {

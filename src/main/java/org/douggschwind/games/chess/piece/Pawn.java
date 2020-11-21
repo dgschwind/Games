@@ -2,6 +2,7 @@ package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.BoardPosition;
 import org.douggschwind.games.chess.ChessBoard;
+import org.douggschwind.games.chess.Player;
 import org.douggschwind.games.chess.Square;
 
 /**

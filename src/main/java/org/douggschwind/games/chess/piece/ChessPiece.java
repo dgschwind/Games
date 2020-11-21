@@ -2,6 +2,7 @@ package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.BoardPosition;
 import org.douggschwind.games.chess.ChessBoard;
+import org.douggschwind.games.chess.Player;
 import org.douggschwind.games.chess.Square;
 
 /**
@@ -9,11 +10,6 @@ import org.douggschwind.games.chess.Square;
  * @author Doug Gschwind
  */
 public abstract class ChessPiece {
-    public enum Player {
-        BLACK,
-        WHITE;
-    }
-
     private final Player owner;
     private BoardPosition initialPosition;
     private boolean captured;
