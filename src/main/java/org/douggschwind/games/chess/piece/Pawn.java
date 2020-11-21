@@ -2,6 +2,7 @@ package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.BoardPosition;
 import org.douggschwind.games.chess.ChessBoard;
+import org.douggschwind.games.chess.ChessMove;
 import org.douggschwind.games.chess.Player;
 import org.douggschwind.games.chess.Square;
 
@@ -119,8 +120,11 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void moveTo(ChessBoard chessBoard, Square from, Square to) {
-        basicMove(from, to);
+    public void moveTo(ChessBoard chessBoard, ChessMove move) {
+        basicMove(move);
+
+        final Square from = move.getFrom();
+        final Square to = move.getTo();
 
         attemptCaptureDueToEnPassant(getPossibleEnPassantSquare(chessBoard, from, to));
 

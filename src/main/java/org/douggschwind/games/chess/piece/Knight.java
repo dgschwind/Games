@@ -1,6 +1,7 @@
 package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.ChessBoard;
+import org.douggschwind.games.chess.ChessMove;
 import org.douggschwind.games.chess.Player;
 import org.douggschwind.games.chess.Square;
 
@@ -41,7 +42,7 @@ public class Knight extends ChessPiece implements CaptureUponAdvance {
     }
 
     @Override
-    public void moveTo(ChessBoard chessBoard, Square from, Square to) {
-        basicMove(from, to);
+    public void moveTo(ChessBoard chessBoard, ChessMove move) {
+        basicMove(move);
     }
 }

@@ -2,6 +2,7 @@ package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.BoardPosition;
 import org.douggschwind.games.chess.ChessBoard;
+import org.douggschwind.games.chess.ChessMove;
 import org.douggschwind.games.chess.Player;
 import org.douggschwind.games.chess.Square;
 
@@ -65,7 +66,7 @@ public abstract class ChessPiece {
      * @return
      */
     public final boolean canMove(Player player, Square from) {
-        return from.isOccupied() && player == from.getResident().get().getOwner();
+        return from.isOccupied() && (player == from.getResident().get().getOwner());
     }
 
     /**
@@ -83,9 +84,12 @@ public abstract class ChessPiece {
      * @param from Must be non-null and occupied.
      * @param to Must be non-null.
      */
-    public abstract void moveTo(ChessBoard chessBoard, Square from, Square to);
+    public abstract void moveTo(ChessBoard chessBoard, ChessMove move);
 
-    protected final void basicMove(Square from, Square to) {
+    protected final void basicMove(ChessMove move) {
+        final Square from = move.getFrom();
+        final Square to = move.getTo();
+
         boolean isCapturing = to.isOccupied();
         if (isCapturing) {
             to.getResident().get().markCaptured();
