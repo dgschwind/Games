@@ -161,4 +161,86 @@ public class ChessBoardTest {
         Assert.assertEquals(Player.WHITE, occupant.getOwner());
         Assert.assertTrue(occupant.isRook());
     }
+
+    @Test
+    public void testEnPassantToLeft() {
+        Square twoB = underTest.getSquare(BoardPosition.Row.R2, BoardPosition.Column.b);
+        Square fourB = underTest.getSquare(BoardPosition.Row.R4, BoardPosition.Column.b);
+        Square fiveB = underTest.getSquare(BoardPosition.Row.R5, BoardPosition.Column.b);
+        Square sixA = underTest.getSquare(BoardPosition.Row.R6, BoardPosition.Column.a);
+        ChessPiece whitePawn = twoB.getResident().get();
+        ChessMove firstWhiteMove = new ChessMove(twoB, fourB);
+        whitePawn.moveTo(underTest, firstWhiteMove);
+        ChessMove secondWhiteMove = new ChessMove(fourB, fiveB);
+        whitePawn.moveTo(underTest, secondWhiteMove);
+
+        // Now that we have set the stage for the White Pawn, move the Black Pawn from 7a to 5a so that
+        // the White Pawn should be able to capture it with a subsequent En Passant move.
+        Square sevenA = underTest.getSquare(BoardPosition.Row.R7, BoardPosition.Column.a);
+        Square fiveA = underTest.getSquare(BoardPosition.Row.R5, BoardPosition.Column.a);
+        ChessPiece blackPawn = sevenA.getResident().get();
+        ChessMove firstBlackMove = new ChessMove(sevenA, fiveA);
+        Assert.assertFalse(fiveA.isOccupied());
+        blackPawn.moveTo(underTest, firstBlackMove);
+        Assert.assertTrue(fiveA.isOccupied());
+        Assert.assertSame(blackPawn, fiveA.getResident().get());
+
+        Assert.assertFalse(whitePawn.hasBeenCaptured());
+        Assert.assertFalse(blackPawn.hasBeenCaptured());
+
+        ChessMove enPassantByWhitePawn = new ChessMove(fiveB, sixA);
+        Assert.assertTrue(whitePawn.canMoveTo(underTest, enPassantByWhitePawn));
+        Assert.assertFalse(sixA.isOccupied());
+        whitePawn.moveTo(underTest, enPassantByWhitePawn);
+        Assert.assertTrue(sixA.isOccupied());
+
+        // At this point, the White Pawn should be in square R6 A, and the Black Pawn has been captured
+        // leaving square R5 A empty.
+        Assert.assertFalse(whitePawn.hasBeenCaptured());
+        Assert.assertTrue(blackPawn.hasBeenCaptured());
+        Assert.assertFalse(fiveA.isOccupied());
+        Assert.assertTrue(sixA.isOccupied());
+        Assert.assertSame(whitePawn, sixA.getResident().get());
+    }
+
+    @Test
+    public void testEnPassantToRight() {
+        Square twoB = underTest.getSquare(BoardPosition.Row.R2, BoardPosition.Column.b);
+        Square fourB = underTest.getSquare(BoardPosition.Row.R4, BoardPosition.Column.b);
+        Square fiveB = underTest.getSquare(BoardPosition.Row.R5, BoardPosition.Column.b);
+        Square sixC = underTest.getSquare(BoardPosition.Row.R6, BoardPosition.Column.c);
+        ChessPiece whitePawn = twoB.getResident().get();
+        ChessMove firstWhiteMove = new ChessMove(twoB, fourB);
+        whitePawn.moveTo(underTest, firstWhiteMove);
+        ChessMove secondWhiteMove = new ChessMove(fourB, fiveB);
+        whitePawn.moveTo(underTest, secondWhiteMove);
+
+        // Now that we have set the stage for the White Pawn, move the Black Pawn from 7c to 5c so that
+        // the White Pawn should be able to capture it with a subsequent En Passant move.
+        Square sevenC = underTest.getSquare(BoardPosition.Row.R7, BoardPosition.Column.c);
+        Square fiveC = underTest.getSquare(BoardPosition.Row.R5, BoardPosition.Column.c);
+        ChessPiece blackPawn = sevenC.getResident().get();
+        ChessMove firstBlackMove = new ChessMove(sevenC, fiveC);
+        Assert.assertFalse(fiveC.isOccupied());
+        blackPawn.moveTo(underTest, firstBlackMove);
+        Assert.assertTrue(fiveC.isOccupied());
+        Assert.assertSame(blackPawn, fiveC.getResident().get());
+
+        Assert.assertFalse(whitePawn.hasBeenCaptured());
+        Assert.assertFalse(blackPawn.hasBeenCaptured());
+
+        ChessMove enPassantByWhitePawn = new ChessMove(fiveB, sixC);
+        Assert.assertTrue(whitePawn.canMoveTo(underTest, enPassantByWhitePawn));
+        Assert.assertFalse(sixC.isOccupied());
+        whitePawn.moveTo(underTest, enPassantByWhitePawn);
+        Assert.assertTrue(sixC.isOccupied());
+
+        // At this point, the White Pawn should be in square R6 C, and the Black Pawn has been captured
+        // leaving square R5 C empty.
+        Assert.assertFalse(whitePawn.hasBeenCaptured());
+        Assert.assertTrue(blackPawn.hasBeenCaptured());
+        Assert.assertFalse(fiveC.isOccupied());
+        Assert.assertTrue(sixC.isOccupied());
+        Assert.assertSame(whitePawn, sixC.getResident().get());
+    }
 }
