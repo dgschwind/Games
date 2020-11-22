@@ -13,7 +13,14 @@ import org.douggschwind.games.chess.Square;
 public abstract class ChessPiece {
     private final Player owner;
     private BoardPosition initialPosition;
+    private AdvancingDirection advancingDirection;
     private boolean captured;
+
+    // Notes the direction of movement that a ChessPiece makes when advancing
+    public enum AdvancingDirection {
+        TOP_TO_BOTTOM,
+        BOTTOM_TO_TOP;
+    }
 
     protected ChessPiece(Player owner) {
         this.owner = owner;
@@ -33,6 +40,14 @@ public abstract class ChessPiece {
 
     public void setInitialPosition(BoardPosition initialPosition) {
         this.initialPosition = initialPosition;
+        this.advancingDirection =
+                initialPosition.getRow().getId() >= 7
+                    ? AdvancingDirection.TOP_TO_BOTTOM
+                    : AdvancingDirection.BOTTOM_TO_TOP;
+    }
+
+    public AdvancingDirection getAdvancingDirection() {
+        return advancingDirection;
     }
 
     public boolean isPawn() {

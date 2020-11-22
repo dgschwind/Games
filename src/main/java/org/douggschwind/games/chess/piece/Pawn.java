@@ -40,8 +40,6 @@ public class Pawn extends ChessPiece {
             // Also need to consider once Pawn has in fact reached the far side of the board.
             return false; //TODO
         } else {
-            int initialRow = getInitialPosition().getRow().getId();
-
             final Square from = proposedMove.getFrom();
             final Square to = proposedMove.getTo();
 
@@ -49,8 +47,7 @@ public class Pawn extends ChessPiece {
             int toRow = to.getRow().getId();
 
             int numVerticalSquaresToAdvance;
-            if (initialRow == BoardPosition.MAX_ROW) {
-                // Can only move top to bottom down the board.
+            if (getAdvancingDirection() == AdvancingDirection.TOP_TO_BOTTOM) {
                 numVerticalSquaresToAdvance = fromRow - toRow;
             } else {
                 // Can only move bottom to top up the board.
