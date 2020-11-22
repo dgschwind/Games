@@ -1,7 +1,6 @@
 package org.douggschwind.games.chess;
 
 import org.douggschwind.games.chess.piece.Bishop;
-import org.douggschwind.games.chess.piece.ChessPiece;
 import org.douggschwind.games.chess.piece.King;
 import org.douggschwind.games.chess.piece.Knight;
 import org.douggschwind.games.chess.piece.Pawn;
@@ -9,8 +8,6 @@ import org.douggschwind.games.chess.piece.Queen;
 import org.douggschwind.games.chess.piece.Rook;
 
 import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * An instance of this class represents the state of the Chess board during the playing of a game.
@@ -107,7 +104,7 @@ public class ChessBoard {
             endColumnId = to.getColumn().getId();
         }
 
-        for (int columnId = startColumnId;columnId <= endColumnId;columnId++) {
+        for (int columnId = startColumnId + 1;columnId < endColumnId;columnId++) {
             Square onPath = getSquare(from.getRow(), BoardPosition.Column.getById(columnId));
             if (onPath.isOccupied()) {
                 return false;
@@ -142,7 +139,9 @@ public class ChessBoard {
 
     /**
      * Determines if the path that exists between from and to is clear, or if one or more ChessPieces occupy
-     * Squares along the path.
+     * Squares along the path. It considers paths that are only vertical (change in rows in the same column),
+     * horizontal (change in column in the same row), or diagonal. We do not need to check for Knight moves here
+     * because Knights can jump pieces in their way.
      * @param proposedMove Must be non-null and properly populated.
      * @return true if the path is clear, false otherwise.
      */
@@ -160,8 +159,32 @@ public class ChessBoard {
             return isVerticalPathClear(from, to);
         }
 
-        // Otherwise, the path is diagonal.
-        return true; //TODO
+        // Otherwise, the path we are checking is diagonal.
+        int startRowId = from.getRow().getId() + 1;
+        int endRowId = to.getRow().getId() - 1;
+        int columnId = from.getColumn().getId() + 1;
+
+        if (startRowId > endRowId) {
+            // North West to South East
+            for (int rowId = startRowId;rowId >= endRowId;rowId--) {
+                Square squareOnPath = getSquare(BoardPosition.Row.getById(rowId),
+                                                BoardPosition.Column.getById(columnId++));
+                if (squareOnPath.isOccupied()) {
+                    return false;
+                }
+            }
+        } else {
+            // South West to North East
+            for (int rowId = startRowId;rowId <= endRowId;rowId++) {
+                Square squareOnPath = getSquare(BoardPosition.Row.getById(rowId),
+                                                BoardPosition.Column.getById(columnId++));
+                if (squareOnPath.isOccupied()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     private void clearSquareResidents() {
