@@ -1,7 +1,6 @@
 package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.ChessMove;
-import org.douggschwind.games.chess.Square;
 
 /**
  * This is mix-in behavior essentially so that all that implement this interface

@@ -130,7 +130,7 @@ public class ChessBoard {
             endRowId = to.getRow().getId();
         }
 
-        for (int rowId = startRowId;rowId <= endRowId;rowId++) {
+        for (int rowId = startRowId + 1;rowId < endRowId;rowId++) {
             Square onPath = getSquare(BoardPosition.Row.getById(rowId), to.getColumn());
             if (onPath.isOccupied()) {
                 return false;
