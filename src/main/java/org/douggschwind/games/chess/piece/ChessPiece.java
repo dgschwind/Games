@@ -80,7 +80,7 @@ public abstract class ChessPiece {
      * @param from Must be non-null.
      * @return
      */
-    public final boolean canMove(Player player, Square from) {
+    public final boolean canMoveFrom(Player player, Square from) {
         return from.isOccupied() && (player == from.getResident().get().getOwner());
     }
 

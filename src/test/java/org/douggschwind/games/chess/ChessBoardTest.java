@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Optional;
+
 /**
  * Tests interesting operations on ChessBoard and there are many.
  * @author Doug Gschwind
@@ -160,6 +162,23 @@ public class ChessBoardTest {
         occupant = rightWhiteRook.getResident().get();
         Assert.assertEquals(Player.WHITE, occupant.getOwner());
         Assert.assertTrue(occupant.isRook());
+    }
+
+//    private void testPlayerCanMove(Player player,
+//                                   BoardPosition.Row row,
+//                                   BoardPosition.Column column,
+//                                   boolean assertion) {
+//        Square square = underTest.getSquare(row, column);
+//        if (assertion) {
+//            Assert.assertTrue(player.canMove())
+//
+//        }
+//
+//
+//    }
+
+    @Test
+    public void testCanMove() {
     }
 
     @Test

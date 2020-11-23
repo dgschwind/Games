@@ -2,6 +2,8 @@ package org.douggschwind.games.chess;
 
 import org.douggschwind.games.chess.piece.ChessPiece;
 
+import java.util.Optional;
+
 /**
  * @author Doug Gschwind
  */
@@ -19,7 +21,13 @@ public enum Player {
         return abbreviation;
     }
 
-    public boolean canMove(ChessPiece subject, Square from) {
-        return ((subject != null) && (from != null) && subject.canMove(this, from));
+    /**
+     * Determines if this player can move the ChessPiece located in the from Square.
+     * @param from Must be non-null, but can be unoccupied.
+     * @return true if so, false otherwise.
+     */
+    public boolean canMoveFrom(Square from) {
+        Optional<ChessPiece> occupant = from.getResident();
+        return occupant.isPresent() && occupant.get().canMoveFrom(this, from);
     }
 }

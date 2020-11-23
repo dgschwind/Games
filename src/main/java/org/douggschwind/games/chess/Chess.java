@@ -100,7 +100,7 @@ public class Chess {
             System.err.println("The from square is not occupied, cannot be moved from");
         } else {
             ChessPiece toMove = proposedMove.getFrom().getResident().get();
-            if (!toMakeMove.canMove(toMove, proposedMove.getFrom())) {
+            if (!toMakeMove.canMoveFrom(proposedMove.getFrom())) {
                 System.err.println("Player " + toMakeMove + " cannot move from Piece");
                 return Optional.empty();
             }
