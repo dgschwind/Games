@@ -22,7 +22,9 @@ public enum Player {
     }
 
     /**
-     * Determines if this player can move the ChessPiece located in the from Square.
+     * Determines if this player can move the ChessPiece located in the from Square. This is a very high level
+     * test which only concerns the from Square, it does not consider other Squares or the possible existence of
+     * other ChessPiece instances.
      * @param from Must be non-null, but can be unoccupied.
      * @return true if so, false otherwise.
      */

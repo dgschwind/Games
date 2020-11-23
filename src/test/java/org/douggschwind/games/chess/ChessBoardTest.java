@@ -164,21 +164,29 @@ public class ChessBoardTest {
         Assert.assertTrue(occupant.isRook());
     }
 
-//    private void testPlayerCanMove(Player player,
-//                                   BoardPosition.Row row,
-//                                   BoardPosition.Column column,
-//                                   boolean assertion) {
-//        Square square = underTest.getSquare(row, column);
-//        if (assertion) {
-//            Assert.assertTrue(player.canMove())
-//
-//        }
-//
-//
-//    }
+    private void testPlayerCanMoveFrom(Player player,
+                                       BoardPosition.Row fromRow,
+                                       BoardPosition.Column fromColumn,
+                                       boolean expectedResult) {
+        Square fromSquare = underTest.getSquare(fromRow, fromColumn);
+        Assert.assertEquals(expectedResult, player.canMoveFrom(fromSquare));
+    }
 
     @Test
-    public void testCanMove() {
+    public void testCanMoveFrom() {
+        for (BoardPosition.Row row : BoardPosition.Row.values()) {
+            boolean expectedResult = ((row == BoardPosition.Row.R8) || (row == BoardPosition.Row.R7));
+            for (BoardPosition.Column column : BoardPosition.Column.values()) {
+                testPlayerCanMoveFrom(Player.BLACK, row, column, expectedResult);
+            }
+        }
+
+        for (BoardPosition.Row row : BoardPosition.Row.values()) {
+            boolean expectedResult = ((row == BoardPosition.Row.R2) || (row == BoardPosition.Row.R1));
+            for (BoardPosition.Column column : BoardPosition.Column.values()) {
+                testPlayerCanMoveFrom(Player.WHITE, row, column, expectedResult);
+            }
+        }
     }
 
     @Test
