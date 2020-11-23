@@ -86,4 +86,21 @@ public class Square {
             return Optional.empty();
         }
     }
+
+    @Override
+    public boolean equals(Object wideThat) {
+        if (this == wideThat) {
+            return true;
+        } else if (!(wideThat instanceof Square)) {
+            return false;
+        }
+
+        Square that = (Square) wideThat;
+        return ((this.getRow() == that.getRow()) && (this.getColumn() == that.getColumn()));
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getRow().hashCode() + this.getColumn().hashCode();
+    }
 }

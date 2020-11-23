@@ -1,6 +1,7 @@
 package org.douggschwind.games.chess;
 
 import org.douggschwind.games.chess.piece.ChessPiece;
+import org.douggschwind.games.chess.piece.Rook;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -187,6 +188,33 @@ public class ChessBoardTest {
                 testPlayerCanMoveFrom(Player.WHITE, row, column, expectedResult);
             }
         }
+    }
+
+    private void testRookCanMoveFromStartOfGame(Player owner, BoardPosition.Column fromColumn) {
+        BoardPosition.Row fromRow = (owner == Player.BLACK) ? BoardPosition.Row.R8 : BoardPosition.Row.R1;
+        Square from = underTest.getSquare(fromRow, fromColumn);
+        Rook subjectRook = (Rook) from.getResident().get();
+
+        for (BoardPosition.Row row : BoardPosition.Row.values()) {
+            for (BoardPosition.Column column : BoardPosition.Column.values()) {
+                Square to = underTest.getSquare(row, column);
+                if (!from.equals(to)) {
+                    ChessMove proposedChessMove = new ChessMove(from, to);
+                    Assert.assertFalse(subjectRook.canMoveTo(underTest, proposedChessMove));
+                }
+            }
+        }
+    }
+
+    /**
+     * Tests where each of the Chess Pieces can move to, fron their initial start of game state.
+     */
+    @Test
+    public void testCanMoveToStartOfGame() {
+        testRookCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.a);
+        testRookCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.h);
+        testRookCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.a);
+        testRookCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.h);
     }
 
     @Test
