@@ -1,5 +1,6 @@
 package org.douggschwind.games.chess;
 
+import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.piece.Bishop;
 import org.douggschwind.games.chess.piece.ChessPiece;
 import org.douggschwind.games.chess.piece.King;
@@ -9,8 +10,6 @@ import org.douggschwind.games.chess.piece.Rook;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Optional;
 
 /**
  * Tests interesting operations on ChessBoard and there are many.
@@ -203,8 +202,8 @@ public class ChessBoardTest {
             for (BoardPosition.Column column : BoardPosition.Column.values()) {
                 Square to = underTest.getSquare(row, column);
                 if (!from.equals(to)) {
-                    ChessMove proposedChessMove = new ChessMove(from, to);
-                    Assert.assertFalse(subjectRook.canMoveTo(underTest, proposedChessMove));
+                    CommonMove proposedCommonMove = new CommonMove(from, to);
+                    Assert.assertFalse(subjectRook.canMoveTo(underTest, proposedCommonMove));
                 }
             }
         }
@@ -220,13 +219,13 @@ public class ChessBoardTest {
             for (BoardPosition.Column column : BoardPosition.Column.values()) {
                 Square to = underTest.getSquare(row, column);
                 if (!from.equals(to)) {
-                    ChessMove proposedChessMove = new ChessMove(from, to);
+                    CommonMove proposedCommonMove = new CommonMove(from, to);
                     if ((allowedRow == row) &&
                         ((column.getId() == fromColumn.getId() - 1) ||
                          (column.getId() == fromColumn.getId() + 1))) {
-                        Assert.assertTrue(subjectKnight.canMoveTo(underTest, proposedChessMove));
+                        Assert.assertTrue(subjectKnight.canMoveTo(underTest, proposedCommonMove));
                     } else {
-                        Assert.assertFalse(subjectKnight.canMoveTo(underTest, proposedChessMove));
+                        Assert.assertFalse(subjectKnight.canMoveTo(underTest, proposedCommonMove));
                     }
                 }
             }
@@ -242,8 +241,8 @@ public class ChessBoardTest {
             for (BoardPosition.Column column : BoardPosition.Column.values()) {
                 Square to = underTest.getSquare(row, column);
                 if (!from.equals(to)) {
-                    ChessMove proposedChessMove = new ChessMove(from, to);
-                    Assert.assertFalse(subjectBishop.canMoveTo(underTest, proposedChessMove));
+                    CommonMove proposedCommonMove = new CommonMove(from, to);
+                    Assert.assertFalse(subjectBishop.canMoveTo(underTest, proposedCommonMove));
                 }
             }
         }
@@ -258,8 +257,8 @@ public class ChessBoardTest {
             for (BoardPosition.Column column : BoardPosition.Column.values()) {
                 Square to = underTest.getSquare(row, column);
                 if (!from.equals(to)) {
-                    ChessMove proposedChessMove = new ChessMove(from, to);
-                    Assert.assertFalse(subjectQueen.canMoveTo(underTest, proposedChessMove));
+                    CommonMove proposedCommonMove = new CommonMove(from, to);
+                    Assert.assertFalse(subjectQueen.canMoveTo(underTest, proposedCommonMove));
                 }
             }
         }
@@ -274,8 +273,8 @@ public class ChessBoardTest {
             for (BoardPosition.Column column : BoardPosition.Column.values()) {
                 Square to = underTest.getSquare(row, column);
                 if (!from.equals(to)) {
-                    ChessMove proposedChessMove = new ChessMove(from, to);
-                    Assert.assertFalse(subjectKing.canMoveTo(underTest, proposedChessMove));
+                    CommonMove proposedCommonMove = new CommonMove(from, to);
+                    Assert.assertFalse(subjectKing.canMoveTo(underTest, proposedCommonMove));
                 }
             }
         }
@@ -312,9 +311,9 @@ public class ChessBoardTest {
         Square fiveB = underTest.getSquare(BoardPosition.Row.R5, BoardPosition.Column.b);
         Square sixA = underTest.getSquare(BoardPosition.Row.R6, BoardPosition.Column.a);
         ChessPiece whitePawn = twoB.getResident().get();
-        ChessMove firstWhiteMove = new ChessMove(twoB, fourB);
+        CommonMove firstWhiteMove = new CommonMove(twoB, fourB);
         whitePawn.moveTo(underTest, firstWhiteMove);
-        ChessMove secondWhiteMove = new ChessMove(fourB, fiveB);
+        CommonMove secondWhiteMove = new CommonMove(fourB, fiveB);
         whitePawn.moveTo(underTest, secondWhiteMove);
 
         // Now that we have set the stage for the White Pawn, move the Black Pawn from 7a to 5a so that
@@ -322,7 +321,7 @@ public class ChessBoardTest {
         Square sevenA = underTest.getSquare(BoardPosition.Row.R7, BoardPosition.Column.a);
         Square fiveA = underTest.getSquare(BoardPosition.Row.R5, BoardPosition.Column.a);
         ChessPiece blackPawn = sevenA.getResident().get();
-        ChessMove firstBlackMove = new ChessMove(sevenA, fiveA);
+        CommonMove firstBlackMove = new CommonMove(sevenA, fiveA);
         Assert.assertFalse(fiveA.isOccupied());
         blackPawn.moveTo(underTest, firstBlackMove);
         Assert.assertTrue(fiveA.isOccupied());
@@ -331,7 +330,7 @@ public class ChessBoardTest {
         Assert.assertFalse(whitePawn.hasBeenCaptured());
         Assert.assertFalse(blackPawn.hasBeenCaptured());
 
-        ChessMove enPassantByWhitePawn = new ChessMove(fiveB, sixA);
+        CommonMove enPassantByWhitePawn = new CommonMove(fiveB, sixA);
         Assert.assertTrue(whitePawn.canMoveTo(underTest, enPassantByWhitePawn));
         Assert.assertFalse(sixA.isOccupied());
         whitePawn.moveTo(underTest, enPassantByWhitePawn);
@@ -353,9 +352,9 @@ public class ChessBoardTest {
         Square fiveB = underTest.getSquare(BoardPosition.Row.R5, BoardPosition.Column.b);
         Square sixC = underTest.getSquare(BoardPosition.Row.R6, BoardPosition.Column.c);
         ChessPiece whitePawn = twoB.getResident().get();
-        ChessMove firstWhiteMove = new ChessMove(twoB, fourB);
+        CommonMove firstWhiteMove = new CommonMove(twoB, fourB);
         whitePawn.moveTo(underTest, firstWhiteMove);
-        ChessMove secondWhiteMove = new ChessMove(fourB, fiveB);
+        CommonMove secondWhiteMove = new CommonMove(fourB, fiveB);
         whitePawn.moveTo(underTest, secondWhiteMove);
 
         // Now that we have set the stage for the White Pawn, move the Black Pawn from 7c to 5c so that
@@ -363,7 +362,7 @@ public class ChessBoardTest {
         Square sevenC = underTest.getSquare(BoardPosition.Row.R7, BoardPosition.Column.c);
         Square fiveC = underTest.getSquare(BoardPosition.Row.R5, BoardPosition.Column.c);
         ChessPiece blackPawn = sevenC.getResident().get();
-        ChessMove firstBlackMove = new ChessMove(sevenC, fiveC);
+        CommonMove firstBlackMove = new CommonMove(sevenC, fiveC);
         Assert.assertFalse(fiveC.isOccupied());
         blackPawn.moveTo(underTest, firstBlackMove);
         Assert.assertTrue(fiveC.isOccupied());
@@ -372,7 +371,7 @@ public class ChessBoardTest {
         Assert.assertFalse(whitePawn.hasBeenCaptured());
         Assert.assertFalse(blackPawn.hasBeenCaptured());
 
-        ChessMove enPassantByWhitePawn = new ChessMove(fiveB, sixC);
+        CommonMove enPassantByWhitePawn = new CommonMove(fiveB, sixC);
         Assert.assertTrue(whitePawn.canMoveTo(underTest, enPassantByWhitePawn));
         Assert.assertFalse(sixC.isOccupied());
         whitePawn.moveTo(underTest, enPassantByWhitePawn);

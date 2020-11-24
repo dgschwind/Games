@@ -2,7 +2,7 @@ package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.BoardPosition;
 import org.douggschwind.games.chess.ChessBoard;
-import org.douggschwind.games.chess.ChessMove;
+import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.Player;
 import org.douggschwind.games.chess.Square;
 
@@ -34,7 +34,7 @@ public class Pawn extends ChessPiece {
      * @return
      */
     @Override
-    public boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove) {
+    public boolean canMoveTo(ChessBoard chessBoard, CommonMove proposedMove) {
         if (hasReachedFarSideOfBoard()) {
             // Also need to consider once Pawn has in fact reached the far side of the board.
             return false; //TODO
@@ -119,7 +119,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    protected void handleMoveTo(ChessBoard chessBoard, ChessMove move) {
+    protected void handleMoveTo(ChessBoard chessBoard, CommonMove move) {
         basicMove(move);
 
         final Square from = move.getFrom();

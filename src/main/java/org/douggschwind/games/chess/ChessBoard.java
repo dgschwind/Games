@@ -1,5 +1,6 @@
 package org.douggschwind.games.chess;
 
+import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.piece.Bishop;
 import org.douggschwind.games.chess.piece.King;
 import org.douggschwind.games.chess.piece.Knight;
@@ -182,7 +183,7 @@ public class ChessBoard {
      * @param proposedMove Must be non-null and properly populated.
      * @return true if the path is clear, false otherwise.
      */
-    public boolean isPathClear(ChessMove proposedMove) {
+    public boolean isPathClear(CommonMove proposedMove) {
         Square from = proposedMove.getFrom();
         Square to = proposedMove.getTo();
 

@@ -1,6 +1,6 @@
 package org.douggschwind.games.chess.piece;
 
-import org.douggschwind.games.chess.ChessMove;
+import org.douggschwind.games.chess.moves.CommonMove;
 
 /**
  * This is mix-in behavior essentially so that all that implement this interface
@@ -9,7 +9,7 @@ import org.douggschwind.games.chess.ChessMove;
  * @author Doug Gschwind
  */
 public interface CaptureUponAdvance {
-    default boolean basicCanMoveTo(ChessMove proposedMove) {
+    default boolean basicCanMoveTo(CommonMove proposedMove) {
         if (proposedMove.getTo().isOccupied()) {
             // Cannot move to a Square that is occupied by the same Player
             return proposedMove.getFrom().isOccupiedByMyOpponent(proposedMove.getTo());

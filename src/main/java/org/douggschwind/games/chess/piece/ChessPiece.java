@@ -2,7 +2,7 @@ package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.BoardPosition;
 import org.douggschwind.games.chess.ChessBoard;
-import org.douggschwind.games.chess.ChessMove;
+import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.Player;
 import org.douggschwind.games.chess.Square;
 
@@ -100,9 +100,9 @@ public abstract class ChessPiece {
      * @param proposedMove Must be non-null and properly populated.
      * @return true if so, false if the piece is not allowed to be moved to the destination.
      */
-    public abstract boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove);
+    public abstract boolean canMoveTo(ChessBoard chessBoard, CommonMove proposedMove);
 
-    protected final void basicMove(ChessMove move) {
+    protected final void basicMove(CommonMove move) {
         final Square from = move.getFrom();
         final Square to = move.getTo();
 
@@ -115,13 +115,13 @@ public abstract class ChessPiece {
     }
 
     // Concrete subclasses must implement.
-    protected abstract void handleMoveTo(ChessBoard chessBoard, ChessMove move);
+    protected abstract void handleMoveTo(ChessBoard chessBoard, CommonMove move);
     /**
      * Demands that the ChessPiece in the from Square be moved to the to Square.
      * @param chessBoard Must be non-null.
      * @param move Must be non-null and properly populated.
      */
-    public final void moveTo(ChessBoard chessBoard, ChessMove move) {
+    public final void moveTo(ChessBoard chessBoard, CommonMove move) {
         handleMoveTo(chessBoard, move);
         numTimesMoved++;
     }

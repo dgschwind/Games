@@ -1,5 +1,6 @@
 package org.douggschwind.games.chess;
 
+import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.piece.ChessPiece;
 
 import java.io.BufferedReader;
@@ -45,7 +46,7 @@ public class Chess {
                                  BoardPosition.Column.getById((columnIdentifier - 'a') + 1));
     }
 
-    private Optional<ChessMove> interpretMoveInstruction(String moveInstruction) {
+    private Optional<CommonMove> interpretMoveInstruction(String moveInstruction) {
         if ((moveInstruction == null) || (moveInstruction.isEmpty())) {
             System.err.println("Move instruction malformed. Should be of form bp1 bp2");
             return Optional.empty();
@@ -75,10 +76,10 @@ public class Chess {
         Square from = chessBoard.getSquare(position1.getRow(), position1.getColumn());
         Square to = chessBoard.getSquare(position2.getRow(), position2.getColumn());
 
-        return Optional.of(new ChessMove(from, to));
+        return Optional.of(new CommonMove(from, to));
     }
 
-    private Optional<ChessMove> getPlayerMoveInstruction(BufferedReader reader) {
+    private Optional<CommonMove> getPlayerMoveInstruction(BufferedReader reader) {
         try {
             String moveInstruction = reader.readLine();
             return interpretMoveInstruction(moveInstruction);
@@ -89,13 +90,13 @@ public class Chess {
         }
     }
 
-    private Optional<ChessMove> getValidPlayerMoveInstruction(BufferedReader reader, Player toMakeMove) {
-        Optional<ChessMove> chessMoveOptional = getPlayerMoveInstruction(reader);
+    private Optional<CommonMove> getValidPlayerMoveInstruction(BufferedReader reader, Player toMakeMove) {
+        Optional<CommonMove> chessMoveOptional = getPlayerMoveInstruction(reader);
         while (!chessMoveOptional.isPresent()) {
             chessMoveOptional = getPlayerMoveInstruction(reader);
         }
 
-        ChessMove proposedMove = chessMoveOptional.get();
+        CommonMove proposedMove = chessMoveOptional.get();
         if (!proposedMove.getFrom().isOccupied()) {
             System.err.println("The from square is not occupied, cannot be moved from");
         } else {
@@ -122,12 +123,12 @@ public class Chess {
             chessBoard.print();
             System.out.println("Player " + toMakeMove.name() + " move : ");
 
-            Optional<ChessMove> validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
+            Optional<CommonMove> validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
             while (!validPlayerMoveOptional.isPresent()) {
                 validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
             }
 
-            ChessMove validatedPlayerMove = validPlayerMoveOptional.get();
+            CommonMove validatedPlayerMove = validPlayerMoveOptional.get();
             ChessPiece toMove = validatedPlayerMove.getFrom().getResident().get();
             toMove.moveTo(chessBoard, validatedPlayerMove);
 

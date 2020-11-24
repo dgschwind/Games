@@ -1,7 +1,7 @@
 package org.douggschwind.games.chess.piece;
 
 import org.douggschwind.games.chess.ChessBoard;
-import org.douggschwind.games.chess.ChessMove;
+import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.Player;
 import org.douggschwind.games.chess.Square;
 
@@ -27,7 +27,7 @@ public class Bishop extends ChessPiece implements CaptureUponAdvance {
      * @return
      */
     @Override
-    public boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove) {
+    public boolean canMoveTo(ChessBoard chessBoard, CommonMove proposedMove) {
         if (!basicCanMoveTo(proposedMove)) {
             return false;
         }
@@ -45,7 +45,7 @@ public class Bishop extends ChessPiece implements CaptureUponAdvance {
     }
 
     @Override
-    protected void handleMoveTo(ChessBoard chessBoard, ChessMove move) {
+    protected void handleMoveTo(ChessBoard chessBoard, CommonMove move) {
         basicMove(move);
     }
 }
