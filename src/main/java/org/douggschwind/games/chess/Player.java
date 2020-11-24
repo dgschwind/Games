@@ -17,6 +17,14 @@ public enum Player {
         this.abbreviation = abbreviation;
     }
 
+    public boolean isBlack() {
+        return this == BLACK;
+    }
+
+    public boolean isWhite() {
+        return this == WHITE;
+    }
+
     public String getAbbreviation() {
         return abbreviation;
     }

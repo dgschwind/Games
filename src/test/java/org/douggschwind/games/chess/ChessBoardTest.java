@@ -1,5 +1,6 @@
 package org.douggschwind.games.chess;
 
+import org.douggschwind.games.chess.piece.Bishop;
 import org.douggschwind.games.chess.piece.ChessPiece;
 import org.douggschwind.games.chess.piece.Rook;
 import org.junit.Assert;
@@ -206,13 +207,50 @@ public class ChessBoardTest {
         }
     }
 
+//    private void testKnightCanMoveFromStartOfGame(Player owner, BoardPosition.Column fromColumn) {
+//        BoardPosition.Row fromRow = (owner == Player.BLACK) ? BoardPosition.Row.R8 : BoardPosition.Row.R1;
+//        Square from = underTest.getSquare(fromRow, fromColumn);
+//        Bishop subjectBishop = (Bishop) from.getResident().get();
+//
+//        for (BoardPosition.Row row : BoardPosition.Row.values()) {
+//            for (BoardPosition.Column column : BoardPosition.Column.values()) {
+//                Square to = underTest.getSquare(row, column);
+//                if (!from.equals(to)) {
+//                    ChessMove proposedChessMove = new ChessMove(from, to);
+//                    Assert.assertFalse(subjectBishop.canMoveTo(underTest, proposedChessMove));
+//                }
+//            }
+//        }
+//    }
+
+    private void testBishopCanMoveFromStartOfGame(Player owner, BoardPosition.Column fromColumn) {
+        BoardPosition.Row fromRow = (owner == Player.BLACK) ? BoardPosition.Row.R8 : BoardPosition.Row.R1;
+        Square from = underTest.getSquare(fromRow, fromColumn);
+        Bishop subjectBishop = (Bishop) from.getResident().get();
+
+        for (BoardPosition.Row row : BoardPosition.Row.values()) {
+            for (BoardPosition.Column column : BoardPosition.Column.values()) {
+                Square to = underTest.getSquare(row, column);
+                if (!from.equals(to)) {
+                    ChessMove proposedChessMove = new ChessMove(from, to);
+                    Assert.assertFalse(subjectBishop.canMoveTo(underTest, proposedChessMove));
+                }
+            }
+        }
+    }
+
     /**
      * Tests where each of the Chess Pieces can move to, fron their initial start of game state.
      */
     @Test
     public void testCanMoveToStartOfGame() {
         testRookCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.a);
+//        testKnightCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.b);
+        testBishopCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.c);
+        testBishopCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.f);
         testRookCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.h);
+        testBishopCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.c);
+        testBishopCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.f);
         testRookCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.a);
         testRookCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.h);
     }

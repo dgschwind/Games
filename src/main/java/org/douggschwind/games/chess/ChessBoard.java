@@ -90,7 +90,7 @@ public class ChessBoard {
     }
 
     public Square getSquare(BoardPosition.Row row, BoardPosition.Column column) {
-        return squares[BoardPosition.MAX_ROW*(BoardPosition.MAX_ROW - row.getId()) + (column.getId() - BoardPosition.MIN_ROW)];
+        return squares[(BoardPosition.MAX_ROW*(BoardPosition.MAX_ROW - row.getId())) + (column.getId() - BoardPosition.MIN_ROW)];
     }
 
     private boolean isHorizontalPathClear(Square from, Square to) {
@@ -137,6 +137,43 @@ public class ChessBoard {
         return true;
     }
 
+    private boolean isDiagonalPathClear(Square from, Square to) {
+        if (from.getColumn().getId() > to.getColumn().getId()) {
+            // Switch from and to to force increasing column numbers from from, to to.
+            Square temp = from;
+            from = to;
+            to = temp;
+        }
+
+        int columnId = from.getColumn().getId() + 1;
+
+        if (from.getRow().getId() > to.getRow().getId()) {
+            int startRowId = from.getRow().getId() - 1;
+            int endRowId = to.getRow().getId() + 1;
+            // North West to South East
+            for (int rowId = startRowId;rowId >= endRowId;rowId--) {
+                Square squareOnPath = getSquare(BoardPosition.Row.getById(rowId),
+                                                BoardPosition.Column.getById(columnId++));
+                if (squareOnPath.isOccupied()) {
+                    return false;
+                }
+            }
+        } else {
+            // South West to North East
+            int startRowId = from.getRow().getId() + 1;
+            int endRowId = to.getRow().getId() - 1;
+            for (int rowId = startRowId;rowId <= endRowId;rowId++) {
+                Square squareOnPath = getSquare(BoardPosition.Row.getById(rowId),
+                                                BoardPosition.Column.getById(columnId++));
+                if (squareOnPath.isOccupied()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Determines if the path that exists between from and to is clear, or if one or more ChessPieces occupy
      * Squares along the path. It considers paths that are only vertical (change in rows in the same column),
@@ -146,8 +183,8 @@ public class ChessBoard {
      * @return true if the path is clear, false otherwise.
      */
     public boolean isPathClear(ChessMove proposedMove) {
-        final Square from = proposedMove.getFrom();
-        final Square to = proposedMove.getTo();
+        Square from = proposedMove.getFrom();
+        Square to = proposedMove.getTo();
 
         boolean isHorizontalOnlyPath = (from.getRow() == to.getRow());
         if (isHorizontalOnlyPath) {
@@ -160,31 +197,7 @@ public class ChessBoard {
         }
 
         // Otherwise, the path we are checking is diagonal.
-        int startRowId = from.getRow().getId() + 1;
-        int endRowId = to.getRow().getId() - 1;
-        int columnId = from.getColumn().getId() + 1;
-
-        if (startRowId > endRowId) {
-            // North West to South East
-            for (int rowId = startRowId;rowId >= endRowId;rowId--) {
-                Square squareOnPath = getSquare(BoardPosition.Row.getById(rowId),
-                                                BoardPosition.Column.getById(columnId++));
-                if (squareOnPath.isOccupied()) {
-                    return false;
-                }
-            }
-        } else {
-            // South West to North East
-            for (int rowId = startRowId;rowId <= endRowId;rowId++) {
-                Square squareOnPath = getSquare(BoardPosition.Row.getById(rowId),
-                                                BoardPosition.Column.getById(columnId++));
-                if (squareOnPath.isOccupied()) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return isDiagonalPathClear(from, to);
     }
 
     private void clearSquareResidents() {

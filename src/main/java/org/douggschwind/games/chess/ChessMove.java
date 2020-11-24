@@ -9,6 +9,12 @@ public class ChessMove {
     private final Square to;
 
     public ChessMove(Square from, Square to) {
+        if ((from == null) || (to == null)) {
+            throw new IllegalArgumentException("From and To Square must both be non-null");
+        } else if (from.equals(to)) {
+            throw new IllegalArgumentException("From and To Square cannot be the same");
+        }
+
         this.from = from;
         this.to = to;
     }

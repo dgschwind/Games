@@ -24,6 +24,11 @@ public abstract class ChessPiece {
 
     protected ChessPiece(Player owner) {
         this.owner = owner;
+        if (owner.isBlack()) {
+            advancingDirection = AdvancingDirection.TOP_TO_BOTTOM;
+        } else {
+            advancingDirection = AdvancingDirection.BOTTOM_TO_TOP;
+        }
     }
 
     public Player getOwner() {
@@ -40,10 +45,6 @@ public abstract class ChessPiece {
 
     public void setInitialPosition(BoardPosition initialPosition) {
         this.initialPosition = initialPosition;
-        this.advancingDirection =
-                initialPosition.getRow().getId() >= 7
-                    ? AdvancingDirection.TOP_TO_BOTTOM
-                    : AdvancingDirection.BOTTOM_TO_TOP;
     }
 
     public AdvancingDirection getAdvancingDirection() {
