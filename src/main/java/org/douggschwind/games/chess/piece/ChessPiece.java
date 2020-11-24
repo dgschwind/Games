@@ -13,6 +13,7 @@ import org.douggschwind.games.chess.Square;
 public abstract class ChessPiece {
     private final Player owner;
     private BoardPosition initialPosition;
+    private int numTimesMoved;
     private AdvancingDirection advancingDirection;
     private boolean captured;
 
@@ -75,6 +76,14 @@ public abstract class ChessPiece {
         return false;
     }
 
+    protected int getNumTimesMoved() {
+        return numTimesMoved;
+    }
+
+    public boolean hasEverBeenMoved() {
+        return getNumTimesMoved() > 0;
+    }
+
     /**
      * Determines if the given player can move the ChessPiece located in the from Square.
      * @param player Must be non-null.
@@ -93,13 +102,6 @@ public abstract class ChessPiece {
      */
     public abstract boolean canMoveTo(ChessBoard chessBoard, ChessMove proposedMove);
 
-    /**
-     * Demands that the ChessPiece in the from Square be moved to the to Square.
-     * @param chessBoard Must be non-null.
-     * @param move Must be non-null and properly populated.
-     */
-    public abstract void moveTo(ChessBoard chessBoard, ChessMove move);
-
     protected final void basicMove(ChessMove move) {
         final Square from = move.getFrom();
         final Square to = move.getTo();
@@ -110,6 +112,18 @@ public abstract class ChessPiece {
         }
         to.setResident(from.getResident().get());
         from.empty();
+    }
+
+    // Concrete subclasses must implement.
+    protected abstract void handleMoveTo(ChessBoard chessBoard, ChessMove move);
+    /**
+     * Demands that the ChessPiece in the from Square be moved to the to Square.
+     * @param chessBoard Must be non-null.
+     * @param move Must be non-null and properly populated.
+     */
+    public final void moveTo(ChessBoard chessBoard, ChessMove move) {
+        handleMoveTo(chessBoard, move);
+        numTimesMoved++;
     }
 
     public boolean hasBeenCaptured() {

@@ -44,7 +44,7 @@ public class Knight extends ChessPiece implements CaptureUponAdvance {
     }
 
     @Override
-    public void moveTo(ChessBoard chessBoard, ChessMove move) {
+    protected void handleMoveTo(ChessBoard chessBoard, ChessMove move) {
         basicMove(move);
     }
 }

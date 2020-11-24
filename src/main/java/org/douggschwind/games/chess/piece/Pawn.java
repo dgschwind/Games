@@ -12,7 +12,6 @@ import org.douggschwind.games.chess.Square;
  */
 public class Pawn extends ChessPiece {
     private boolean initialMoveWasTwoSquares;
-    private int numTimesMoved;
     private boolean reachedFarSideOfBoard;
 
     public Pawn(Player player) {
@@ -120,7 +119,7 @@ public class Pawn extends ChessPiece {
     }
 
     @Override
-    public void moveTo(ChessBoard chessBoard, ChessMove move) {
+    protected void handleMoveTo(ChessBoard chessBoard, ChessMove move) {
         basicMove(move);
 
         final Square from = move.getFrom();
@@ -136,16 +135,10 @@ public class Pawn extends ChessPiece {
                 (((initialRow == BoardPosition.MAX_ROW) && (to.getRow().getId() == BoardPosition.MIN_ROW)) ||
                  ((initialRow == BoardPosition.MIN_ROW) && (to.getRow().getId() == BoardPosition.MAX_ROW)));
         }
-
-        numTimesMoved++;
-    }
-
-    public boolean hasEverBeenMoved() {
-        return numTimesMoved > 0;
     }
 
     public boolean canBeCapturedDueToEnPassant() {
-        return ((numTimesMoved == 1) && initialMoveWasTwoSquares);
+        return ((getNumTimesMoved() == 1) && initialMoveWasTwoSquares);
     }
 
     private boolean hasReachedFarSideOfBoard() {
