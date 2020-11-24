@@ -46,7 +46,7 @@ public class Chess {
                                  BoardPosition.Column.getById((columnIdentifier - 'a') + 1));
     }
 
-    private Optional<CommonMove> interpretMoveInstruction(String moveInstruction) {
+    private Optional<CommonMove<ChessPiece>> interpretMoveInstruction(String moveInstruction) {
         if ((moveInstruction == null) || (moveInstruction.isEmpty())) {
             System.err.println("Move instruction malformed. Should be of form bp1 bp2");
             return Optional.empty();
@@ -57,9 +57,12 @@ public class Chess {
             return Optional.empty();
         }
 
+        String fromSquareIdentifier = squareIdentifiers[0];
+        String toSquareIdentifier = squareIdentifiers[1];
+
         BoardPosition position1;
         try {
-            position1 = resolveSquareIdentifier(squareIdentifiers[0]);
+            position1 = resolveSquareIdentifier(fromSquareIdentifier);
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
             return Optional.empty();
@@ -67,19 +70,24 @@ public class Chess {
 
         BoardPosition position2;
         try {
-            position2 = resolveSquareIdentifier(squareIdentifiers[1]);
+            position2 = resolveSquareIdentifier(toSquareIdentifier);
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
             return Optional.empty();
         }
 
         Square from = chessBoard.getSquare(position1.getRow(), position1.getColumn());
+        if (!from.isOccupied()) {
+            System.err.println("Invalid move instruction, square " + fromSquareIdentifier + " is not occupied");
+            return Optional.empty();
+        }
         Square to = chessBoard.getSquare(position2.getRow(), position2.getColumn());
 
-        return Optional.of(new CommonMove(from, to));
+        Class<? extends ChessPiece> chessPieceClass = from.getResident().get().getClass();
+        return Optional.of(new CommonMove<ChessPiece>(chessPieceClass, from, to));
     }
 
-    private Optional<CommonMove> getPlayerMoveInstruction(BufferedReader reader) {
+    private Optional<CommonMove<ChessPiece>> getPlayerMoveInstruction(BufferedReader reader) {
         try {
             String moveInstruction = reader.readLine();
             return interpretMoveInstruction(moveInstruction);
@@ -90,13 +98,13 @@ public class Chess {
         }
     }
 
-    private Optional<CommonMove> getValidPlayerMoveInstruction(BufferedReader reader, Player toMakeMove) {
-        Optional<CommonMove> chessMoveOptional = getPlayerMoveInstruction(reader);
+    private Optional<CommonMove<ChessPiece>> getValidPlayerMoveInstruction(BufferedReader reader, Player toMakeMove) {
+        Optional<CommonMove<ChessPiece>> chessMoveOptional = getPlayerMoveInstruction(reader);
         while (!chessMoveOptional.isPresent()) {
             chessMoveOptional = getPlayerMoveInstruction(reader);
         }
 
-        CommonMove proposedMove = chessMoveOptional.get();
+        CommonMove<ChessPiece> proposedMove = chessMoveOptional.get();
         if (!proposedMove.getFrom().isOccupied()) {
             System.err.println("The from square is not occupied, cannot be moved from");
         } else {
@@ -123,12 +131,12 @@ public class Chess {
             chessBoard.print();
             System.out.println("Player " + toMakeMove.name() + " move : ");
 
-            Optional<CommonMove> validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
+            Optional<CommonMove<ChessPiece>> validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
             while (!validPlayerMoveOptional.isPresent()) {
                 validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
             }
 
-            CommonMove validatedPlayerMove = validPlayerMoveOptional.get();
+            CommonMove<ChessPiece> validatedPlayerMove = validPlayerMoveOptional.get();
             ChessPiece toMove = validatedPlayerMove.getFrom().getResident().get();
             toMove.moveTo(chessBoard, validatedPlayerMove);
 
