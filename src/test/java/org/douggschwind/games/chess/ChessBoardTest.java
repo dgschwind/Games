@@ -3,6 +3,7 @@ package org.douggschwind.games.chess;
 import org.douggschwind.games.chess.piece.Bishop;
 import org.douggschwind.games.chess.piece.ChessPiece;
 import org.douggschwind.games.chess.piece.Knight;
+import org.douggschwind.games.chess.piece.Queen;
 import org.douggschwind.games.chess.piece.Rook;
 import org.junit.Assert;
 import org.junit.Before;
@@ -247,6 +248,22 @@ public class ChessBoardTest {
         }
     }
 
+    private void testQueenCanMoveFromStartOfGame(Player owner, BoardPosition.Column fromColumn) {
+        BoardPosition.Row fromRow = owner.isBlack() ? BoardPosition.Row.R8 : BoardPosition.Row.R1;
+        Square from = underTest.getSquare(fromRow, fromColumn);
+        Queen subjectQueen = (Queen) from.getResident().get();
+
+        for (BoardPosition.Row row : BoardPosition.Row.values()) {
+            for (BoardPosition.Column column : BoardPosition.Column.values()) {
+                Square to = underTest.getSquare(row, column);
+                if (!from.equals(to)) {
+                    ChessMove proposedChessMove = new ChessMove(from, to);
+                    Assert.assertFalse(subjectQueen.canMoveTo(underTest, proposedChessMove));
+                }
+            }
+        }
+    }
+
     /**
      * Tests where each of the Chess Pieces can move to, fron their initial start of game state.
      */
@@ -255,12 +272,17 @@ public class ChessBoardTest {
         testRookCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.a);
         testKnightCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.b);
         testBishopCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.c);
+        testQueenCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.d);
         testBishopCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.f);
         testKnightCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.g);
         testRookCanMoveFromStartOfGame(Player.BLACK, BoardPosition.Column.h);
-        testBishopCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.c);
-        testBishopCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.f);
+
         testRookCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.a);
+        testKnightCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.b);
+        testBishopCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.c);
+        testQueenCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.d);
+        testBishopCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.f);
+        testKnightCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.g);
         testRookCanMoveFromStartOfGame(Player.WHITE, BoardPosition.Column.h);
     }
 
