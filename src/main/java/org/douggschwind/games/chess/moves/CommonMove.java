@@ -8,7 +8,7 @@ import org.douggschwind.games.chess.piece.ChessPiece;
  * @type T The type of ChessPiece that is attempted to be moved.
  * @author Doug Gschwind
  */
-public class CommonMove <T extends ChessPiece> {
+public class CommonMove <T extends ChessPiece> implements ChessMove {
     private final Square from;
     private final Square to;
 
@@ -25,6 +25,11 @@ public class CommonMove <T extends ChessPiece> {
 
         this.from = from;
         this.to = to;
+    }
+
+    @Override
+    public final boolean isCommonMove() {
+        return true;
     }
 
     public Square getFrom() {

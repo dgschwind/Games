@@ -14,7 +14,7 @@ import org.douggschwind.games.chess.piece.Rook;
  * it was previously.
  * @author Doug Gschwind
  */
-public class CastlingMove {
+public class CastlingMove implements ChessMove {
     private final CommonMove<King> kingMove;
     private final CommonMove<Rook> rookMove;
 
@@ -43,6 +43,11 @@ public class CastlingMove {
     private CastlingMove(CommonMove<King> kingMove, CommonMove<Rook> rookMove) {
         this.kingMove = kingMove;
         this.rookMove = rookMove;
+    }
+
+    @Override
+    public final boolean isCastlingMove() {
+        return true;
     }
 
     public CommonMove<King> getKingMove() {
