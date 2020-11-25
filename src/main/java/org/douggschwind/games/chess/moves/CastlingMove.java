@@ -3,6 +3,7 @@ package org.douggschwind.games.chess.moves;
 import org.douggschwind.games.chess.BoardPosition;
 import org.douggschwind.games.chess.ChessBoard;
 import org.douggschwind.games.chess.Player;
+import org.douggschwind.games.chess.piece.ChessPiece;
 import org.douggschwind.games.chess.piece.King;
 import org.douggschwind.games.chess.piece.Rook;
 
@@ -58,5 +59,42 @@ public class CastlingMove {
 
     public boolean isKingSide() {
         return rookMove.getFrom().getColumn() == BoardPosition.Column.h;
+    }
+
+    /**
+     * Determines if this move is actually permitted, given the state of the board and the King and Rook pieces
+     * involved.
+     * @return true if so, false otherwise.
+     */
+    public boolean isPermitted(ChessBoard chessBoard) {
+        if (!kingMove.getFrom().isOccupied() || !rookMove.getFrom().isOccupied()) {
+            return false;
+        }
+
+        King kingToMove = (King) kingMove.getFrom().getResident().get();
+        if ((kingToMove.hasEverBeenMoved()) || kingToMove.isInCheck()) {
+            return false;
+        }
+        Rook rookToMove = (Rook) rookMove.getFrom().getResident().get();
+        if (rookToMove.hasEverBeenMoved() || rookToMove.hasBeenCaptured()) {
+            return false;
+        }
+
+        if (!chessBoard.isPathClear(kingMove)) {
+            return false;
+        }
+
+        // TODO: have to check for attackers not on, but next to the path of movement.
+
+        return true;
+    }
+
+    public void handleMove(ChessBoard chessBoard) {
+        King kingToMove = (King) kingMove.getFrom().getResident().get();
+        Rook rookToMove = (Rook) rookMove.getFrom().getResident().get();
+
+        // Expressly move Rook first so that the two moves do not involve any mistaken capturing.
+        rookToMove.moveTo(chessBoard, rookMove);
+        kingToMove.moveTo(chessBoard, kingMove);
     }
 }
