@@ -25,7 +25,7 @@ import java.util.Random;
  * @author Doug Gschwind
  */
 public class BoggleDice {
-    public static final int ROWS_X_COLS = 4;
+    public static final int SIZE = 4;
 
     private static final List<DieLetter> DIE0 = new ArrayList();
     private static final List<DieLetter> DIE1 = new ArrayList();
@@ -44,7 +44,7 @@ public class BoggleDice {
     private static final List<DieLetter> DIE14 = new ArrayList();
     private static final List<DieLetter> DIE15 = new ArrayList();
 
-    private static final List<DieLetter>[] DICE = (List<DieLetter>[]) new List[ROWS_X_COLS * ROWS_X_COLS];
+    private static final List<DieLetter>[] DICE = (List<DieLetter>[]) new List[SIZE * SIZE];
 
     static {
         DIE0.add(new DieLetter('r'));
@@ -178,23 +178,22 @@ public class BoggleDice {
     }
 
     /**
-     * Shakes all of the dice and shuffles them such that they have all fallen into place
-     * on the 4x4 game board.
-     * @return
+     * Shakes all of the dice and shuffles them such that they have all fallen into place on the game board.
+     * @return The board configuration. Will be non-null.
      */
     public static DieLetter[][] shake() {
         Random random = new Random();
-        List<Integer> dieIndicators = new ArrayList<>(ROWS_X_COLS * ROWS_X_COLS);
-        for (int i = 0;i < ROWS_X_COLS * ROWS_X_COLS;i++) {
+        List<Integer> dieIndicators = new ArrayList<>(SIZE * SIZE);
+        for (int i = 0;i < SIZE * SIZE;i++) {
             dieIndicators.add(i);
         }
 
-        DieLetter[][] result = new DieLetter[ROWS_X_COLS][];
+        DieLetter[][] result = new DieLetter[SIZE][];
 
-        for (int row = 0;row < ROWS_X_COLS;row++) {
-            result[row] = new DieLetter[ROWS_X_COLS];
+        for (int row = 0;row < SIZE;row++) {
+            result[row] = new DieLetter[SIZE];
 
-            for (int col = 0;col < ROWS_X_COLS;col++) {
+            for (int col = 0;col < SIZE;col++) {
                 // Determine the die that has fallen into this position on the game board.
 
                 int dieIndicator;

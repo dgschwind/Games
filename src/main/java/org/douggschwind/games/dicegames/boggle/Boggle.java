@@ -260,8 +260,8 @@ public class Boggle {
     }
 
     private boolean canAdvanceToBoardLocation(int row, int column, BoardLocationsVisited boardLocationsVisited) {
-        return (((row >= 0) && (row < BoggleDice.ROWS_X_COLS)) &&
-                ((column >= 0) && (column < BoggleDice.ROWS_X_COLS)) &&
+        return (((row >= 0) && (row < BoggleDice.SIZE)) &&
+                ((column >= 0) && (column < BoggleDice.SIZE)) &&
                 !boardLocationsVisited.hasBeenVisited(row, column));
     }
 
@@ -318,10 +318,10 @@ public class Boggle {
     Set<String> findWordsPresent(DieLetter[][] gameBoard) {
         Set<String> result = new HashSet<>();
 
-        for (int row = 0;row < BoggleDice.ROWS_X_COLS;row++) {
-            for (int column = 0;column < BoggleDice.ROWS_X_COLS;column++) {
+        for (int row = 0;row < BoggleDice.SIZE;row++) {
+            for (int column = 0;column < BoggleDice.SIZE;column++) {
                 String firstLetterOfWord = "" + gameBoard[row][column].asWordPart();
-                BoardLocationsVisited boardLocationsVisited = new BoardLocationsVisited(BoggleDice.ROWS_X_COLS);
+                BoardLocationsVisited boardLocationsVisited = new BoardLocationsVisited(BoggleDice.SIZE);
                 boardLocationsVisited.markVisited(row, column);
                 result.addAll(findWordsPresent(gameBoard, firstLetterOfWord, row, column, boardLocationsVisited));
             }
@@ -334,9 +334,9 @@ public class Boggle {
         System.out.println("Here is the game board:");
         System.out.println(GAME_BOARD_HEADER);
 
-        for (int row = 0;row < BoggleDice.ROWS_X_COLS;row++) {
+        for (int row = 0;row < BoggleDice.SIZE;row++) {
             System.out.print("\t");
-            for (int col = 0;col < BoggleDice.ROWS_X_COLS;col++) {
+            for (int col = 0;col < BoggleDice.SIZE;col++) {
                 DieLetter dieLetter = gameBoard[row][col];
                 if (dieLetter.isQu()) {
                     System.out.print("Qu");
