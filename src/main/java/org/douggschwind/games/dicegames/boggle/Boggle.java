@@ -10,12 +10,12 @@ import java.util.function.BiConsumer;
 
 /**
  * This class is the entry point into which you can see the game being setup and the possible words on
- * the game board to be found. I have chosen to only model the 4x4 game board, saving all the typing to codify the
- * 5x5 die configuration.
+ * the game board to be found. Supports either 4x4 or 5x5 game board configurations.
  * @author Doug Gschwind
  */
 public class Boggle {
-    private static final String GAME_BOARD_HEADER = "\t-----------";
+    private static final String GAME_BOARD_HEADER_4X4 = "\t-----------";
+    private static final String GAME_BOARD_HEADER_5x5 = "\t--------------";
 
     private static final Set<String> validWords = new HashSet<>();
     private static final WordTree wordTree = new WordTree();
@@ -80,6 +80,9 @@ public class Boggle {
         validWords.add("eaten");
         validWords.add("eats");
         validWords.add("false");
+        validWords.add("fast");
+        validWords.add("faster");
+        validWords.add("fastest");
         validWords.add("fat");
         validWords.add("fate");
         validWords.add("fight");
@@ -198,6 +201,10 @@ public class Boggle {
         validWords.add("stars");
         validWords.add("stare");
         validWords.add("steer");
+        validWords.add("stop");
+        validWords.add("stopped");
+        validWords.add("stopper");
+        validWords.add("stops");
         validWords.add("store");
         validWords.add("stores");
         validWords.add("stored");
@@ -259,13 +266,17 @@ public class Boggle {
         wordTree.seed(validWords);
     }
 
-    private boolean canAdvanceToBoardLocation(int row, int column, BoardLocationsVisited boardLocationsVisited) {
-        return (((row >= 0) && (row < BoggleDice.SIZE)) &&
-                ((column >= 0) && (column < BoggleDice.SIZE)) &&
+    private boolean canAdvanceToBoardLocation(int gameBoardSize,
+                                              int row,
+                                              int column,
+                                              BoardLocationsVisited boardLocationsVisited) {
+        return (((row >= 0) && (row < gameBoardSize)) &&
+                ((column >= 0) && (column < gameBoardSize)) &&
                 !boardLocationsVisited.hasBeenVisited(row, column));
     }
 
-    private Set<String> findWordsPresent(DieLetter[][] gameBoard,
+    private Set<String> findWordsPresent(int gameBoardSize,
+                                         DieLetter[][] gameBoard,
                                          String partialWordInProgress,
                                          int row,
                                          int column,
@@ -288,12 +299,13 @@ public class Boggle {
         BiConsumer<Integer, Integer> growWordInProgress = (pr, pc) -> {
             final int proposedRow = pr.intValue();
             final int proposedColumn = pc.intValue();
-            if (canAdvanceToBoardLocation(proposedRow, proposedColumn, boardLocationsVisited)) {
+            if (canAdvanceToBoardLocation(gameBoardSize, proposedRow, proposedColumn, boardLocationsVisited)) {
                 // We clone the argument boardLocationsVisited so as to not disturb the other
                 // consumers of it in this method.
                 BoardLocationsVisited clone = boardLocationsVisited.clone();
                 clone.markVisited(proposedRow, proposedColumn);
-                result.addAll(findWordsPresent(gameBoard,
+                result.addAll(findWordsPresent(gameBoardSize,
+                                               gameBoard,
                                                partialWordInProgress + gameBoard[proposedRow][proposedColumn].asWordPart(),
                                                proposedRow,
                                                proposedColumn,
@@ -315,28 +327,33 @@ public class Boggle {
         return result;
     }
 
-    Set<String> findWordsPresent(DieLetter[][] gameBoard) {
+    Set<String> findWordsPresent(int gameBoardSize, DieLetter[][] gameBoard) {
         Set<String> result = new HashSet<>();
 
-        for (int row = 0;row < BoggleDice.SIZE;row++) {
-            for (int column = 0;column < BoggleDice.SIZE;column++) {
+        for (int row = 0; row < gameBoardSize; row++) {
+            for (int column = 0; column < gameBoardSize; column++) {
                 String firstLetterOfWord = "" + gameBoard[row][column].asWordPart();
-                BoardLocationsVisited boardLocationsVisited = new BoardLocationsVisited(BoggleDice.SIZE);
+                BoardLocationsVisited boardLocationsVisited = new BoardLocationsVisited(gameBoardSize);
                 boardLocationsVisited.markVisited(row, column);
-                result.addAll(findWordsPresent(gameBoard, firstLetterOfWord, row, column, boardLocationsVisited));
+                result.addAll(findWordsPresent(gameBoardSize,
+                                               gameBoard,
+                                               firstLetterOfWord,
+                                               row,
+                                               column,
+                                               boardLocationsVisited));
             }
         }
 
         return result;
     }
 
-    private void displayGameBoard(DieLetter[][] gameBoard) {
+    private void displayGameBoard(int gameBoardSize, DieLetter[][] gameBoard) {
         System.out.println("Here is the game board:");
-        System.out.println(GAME_BOARD_HEADER);
+        System.out.println(gameBoardSize == 4 ? GAME_BOARD_HEADER_4X4 : GAME_BOARD_HEADER_5x5);
 
-        for (int row = 0;row < BoggleDice.SIZE;row++) {
+        for (int row = 0; row < gameBoardSize; row++) {
             System.out.print("\t");
-            for (int col = 0;col < BoggleDice.SIZE;col++) {
+            for (int col = 0; col < gameBoardSize; col++) {
                 DieLetter dieLetter = gameBoard[row][col];
                 if (dieLetter.isQu()) {
                     System.out.print("Qu");
@@ -349,14 +366,14 @@ public class Boggle {
             System.out.println("");
         }
 
-        System.out.println(GAME_BOARD_HEADER);
+        System.out.println(gameBoardSize == 4 ? GAME_BOARD_HEADER_4X4 : GAME_BOARD_HEADER_5x5);
     }
 
-    public void playGame() {
-        DieLetter[][] gameBoard = BoggleDice.shake();
-        displayGameBoard(gameBoard);
+    public void playGame(BoggleDice boggleDice) {
+        DieLetter[][] gameBoard = boggleDice.shake();
+        displayGameBoard(boggleDice.size(), gameBoard);
 
-        Set<String> validWordsFound = findWordsPresent(gameBoard);
+        Set<String> validWordsFound = findWordsPresent(boggleDice.size(), gameBoard);
         List<String> sortedValidWordsFound = new ArrayList(validWordsFound);
         Collections.sort(sortedValidWordsFound);
         System.out.println("Found " + sortedValidWordsFound.size() + " of " + validWords.size() + " valid words present in this game board:");
@@ -365,24 +382,37 @@ public class Boggle {
         }
     }
 
+    private static String getUserAnswer() {
+        final String USER_PROMPT = "Enter 4 to use 4x4 board, 5 to use 5x5 board, or n to exit :";
+        System.out.println(USER_PROMPT);
+        byte[] endUserProvidedValue = new byte[80];
+        try {
+            System.in.read(endUserProvidedValue);
+        } catch (IOException ignored) {
+            System.exit(1);
+        }
+        return new String(endUserProvidedValue).trim();
+    }
+
     public static void main(String[] args) {
         Boggle controller = new Boggle();
-        controller.playGame();
 
         while (true) {
-            System.out.println("Play Again? y or n");
-            byte[] endUserProvidedValue = new byte[80];
-            try {
-                System.in.read(endUserProvidedValue);
-            } catch (IOException ignored) {
-                System.exit(1);
+            String userAnswer = getUserAnswer();
+            switch (userAnswer) {
+                case "4":
+                    controller.playGame(BoggleDice.for4x4Board());
+                    break;
+                case "5":
+                    controller.playGame(BoggleDice.for5x5Board());
+                    break;
+                case "n":
+                case "N":
+                    System.out.println("Goodbye");
+                    System.exit(0);
+                default:
+                    System.err.println("Invalid input <" + userAnswer + ">");
             }
-            String userAnswer = new String(endUserProvidedValue).trim();
-            if ("n".equalsIgnoreCase(userAnswer)) {
-                System.out.println("Goodbye");
-                System.exit(0);
-            }
-            controller.playGame();
         }
     }
 }

@@ -34,7 +34,7 @@ public class BoggleTest {
         gameBoard[3][3] = new DieLetter('f');
 
         Boggle subject = new Boggle();
-        Set<String> wordsFound = subject.findWordsPresent(gameBoard);
+        Set<String> wordsFound = subject.findWordsPresent(4, gameBoard);
         Assert.assertEquals(24, wordsFound.size());
         Assert.assertTrue(wordsFound.contains("ate"));
         Assert.assertTrue(wordsFound.contains("eat"));
@@ -87,7 +87,7 @@ public class BoggleTest {
         gameBoard[3][3] = new DieLetter('h');
 
         Boggle subject = new Boggle();
-        Set<String> wordsFound = subject.findWordsPresent(gameBoard);
+        Set<String> wordsFound = subject.findWordsPresent(4, gameBoard);
         Assert.assertEquals(7, wordsFound.size());
         Assert.assertTrue(wordsFound.contains("kit"));
         Assert.assertTrue(wordsFound.contains("kits"));

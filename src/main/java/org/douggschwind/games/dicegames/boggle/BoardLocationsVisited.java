@@ -13,10 +13,10 @@ import java.util.Arrays;
 public class BoardLocationsVisited implements Cloneable {
     private boolean[][] state;
 
-    BoardLocationsVisited(int boardSize) {
-        state = new boolean[boardSize][];
-        for (int row = 0;row < boardSize;row++) {
-            state[row] = new boolean[boardSize];
+    BoardLocationsVisited(int gameBoardSize) {
+        state = new boolean[gameBoardSize][];
+        for (int row = 0;row < gameBoardSize;row++) {
+            state[row] = new boolean[gameBoardSize];
         }
     }
 

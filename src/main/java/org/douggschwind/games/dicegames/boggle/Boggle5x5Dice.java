@@ -33,7 +33,7 @@ import java.util.Random;
  * Die24: E, T, I, L, I, C
  * @author Doug Gschwind
  */
-public class Boggle5x5Dice {
+public class Boggle5x5Dice extends BoggleDice {
     private static final int SIZE = 5;
 
     private static final List<DieLetter> DIE0 = new ArrayList();
@@ -267,11 +267,13 @@ public class Boggle5x5Dice {
         DICE[24] = DIE24;
     }
 
-    /**
-     * Shakes all of the dice and shuffles them such that they have all fallen into place on the game board.
-     * @return The board configuration. Will be non-null.
-     */
-    public static DieLetter[][] shake() {
+    @Override
+    public final int size() {
+        return SIZE;
+    }
+
+    @Override
+    public DieLetter[][] shake() {
         Random random = new Random();
         List<Integer> dieIndicators = new ArrayList<>(SIZE * SIZE);
         for (int i = 0;i < SIZE * SIZE;i++) {
