@@ -51,4 +51,12 @@ public class CastlingMove {
     public CommonMove<Rook> getRookMove() {
         return rookMove;
     }
+
+    public boolean isQueenSide() {
+        return rookMove.getFrom().getColumn() == BoardPosition.Column.a;
+    }
+
+    public boolean isKingSide() {
+        return rookMove.getFrom().getColumn() == BoardPosition.Column.h;
+    }
 }

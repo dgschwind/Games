@@ -57,4 +57,8 @@ public class King extends ChessPiece implements CaptureUponAdvance {
     protected void handleMoveTo(ChessBoard chessBoard, CommonMove move) {
         basicMove(move);
     }
+
+    public boolean isInCheck() {
+        return false; //TODO
+    }
 }
