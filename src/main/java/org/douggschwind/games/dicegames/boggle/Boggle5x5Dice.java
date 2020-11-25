@@ -2,7 +2,6 @@ package org.douggschwind.games.dicegames.boggle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * This is the dice configuration for the English Boggle 25 dice version:
@@ -273,37 +272,7 @@ public class Boggle5x5Dice extends BoggleDice {
     }
 
     @Override
-    public DieLetter[][] shake() {
-        Random random = new Random();
-        List<Integer> dieIndicators = new ArrayList<>(SIZE * SIZE);
-        for (int i = 0;i < SIZE * SIZE;i++) {
-            dieIndicators.add(i);
-        }
-
-        DieLetter[][] result = new DieLetter[SIZE][];
-
-        for (int row = 0;row < SIZE;row++) {
-            result[row] = new DieLetter[SIZE];
-
-            for (int col = 0;col < SIZE;col++) {
-                // Determine the die that has fallen into this position on the game board.
-
-                int dieIndicator;
-                if (dieIndicators.size() > 1) {
-                    dieIndicator = dieIndicators.get(random.nextInt(dieIndicators.size()));
-                    // Remove the die now being used from those available so that it cannot be
-                    // selected the next time through this loop. I am being careful to ensure
-                    // List.remove(Object o) is being called here rather than List.remove(int index).
-                    dieIndicators.remove(Integer.valueOf(dieIndicator));
-                } else {
-                    dieIndicator = dieIndicators.iterator().next().intValue();
-                }
-                List<DieLetter> dieFound = DICE[dieIndicator];
-                DieLetter letterShown = dieFound.get(random.nextInt(6));
-                result[row][col] = letterShown;
-            }
-        }
-
-        return result;
+    public final List<DieLetter>[] getSupportedDice() {
+        return DICE;
     }
 }
