@@ -1,5 +1,7 @@
 package org.douggschwind.games.chess;
 
+import org.douggschwind.games.chess.moves.CastlingMove;
+import org.douggschwind.games.chess.moves.ChessMove;
 import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.piece.ChessPiece;
 
@@ -13,6 +15,9 @@ import java.util.Optional;
  * @author Doug Gschwind
  */
 public class Chess {
+    private static final String QUEEN_SIDE_CASTLING_MOVE_INSTRUCTION = "qsc";
+    private static final String KING_SIDE_CASTLING_MOVE_INSTRUCTION = "ksc";
+
     private final ChessBoard chessBoard = new ChessBoard();
 
     private Chess() {
@@ -46,7 +51,7 @@ public class Chess {
                                  BoardPosition.Column.getById((columnIdentifier - 'a') + 1));
     }
 
-    private Optional<CommonMove<ChessPiece>> interpretMoveInstruction(String moveInstruction) {
+    private Optional<CommonMove<ChessPiece>> interpretCommonMoveInstruction(String moveInstruction) {
         if ((moveInstruction == null) || (moveInstruction.isEmpty())) {
             System.err.println("Move instruction malformed. Should be of form bp1 bp2");
             return Optional.empty();
@@ -87,10 +92,39 @@ public class Chess {
         return Optional.of(new CommonMove<ChessPiece>(chessPieceClass, from, to));
     }
 
-    private Optional<CommonMove<ChessPiece>> getPlayerMoveInstruction(BufferedReader reader) {
+    private Optional<CastlingMove> interpretCastlingInstruction(Player toMakeMove, String moveInstruction) {
+        if (QUEEN_SIDE_CASTLING_MOVE_INSTRUCTION.equals(moveInstruction)) {
+            return Optional.of(CastlingMove.newQueenSideMove(toMakeMove, chessBoard));
+        } else if (KING_SIDE_CASTLING_MOVE_INSTRUCTION.equals(moveInstruction)) {
+            return Optional.of(CastlingMove.newKingSideMove(toMakeMove, chessBoard));
+        }
+
+        return Optional.empty();
+    }
+
+    private Optional<? extends ChessMove> interpretMoveInstruction(Player toMakeMove, String moveInstruction) {
+        if ((moveInstruction == null) || (moveInstruction.isEmpty())) {
+            String message = "Move instruction malformed. Should be of form " +
+                    QUEEN_SIDE_CASTLING_MOVE_INSTRUCTION +
+                    " or " +
+                    KING_SIDE_CASTLING_MOVE_INSTRUCTION +
+                    " or bp1 bp2";
+            System.err.println(message);
+            return Optional.empty();
+        }
+
+        if (QUEEN_SIDE_CASTLING_MOVE_INSTRUCTION.equals(moveInstruction) ||
+            KING_SIDE_CASTLING_MOVE_INSTRUCTION.equals(moveInstruction)) {
+            return interpretCastlingInstruction(toMakeMove, moveInstruction);
+        } else {
+            return interpretCommonMoveInstruction(moveInstruction);
+        }
+    }
+
+    private Optional<? extends ChessMove> getPlayerMoveInstruction(BufferedReader reader, Player toMakeMove) {
         try {
             String moveInstruction = reader.readLine();
-            return interpretMoveInstruction(moveInstruction);
+            return interpretMoveInstruction(toMakeMove, moveInstruction);
         } catch (IOException ignored) {
             // Never expect to get here.
             System.err.println(ignored.getMessage());
@@ -98,47 +132,65 @@ public class Chess {
         }
     }
 
-    private Optional<CommonMove<ChessPiece>> getValidPlayerMoveInstruction(BufferedReader reader, Player toMakeMove) {
-        Optional<CommonMove<ChessPiece>> chessMoveOptional = getPlayerMoveInstruction(reader);
+    private Optional<? extends ChessMove> getValidPlayerMoveInstruction(BufferedReader reader, Player toMakeMove) {
+        Optional<? extends ChessMove> chessMoveOptional = getPlayerMoveInstruction(reader, toMakeMove);
         while (!chessMoveOptional.isPresent()) {
-            chessMoveOptional = getPlayerMoveInstruction(reader);
+            chessMoveOptional = getPlayerMoveInstruction(reader, toMakeMove);
         }
 
-        CommonMove<ChessPiece> proposedMove = chessMoveOptional.get();
-        if (!proposedMove.getFrom().isOccupied()) {
-            System.err.println("The from square is not occupied, cannot be moved from");
-        } else {
-            ChessPiece toMove = proposedMove.getFrom().getResident().get();
-            if (!toMakeMove.canMoveFrom(proposedMove.getFrom())) {
-                System.err.println("Player " + toMakeMove + " cannot move from Piece");
+        ChessMove proposedMove = chessMoveOptional.get();
+        if (proposedMove.isCastlingMove()) {
+            CastlingMove castlingMove = (CastlingMove) proposedMove;
+            if (!castlingMove.isPermitted(chessBoard)) {
                 return Optional.empty();
             }
-            if (!toMove.canMoveTo(chessBoard, proposedMove)) {
-                System.err.println("This move is not allowed");
-                return Optional.empty();
+            return Optional.of(castlingMove);
+        } else if (proposedMove.isCommonMove()) {
+            CommonMove<ChessPiece> proposedCommonMove = (CommonMove) chessMoveOptional.get();
+            if (!proposedCommonMove.getFrom().isOccupied()) {
+                System.err.println("The from square is not occupied, cannot be moved from");
+            } else {
+                ChessPiece toMove = proposedCommonMove.getFrom().getResident().get();
+                if (!toMakeMove.canMoveFrom(proposedCommonMove.getFrom())) {
+                    System.err.println("Player " + toMakeMove + " cannot move from Piece");
+                    return Optional.empty();
+                }
+                if (!toMove.canMoveTo(chessBoard, proposedCommonMove)) {
+                    System.err.println("This move is not allowed");
+                    return Optional.empty();
+                }
             }
+            return Optional.of(proposedMove);
         }
 
-        return Optional.of(proposedMove);
+        System.err.println("Unable to interpret player move instruction");
+        return Optional.empty();
     }
 
     private void playGame() {
         Player toMakeMove = Player.BLACK;
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         // TODO: Check for checkmate
         while (true) { // TODO
             chessBoard.print();
             System.out.println("Player " + toMakeMove.name() + " move : ");
 
-            Optional<CommonMove<ChessPiece>> validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
+            Optional<? extends ChessMove> validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
             while (!validPlayerMoveOptional.isPresent()) {
                 validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
             }
 
-            CommonMove<ChessPiece> validatedPlayerMove = validPlayerMoveOptional.get();
-            ChessPiece toMove = validatedPlayerMove.getFrom().getResident().get();
-            toMove.moveTo(chessBoard, validatedPlayerMove);
+            ChessMove proposedMove = validPlayerMoveOptional.get();
+            if (proposedMove.isCastlingMove()) {
+                CastlingMove validatedCastlingMove = (CastlingMove) proposedMove;
+                validatedCastlingMove.handleMove(chessBoard);
+            } else if (proposedMove.isCommonMove()) {
+                CommonMove<ChessPiece> validatedCommonMove = (CommonMove) proposedMove;
+                ChessPiece toMove = validatedCommonMove.getFrom().getResident().get();
+                toMove.moveTo(chessBoard, validatedCommonMove);
+            }
 
             toMakeMove = (toMakeMove == Player.BLACK) ? Player.WHITE : Player.BLACK;
         }
