@@ -1,5 +1,6 @@
 package org.douggschwind.games.chess;
 
+import org.douggschwind.games.chess.moves.CastlingMove;
 import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.piece.Bishop;
 import org.douggschwind.games.chess.piece.ChessPiece;
@@ -385,5 +386,100 @@ public class ChessBoardTest {
         Assert.assertFalse(fiveC.isOccupied());
         Assert.assertTrue(sixC.isOccupied());
         Assert.assertSame(whitePawn, sixC.getResident().get());
+    }
+
+    @Test
+    public void testKingSideCastling() {
+        CastlingMove blackKingSideCastling = CastlingMove.newKingSideMove(Player.BLACK, underTest);
+        CastlingMove whiteKingSideCastling = CastlingMove.newKingSideMove(Player.WHITE, underTest);
+
+        // Definitely not permitted at start of game, pieces in the way.
+        Assert.assertFalse(blackKingSideCastling.isPermitted(underTest));
+        Assert.assertFalse(whiteKingSideCastling.isPermitted(underTest));
+
+        // Now, lets move the necessary pieces out of the way.
+        // Move the right Knight.
+        final Square eightG = underTest.getSquare(BoardPosition.Row.R8, BoardPosition.Column.g);
+        final Square sixF = underTest.getSquare(BoardPosition.Row.R6, BoardPosition.Column.f);
+        Knight blackKnight = (Knight) eightG.getResident().get();
+        CommonMove<Knight> blackKnightMove = new CommonMove(Knight.class, eightG, sixF);
+        Assert.assertTrue(blackKnight.canMoveTo(underTest, blackKnightMove));
+        blackKnight.moveTo(underTest, blackKnightMove);
+        Assert.assertFalse(blackKingSideCastling.isPermitted(underTest));
+
+        final Square oneG = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.g);
+        final Square threeH = underTest.getSquare(BoardPosition.Row.R3, BoardPosition.Column.h);
+        Knight whiteKnight = (Knight) oneG.getResident().get();
+        CommonMove<Knight> whiteKnightMove = new CommonMove(Knight.class, oneG, threeH);
+        Assert.assertTrue(whiteKnight.canMoveTo(underTest, whiteKnightMove));
+        whiteKnight.moveTo(underTest, whiteKnightMove);
+        Assert.assertFalse(whiteKingSideCastling.isPermitted(underTest));
+
+        // Move a Pawn so that Bishop can get out.
+        final Square sevenG = underTest.getSquare(BoardPosition.Row.R7, BoardPosition.Column.g);
+        final Square sixG = underTest.getSquare(BoardPosition.Row.R6, BoardPosition.Column.g);
+        Pawn blackPawn = (Pawn) sevenG.getResident().get();
+        CommonMove<Pawn> blackPawnMove = new CommonMove(Pawn.class, sevenG, sixG);
+        Assert.assertTrue(blackPawn.canMoveTo(underTest, blackPawnMove));
+        blackPawn.moveTo(underTest, blackPawnMove);
+        Assert.assertFalse(blackKingSideCastling.isPermitted(underTest));
+
+        final Square twoE = underTest.getSquare(BoardPosition.Row.R2, BoardPosition.Column.e);
+        final Square threeE = underTest.getSquare(BoardPosition.Row.R3, BoardPosition.Column.e);
+        Pawn whitePawn = (Pawn) twoE.getResident().get();
+        CommonMove<Pawn> whitePawnMove = new CommonMove(Pawn.class, twoE, threeE);
+        Assert.assertTrue(whitePawn.canMoveTo(underTest, whitePawnMove));
+        whitePawn.moveTo(underTest, whitePawnMove);
+        Assert.assertFalse(whiteKingSideCastling.isPermitted(underTest));
+
+        // Move right Bishop so that path between King and Rook is now open.
+        final Square eightF = underTest.getSquare(BoardPosition.Row.R8, BoardPosition.Column.f);
+        final Square sixH = underTest.getSquare(BoardPosition.Row.R6, BoardPosition.Column.h);
+        Bishop blackBishop = (Bishop) eightF.getResident().get();
+        CommonMove<Bishop> blackBishopMove = new CommonMove(Bishop.class, eightF, sixH);
+        Assert.assertTrue(blackBishop.canMoveTo(underTest, blackBishopMove));
+        blackBishop.moveTo(underTest, blackBishopMove);
+        Assert.assertTrue(blackKingSideCastling.isPermitted(underTest));
+
+        final Square oneF = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.f);
+        final Square fourC = underTest.getSquare(BoardPosition.Row.R4, BoardPosition.Column.c);
+        Bishop whiteBishop = (Bishop) oneF.getResident().get();
+        CommonMove<Bishop> whiteBishopMove = new CommonMove(Bishop.class, oneF, fourC);
+        Assert.assertTrue(whiteBishop.canMoveTo(underTest, whiteBishopMove));
+        whiteBishop.moveTo(underTest, whiteBishopMove);
+        Assert.assertTrue(whiteKingSideCastling.isPermitted(underTest));
+
+        // Now that the path is clear between King and Rook, make the move and assert expected state.
+        blackKingSideCastling.handleMove(underTest);
+        Assert.assertTrue(eightG.isOccupied());
+        King blackKing = (King) eightG.getResident().get();
+        Assert.assertTrue(blackKing.isKing());
+        Assert.assertTrue(blackKing.hasEverBeenMoved());
+        Assert.assertFalse(blackKing.hasBeenCaptured());
+        Assert.assertTrue(eightF.isOccupied());
+        Rook blackRook = (Rook) eightF.getResident().get();
+        Assert.assertTrue(blackRook.isRook());
+        Assert.assertTrue(blackRook.hasEverBeenMoved());
+        Assert.assertFalse(blackRook.hasBeenCaptured());
+        final Square eightE = underTest.getSquare(BoardPosition.Row.R8, BoardPosition.Column.e);
+        Assert.assertFalse(eightE.isOccupied());
+        final Square eightH = underTest.getSquare(BoardPosition.Row.R8, BoardPosition.Column.h);
+        Assert.assertFalse(eightH.isOccupied());
+
+        whiteKingSideCastling.handleMove(underTest);
+        Assert.assertTrue(oneG.isOccupied());
+        King whiteKing = (King) oneG.getResident().get();
+        Assert.assertTrue(whiteKing.isKing());
+        Assert.assertTrue(whiteKing.hasEverBeenMoved());
+        Assert.assertFalse(whiteKing.hasBeenCaptured());
+        Assert.assertTrue(oneF.isOccupied());
+        Rook whiteRook = (Rook) oneF.getResident().get();
+        Assert.assertTrue(whiteRook.isRook());
+        Assert.assertTrue(whiteRook.hasEverBeenMoved());
+        Assert.assertFalse(whiteRook.hasBeenCaptured());
+        final Square oneE = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.e);
+        Assert.assertFalse(oneE.isOccupied());
+        final Square oneH = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.h);
+        Assert.assertFalse(oneH.isOccupied());
     }
 }
