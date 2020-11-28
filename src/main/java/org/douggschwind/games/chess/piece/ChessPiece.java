@@ -12,9 +12,9 @@ import org.douggschwind.games.chess.Square;
  */
 public abstract class ChessPiece {
     private final Player owner;
+    private final AdvancingDirection advancingDirection;
     private BoardPosition initialPosition;
     private int numTimesMoved;
-    private AdvancingDirection advancingDirection;
     private boolean captured;
 
     // Notes the direction of movement that a ChessPiece makes when advancing
@@ -36,6 +36,10 @@ public abstract class ChessPiece {
         return owner;
     }
 
+    public AdvancingDirection getAdvancingDirection() {
+        return advancingDirection;
+    }
+
     public boolean isOpponent(ChessPiece that) {
         return this.owner != that.owner;
     }
@@ -46,10 +50,6 @@ public abstract class ChessPiece {
 
     public void setInitialPosition(BoardPosition initialPosition) {
         this.initialPosition = initialPosition;
-    }
-
-    public AdvancingDirection getAdvancingDirection() {
-        return advancingDirection;
     }
 
     public boolean isPawn() {
