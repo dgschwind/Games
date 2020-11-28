@@ -11,16 +11,32 @@ import org.douggschwind.games.chess.Square;
  * @author Doug Gschwind
  */
 public class Pawn extends ChessPiece {
+    private final AdvancingDirection advancingDirection;
     private boolean initialMoveWasTwoSquares;
     private boolean reachedFarSideOfBoard;
 
-    public Pawn(Player player) {
-        super(player);
+    // Notes the direction of movement that a ChessPiece makes when advancing
+    private enum AdvancingDirection {
+        TOP_TO_BOTTOM,
+        BOTTOM_TO_TOP;
+    }
+
+    public Pawn(Player owner) {
+        super(owner);
+        if (owner.isBlack()) {
+            advancingDirection = AdvancingDirection.TOP_TO_BOTTOM;
+        } else {
+            advancingDirection = AdvancingDirection.BOTTOM_TO_TOP;
+        }
     }
 
     @Override
     public final boolean isPawn() {
         return true;
+    }
+
+    private AdvancingDirection getAdvancingDirection() {
+        return advancingDirection;
     }
 
     /**

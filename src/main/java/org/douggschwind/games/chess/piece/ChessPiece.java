@@ -12,32 +12,16 @@ import org.douggschwind.games.chess.Square;
  */
 public abstract class ChessPiece {
     private final Player owner;
-    private final AdvancingDirection advancingDirection;
     private BoardPosition initialPosition;
     private int numTimesMoved;
     private boolean captured;
 
-    // Notes the direction of movement that a ChessPiece makes when advancing
-    public enum AdvancingDirection {
-        TOP_TO_BOTTOM,
-        BOTTOM_TO_TOP;
-    }
-
     protected ChessPiece(Player owner) {
         this.owner = owner;
-        if (owner.isBlack()) {
-            advancingDirection = AdvancingDirection.TOP_TO_BOTTOM;
-        } else {
-            advancingDirection = AdvancingDirection.BOTTOM_TO_TOP;
-        }
     }
 
     public Player getOwner() {
         return owner;
-    }
-
-    public AdvancingDirection getAdvancingDirection() {
-        return advancingDirection;
     }
 
     public boolean isOpponent(ChessPiece that) {
