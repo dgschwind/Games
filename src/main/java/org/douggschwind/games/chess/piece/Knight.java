@@ -32,11 +32,7 @@ public class Knight extends ChessPiece implements CaptureUponAdvance {
             return false;
         }
 
-        final int numRowsMovement = proposedMove.getAbsNumRowsMovement();
-        final int numColumnsMovement = proposedMove.getAbsNumColumnsMovement();
-
-        return (((numRowsMovement == 2) && (numColumnsMovement == 1)) ||
-                ((numRowsMovement == 1) && (numColumnsMovement == 2)));
+        return isKnightMovement(proposedMove);
     }
 
     @Override

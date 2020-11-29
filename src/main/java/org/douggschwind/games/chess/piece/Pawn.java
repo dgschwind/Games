@@ -53,7 +53,12 @@ public class Pawn extends ChessPiece {
     public boolean canMoveTo(ChessBoard chessBoard, CommonMove proposedMove) {
         if (hasReachedFarSideOfBoard()) {
             // This instance can now move like any other piece, other than a King.
-            return false; //TODO
+            if (proposedMove.isHorizontalMove() || proposedMove.isVerticalMove() || proposedMove.isDiagonalMove()) {
+                return chessBoard.isPathClear(proposedMove);
+            }
+
+            // Otherwise, lets see if the move is that of a Knight.
+            return isKnightMovement(proposedMove);
         } else {
             final Square from = proposedMove.getFrom();
             final Square to = proposedMove.getTo();

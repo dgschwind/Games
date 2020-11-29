@@ -60,6 +60,14 @@ public abstract class ChessPiece {
         return false;
     }
 
+    protected final boolean isKnightMovement(CommonMove proposedMove) {
+        final int numRowsMovement = proposedMove.getAbsNumRowsMovement();
+        final int numColumnsMovement = proposedMove.getAbsNumColumnsMovement();
+
+        return (((numRowsMovement == 2) && (numColumnsMovement == 1)) ||
+                ((numRowsMovement == 1) && (numColumnsMovement == 2)));
+    }
+
     protected int getNumTimesMoved() {
         return numTimesMoved;
     }
