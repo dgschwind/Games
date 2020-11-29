@@ -3,7 +3,6 @@ package org.douggschwind.games.chess.piece;
 import org.douggschwind.games.chess.ChessBoard;
 import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.Player;
-import org.douggschwind.games.chess.Square;
 
 /**
  * Represents the Queen piece in the game of Chess, for a given Player.
@@ -32,18 +31,7 @@ public class Queen extends ChessPiece implements CaptureUponAdvance {
             return false;
         }
 
-        final Square from = proposedMove.getFrom();
-        final Square to = proposedMove.getTo();
-
-        // Number of rows of movement must equal number of columns to move diagonally.
-        final int numRowsMovement = Math.abs(from.getRow().getId() - to.getRow().getId());
-        final int numColumnsMovement = Math.abs(from.getColumn().getId() - to.getColumn().getId());
-        boolean isMovingDiagonally = (numRowsMovement == numColumnsMovement);
-
-        boolean isMovingHorizontally = (from.getRow() == to.getRow());
-        boolean isMovingVertically = (from.getColumn() == to.getColumn());
-
-        if (!isMovingHorizontally && !isMovingVertically && !isMovingDiagonally) {
+        if (!proposedMove.isHorizontalMove() && !proposedMove.isVerticalMove() && !proposedMove.isDiagonalMove()) {
             return false;
         }
 

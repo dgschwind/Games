@@ -3,11 +3,9 @@ package org.douggschwind.games.chess.piece;
 import org.douggschwind.games.chess.ChessBoard;
 import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.Player;
-import org.douggschwind.games.chess.Square;
 
 /**
  * Represents the King piece in the game of Chess, for a given Player.
- * TODO: Support for castling.
  * @author Doug Gschwind
  */
 public class King extends ChessPiece implements CaptureUponAdvance {
@@ -34,15 +32,8 @@ public class King extends ChessPiece implements CaptureUponAdvance {
             return false;
         }
 
-        final Square from = proposedMove.getFrom();
-        final Square to = proposedMove.getTo();
-
-        if (to.isOccupied() && from.isOccupiedByMyOpponent(to)) {
-            return false;
-        }
-
-        final int numRowsMovement = Math.abs(from.getRow().getId() - to.getRow().getId());
-        final int numColumnsMovement = Math.abs(from.getColumn().getId() - to.getColumn().getId());
+        final int numRowsMovement = proposedMove.getAbsNumRowsMovement();
+        final int numColumnsMovement = proposedMove.getAbsNumColumnsMovement();
 
         if (numRowsMovement == 0) {
             return numColumnsMovement == 1;

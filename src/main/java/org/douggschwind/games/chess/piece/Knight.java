@@ -3,7 +3,6 @@ package org.douggschwind.games.chess.piece;
 import org.douggschwind.games.chess.ChessBoard;
 import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.Player;
-import org.douggschwind.games.chess.Square;
 
 /**
  * Represents one of the two Knight pieces in the game of Chess, for a given Player.
@@ -33,14 +32,11 @@ public class Knight extends ChessPiece implements CaptureUponAdvance {
             return false;
         }
 
-        final Square from = proposedMove.getFrom();
-        final Square to = proposedMove.getTo();
+        final int numRowsMovement = proposedMove.getAbsNumRowsMovement();
+        final int numColumnsMovement = proposedMove.getAbsNumColumnsMovement();
 
-        final int rowDifference = Math.abs(from.getRow().getId() - to.getRow().getId());
-        final int columnDifference = Math.abs(from.getColumn().getId() - to.getColumn().getId());
-
-        return (((rowDifference == 2) && (columnDifference == 1)) ||
-                ((rowDifference == 1) && (columnDifference == 2)));
+        return (((numRowsMovement == 2) && (numColumnsMovement == 1)) ||
+                ((numRowsMovement == 1) && (numColumnsMovement == 2)));
     }
 
     @Override

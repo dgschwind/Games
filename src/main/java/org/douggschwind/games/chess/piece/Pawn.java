@@ -52,7 +52,7 @@ public class Pawn extends ChessPiece {
     @Override
     public boolean canMoveTo(ChessBoard chessBoard, CommonMove proposedMove) {
         if (hasReachedFarSideOfBoard()) {
-            // Also need to consider once Pawn has in fact reached the far side of the board.
+            // This instance can now move like any other piece, other than a King.
             return false; //TODO
         } else {
             final Square from = proposedMove.getFrom();

@@ -3,7 +3,6 @@ package org.douggschwind.games.chess.piece;
 import org.douggschwind.games.chess.ChessBoard;
 import org.douggschwind.games.chess.moves.CommonMove;
 import org.douggschwind.games.chess.Player;
-import org.douggschwind.games.chess.Square;
 
 /**
  * Represents one of the two Bishop pieces in the game of Chess, for a given Player.
@@ -32,12 +31,7 @@ public class Bishop extends ChessPiece implements CaptureUponAdvance {
             return false;
         }
 
-        // Number of rows of movement must equal number of columns to move diagonally.
-        final Square from = proposedMove.getFrom();
-        final Square to = proposedMove.getTo();
-        final int numRowsMovement = Math.abs(from.getRow().getId() - to.getRow().getId());
-        final int numColumnsMovement = Math.abs(from.getColumn().getId() - to.getColumn().getId());
-        if (numRowsMovement != numColumnsMovement) {
+        if (!proposedMove.isDiagonalMove()) {
             return false;
         }
 

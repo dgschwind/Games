@@ -39,4 +39,25 @@ public class CommonMove <T extends ChessPiece> implements ChessMove {
     public Square getTo() {
         return to;
     }
+
+    public int getAbsNumRowsMovement() {
+        return Math.abs(from.getRow().getId() - to.getRow().getId());
+    }
+
+    public int getAbsNumColumnsMovement() {
+        return Math.abs(from.getColumn().getId() - to.getColumn().getId());
+    }
+
+    public boolean isHorizontalMove() {
+        return getAbsNumRowsMovement() == 0;
+    }
+
+    public boolean isVerticalMove() {
+        return getAbsNumColumnsMovement() == 0;
+    }
+
+    public boolean isDiagonalMove() {
+        // Number of rows of movement must equal number of columns to move diagonally.
+        return getAbsNumRowsMovement() == getAbsNumColumnsMovement();
+    }
 }
