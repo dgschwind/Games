@@ -155,9 +155,10 @@ public class Chess {
         // TODO: Check for checkmate
         while (true) { // TODO
             chessBoard.print();
-            System.out.println("Player " + toMakeMove.name() + " move : ");
+            System.out.print("Player " + toMakeMove.name() + " move : ");
 
             Optional<? extends ChessMove> validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
+            System.out.println();
             while (!validPlayerMoveOptional.isPresent()) {
                 validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
             }

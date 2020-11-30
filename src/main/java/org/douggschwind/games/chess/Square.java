@@ -69,14 +69,6 @@ public class Square {
         return getBoardPosition().getColumn();
     }
 
-    public int getNumberRowsDistance(Square to) {
-        return this.getBoardPosition().getNumberRowsDistance(to.getBoardPosition());
-    }
-
-    public int getNumberColumnsDistance(Square to) {
-        return this.getBoardPosition().getNumberColumnsDistance(to.getBoardPosition());
-    }
-
     // Used for printing the current state of the ChessBoard
     public Optional<String> getPrintAbbreviation() {
         if (isOccupied()) {

@@ -149,7 +149,7 @@ public class Pawn extends ChessPiece {
         attemptCaptureDueToEnPassant(getPossibleEnPassantSquare(chessBoard, from, to));
 
         if (!hasEverBeenMoved()) {
-            initialMoveWasTwoSquares = (from.getNumberRowsDistance(to) == 2);
+            initialMoveWasTwoSquares = (move.getAbsNumRowsMovement() == 2);
         } else if (!reachedFarSideOfBoard) {
             int initialRow = getInitialPosition().getRow().getId();
             reachedFarSideOfBoard =

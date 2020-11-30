@@ -3,6 +3,10 @@ package org.douggschwind.games.chess.moves;
 import org.douggschwind.games.chess.ChessBoard;
 import org.douggschwind.games.chess.Player;
 
+/**
+ * The general abstraction that represents a single move in Chess by a Player.
+ * @author Doug Gschwind
+ */
 public interface ChessMove {
     default boolean isCommonMove() {
         return false;
