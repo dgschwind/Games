@@ -394,8 +394,8 @@ public class ChessBoardTest {
         CastlingMove whiteKingSideCastling = CastlingMove.newKingSideMove(Player.WHITE, underTest);
 
         // Definitely not permitted at start of game, pieces in the way.
-        Assert.assertFalse(blackKingSideCastling.isPermitted(underTest));
-        Assert.assertFalse(whiteKingSideCastling.isPermitted(underTest));
+        Assert.assertFalse(blackKingSideCastling.isPermitted(Player.BLACK, underTest));
+        Assert.assertFalse(whiteKingSideCastling.isPermitted(Player.WHITE, underTest));
 
         // Now, lets move the necessary pieces out of the way.
         // Move the right Knight.
@@ -405,7 +405,7 @@ public class ChessBoardTest {
         CommonMove<Knight> blackKnightMove = new CommonMove(Knight.class, eightG, sixF);
         Assert.assertTrue(blackKnight.canMoveTo(underTest, blackKnightMove));
         blackKnight.moveTo(underTest, blackKnightMove);
-        Assert.assertFalse(blackKingSideCastling.isPermitted(underTest));
+        Assert.assertFalse(blackKingSideCastling.isPermitted(Player.BLACK, underTest));
 
         final Square oneG = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.g);
         final Square threeH = underTest.getSquare(BoardPosition.Row.R3, BoardPosition.Column.h);
@@ -413,7 +413,7 @@ public class ChessBoardTest {
         CommonMove<Knight> whiteKnightMove = new CommonMove(Knight.class, oneG, threeH);
         Assert.assertTrue(whiteKnight.canMoveTo(underTest, whiteKnightMove));
         whiteKnight.moveTo(underTest, whiteKnightMove);
-        Assert.assertFalse(whiteKingSideCastling.isPermitted(underTest));
+        Assert.assertFalse(whiteKingSideCastling.isPermitted(Player.WHITE, underTest));
 
         // Move a Pawn so that Bishop can get out.
         final Square sevenG = underTest.getSquare(BoardPosition.Row.R7, BoardPosition.Column.g);
@@ -422,7 +422,7 @@ public class ChessBoardTest {
         CommonMove<Pawn> blackPawnMove = new CommonMove(Pawn.class, sevenG, sixG);
         Assert.assertTrue(blackPawn.canMoveTo(underTest, blackPawnMove));
         blackPawn.moveTo(underTest, blackPawnMove);
-        Assert.assertFalse(blackKingSideCastling.isPermitted(underTest));
+        Assert.assertFalse(blackKingSideCastling.isPermitted(Player.BLACK, underTest));
 
         final Square twoE = underTest.getSquare(BoardPosition.Row.R2, BoardPosition.Column.e);
         final Square threeE = underTest.getSquare(BoardPosition.Row.R3, BoardPosition.Column.e);
@@ -430,7 +430,7 @@ public class ChessBoardTest {
         CommonMove<Pawn> whitePawnMove = new CommonMove(Pawn.class, twoE, threeE);
         Assert.assertTrue(whitePawn.canMoveTo(underTest, whitePawnMove));
         whitePawn.moveTo(underTest, whitePawnMove);
-        Assert.assertFalse(whiteKingSideCastling.isPermitted(underTest));
+        Assert.assertFalse(whiteKingSideCastling.isPermitted(Player.WHITE, underTest));
 
         // Move right Bishop so that path between King and Rook is now open.
         final Square eightF = underTest.getSquare(BoardPosition.Row.R8, BoardPosition.Column.f);
@@ -439,7 +439,7 @@ public class ChessBoardTest {
         CommonMove<Bishop> blackBishopMove = new CommonMove(Bishop.class, eightF, sixH);
         Assert.assertTrue(blackBishop.canMoveTo(underTest, blackBishopMove));
         blackBishop.moveTo(underTest, blackBishopMove);
-        Assert.assertTrue(blackKingSideCastling.isPermitted(underTest));
+        Assert.assertTrue(blackKingSideCastling.isPermitted(Player.BLACK, underTest));
 
         final Square oneF = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.f);
         final Square fourC = underTest.getSquare(BoardPosition.Row.R4, BoardPosition.Column.c);
@@ -447,7 +447,7 @@ public class ChessBoardTest {
         CommonMove<Bishop> whiteBishopMove = new CommonMove(Bishop.class, oneF, fourC);
         Assert.assertTrue(whiteBishop.canMoveTo(underTest, whiteBishopMove));
         whiteBishop.moveTo(underTest, whiteBishopMove);
-        Assert.assertTrue(whiteKingSideCastling.isPermitted(underTest));
+        Assert.assertTrue(whiteKingSideCastling.isPermitted(Player.WHITE, underTest));
 
         // Now that the path is clear between King and Rook, make the move and assert expected state.
         blackKingSideCastling.handleMove(underTest);
@@ -489,8 +489,8 @@ public class ChessBoardTest {
         CastlingMove whiteQueenSideCastling = CastlingMove.newQueenSideMove(Player.WHITE, underTest);
 
         // Definitely not permitted at start of game, pieces in the way.
-        Assert.assertFalse(blackQueenSideCastling.isPermitted(underTest));
-        Assert.assertFalse(whiteQueenSideCastling.isPermitted(underTest));
+        Assert.assertFalse(blackQueenSideCastling.isPermitted(Player.BLACK, underTest));
+        Assert.assertFalse(whiteQueenSideCastling.isPermitted(Player.WHITE, underTest));
 
         // Now, lets move the necessary pieces out of the way.
         // Move the left Knight.
@@ -500,7 +500,7 @@ public class ChessBoardTest {
         CommonMove<Knight> blackKnightMove = new CommonMove(Knight.class, eightB, sixA);
         Assert.assertTrue(blackKnight.canMoveTo(underTest, blackKnightMove));
         blackKnight.moveTo(underTest, blackKnightMove);
-        Assert.assertFalse(blackQueenSideCastling.isPermitted(underTest));
+        Assert.assertFalse(blackQueenSideCastling.isPermitted(Player.BLACK, underTest));
 
         final Square oneB = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.b);
         final Square threeA = underTest.getSquare(BoardPosition.Row.R3, BoardPosition.Column.a);
@@ -508,7 +508,7 @@ public class ChessBoardTest {
         CommonMove<Knight> whiteKnightMove = new CommonMove(Knight.class, oneB, threeA);
         Assert.assertTrue(whiteKnight.canMoveTo(underTest, whiteKnightMove));
         whiteKnight.moveTo(underTest, whiteKnightMove);
-        Assert.assertFalse(whiteQueenSideCastling.isPermitted(underTest));
+        Assert.assertFalse(whiteQueenSideCastling.isPermitted(Player.WHITE, underTest));
 
         // Move a Pawn so that Bishop can get out.
         final Square sevenD = underTest.getSquare(BoardPosition.Row.R7, BoardPosition.Column.d);
@@ -517,7 +517,7 @@ public class ChessBoardTest {
         CommonMove<Pawn> blackPawnMove = new CommonMove(Pawn.class, sevenD, sixD);
         Assert.assertTrue(blackPawn.canMoveTo(underTest, blackPawnMove));
         blackPawn.moveTo(underTest, blackPawnMove);
-        Assert.assertFalse(blackQueenSideCastling.isPermitted(underTest));
+        Assert.assertFalse(blackQueenSideCastling.isPermitted(Player.BLACK, underTest));
 
         final Square twoD = underTest.getSquare(BoardPosition.Row.R2, BoardPosition.Column.d);
         final Square threeD = underTest.getSquare(BoardPosition.Row.R3, BoardPosition.Column.d);
@@ -525,7 +525,7 @@ public class ChessBoardTest {
         CommonMove<Pawn> whitePawnMove = new CommonMove(Pawn.class, twoD, threeD);
         Assert.assertTrue(whitePawn.canMoveTo(underTest, whitePawnMove));
         whitePawn.moveTo(underTest, whitePawnMove);
-        Assert.assertFalse(whiteQueenSideCastling.isPermitted(underTest));
+        Assert.assertFalse(whiteQueenSideCastling.isPermitted(Player.WHITE, underTest));
 
         // Move left Bishop so that path between King and Rook is now only blocked by the Queen.
         final Square eightC = underTest.getSquare(BoardPosition.Row.R8, BoardPosition.Column.c);
@@ -534,7 +534,7 @@ public class ChessBoardTest {
         CommonMove<Bishop> blackBishopMove = new CommonMove(Bishop.class, eightC, sixE);
         Assert.assertTrue(blackBishop.canMoveTo(underTest, blackBishopMove));
         blackBishop.moveTo(underTest, blackBishopMove);
-        Assert.assertFalse(blackQueenSideCastling.isPermitted(underTest));
+        Assert.assertFalse(blackQueenSideCastling.isPermitted(Player.BLACK, underTest));
 
         final Square oneC = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.c);
         final Square threeE = underTest.getSquare(BoardPosition.Row.R3, BoardPosition.Column.e);
@@ -542,7 +542,7 @@ public class ChessBoardTest {
         CommonMove<Bishop> whiteBishopMove = new CommonMove(Bishop.class, oneC, threeE);
         Assert.assertTrue(whiteBishop.canMoveTo(underTest, whiteBishopMove));
         whiteBishop.moveTo(underTest, whiteBishopMove);
-        Assert.assertFalse(whiteQueenSideCastling.isPermitted(underTest));
+        Assert.assertFalse(whiteQueenSideCastling.isPermitted(Player.WHITE, underTest));
 
         // Move Queen so that path between King and Rook is now clear.
         final Square eightD = underTest.getSquare(BoardPosition.Row.R8, BoardPosition.Column.d);
@@ -550,14 +550,14 @@ public class ChessBoardTest {
         CommonMove<Bishop> blackQueenMove = new CommonMove(Queen.class, eightD, sevenD);
         Assert.assertTrue(blackQueen.canMoveTo(underTest, blackQueenMove));
         blackQueen.moveTo(underTest, blackQueenMove);
-        Assert.assertTrue(blackQueenSideCastling.isPermitted(underTest));
+        Assert.assertTrue(blackQueenSideCastling.isPermitted(Player.BLACK, underTest));
 
         final Square oneD = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.d);
         Queen whiteQueen = (Queen) oneD.getResident().get();
         CommonMove<Queen> whiteQueenMove = new CommonMove(Queen.class, oneD, twoD);
         Assert.assertTrue(whiteQueen.canMoveTo(underTest, whiteQueenMove));
         whiteQueen.moveTo(underTest, whiteQueenMove);
-        Assert.assertTrue(whiteQueenSideCastling.isPermitted(underTest));
+        Assert.assertTrue(whiteQueenSideCastling.isPermitted(Player.WHITE, underTest));
 
         // Now that the path is clear between King and Rook, make the move and assert expected state.
         blackQueenSideCastling.handleMove(underTest);

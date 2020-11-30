@@ -1,5 +1,7 @@
 package org.douggschwind.games.chess.moves;
 
+import org.douggschwind.games.chess.ChessBoard;
+import org.douggschwind.games.chess.Player;
 import org.douggschwind.games.chess.Square;
 import org.douggschwind.games.chess.piece.ChessPiece;
 
@@ -38,6 +40,21 @@ public class CommonMove <T extends ChessPiece> implements ChessMove {
 
     public Square getTo() {
         return to;
+    }
+
+    /**
+     * Determines if this move is permitted by the given Player and state of the ChessBoard.
+     * @param player Must be non-null.
+     * @param chessBoard Must be non-null.
+     * @return true if this proposed move is permitted by the given Player, false otherwise.
+     */
+    @Override
+    public boolean isPermitted(Player player, ChessBoard chessBoard) {
+        if (!player.canMoveFrom(getFrom())) {
+            return false;
+        }
+
+        return getFrom().getResident().get().canMoveTo(chessBoard, this);
     }
 
     public int getAbsNumRowsMovement() {

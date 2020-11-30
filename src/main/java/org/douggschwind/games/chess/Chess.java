@@ -139,32 +139,12 @@ public class Chess {
         }
 
         ChessMove proposedMove = chessMoveOptional.get();
-        if (proposedMove.isCastlingMove()) {
-            CastlingMove castlingMove = (CastlingMove) proposedMove;
-            if (!castlingMove.isPermitted(chessBoard)) {
-                return Optional.empty();
-            }
-            return Optional.of(castlingMove);
-        } else if (proposedMove.isCommonMove()) {
-            CommonMove<ChessPiece> proposedCommonMove = (CommonMove) chessMoveOptional.get();
-            if (!proposedCommonMove.getFrom().isOccupied()) {
-                System.err.println("The from square is not occupied, cannot be moved from");
-            } else {
-                ChessPiece toMove = proposedCommonMove.getFrom().getResident().get();
-                if (!toMakeMove.canMoveFrom(proposedCommonMove.getFrom())) {
-                    System.err.println("Player " + toMakeMove + " cannot move from Piece");
-                    return Optional.empty();
-                }
-                if (!toMove.canMoveTo(chessBoard, proposedCommonMove)) {
-                    System.err.println("This move is not allowed");
-                    return Optional.empty();
-                }
-            }
+        if (proposedMove.isPermitted(toMakeMove, chessBoard)) {
             return Optional.of(proposedMove);
+        } else {
+            System.err.println("This move is not permitted");
+            return Optional.empty();
         }
-
-        System.err.println("Unable to interpret player move instruction");
-        return Optional.empty();
     }
 
     private void playGame() {

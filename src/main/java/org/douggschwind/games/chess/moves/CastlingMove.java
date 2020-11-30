@@ -69,10 +69,13 @@ public class CastlingMove implements ChessMove {
     /**
      * Determines if this move is actually permitted, given the state of the board and the King and Rook pieces
      * involved.
+     * @param player That is attempting to make the move. Must be non-null.
+     * @param chessBoard Must be non-null.
      * @return true if so, false otherwise.
      */
-    public boolean isPermitted(ChessBoard chessBoard) {
-        if (!kingMove.getFrom().isOccupied() || !rookMove.getFrom().isOccupied()) {
+    @Override
+    public boolean isPermitted(Player player, ChessBoard chessBoard) {
+        if ((!player.canMoveFrom(kingMove.getFrom())) || (!player.canMoveFrom(rookMove.getFrom()))) {
             return false;
         }
 
