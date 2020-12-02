@@ -47,8 +47,12 @@ public class Boggle {
         validWords.add("bare");
         validWords.add("bars");
         validWords.add("bares");
+        validWords.add("base");
+        validWords.add("bases");
         validWords.add("bat");
         validWords.add("bats");
+        validWords.add("bay");
+        validWords.add("bays");
         validWords.add("bear");
         validWords.add("bears");
         validWords.add("bee");
@@ -68,7 +72,10 @@ public class Boggle {
         validWords.add("cat");
         validWords.add("coo");
         validWords.add("cot");
+        validWords.add("cub");
+        validWords.add("cubs");
         validWords.add("cut");
+        validWords.add("cuts");
         validWords.add("dane");
         validWords.add("danes");
         validWords.add("dig");
@@ -82,9 +89,12 @@ public class Boggle {
         validWords.add("eaten");
         validWords.add("eats");
         validWords.add("false");
+        validWords.add("far");
+        validWords.add("fare");
         validWords.add("fast");
         validWords.add("faster");
         validWords.add("fastest");
+        validWords.add("fasts");
         validWords.add("fat");
         validWords.add("fate");
         validWords.add("fight");
@@ -99,6 +109,7 @@ public class Boggle {
         validWords.add("fitter");
         validWords.add("float");
         validWords.add("floats");
+        validWords.add("fore");
         validWords.add("fun");
         validWords.add("gem");
         validWords.add("gems");
@@ -146,6 +157,7 @@ public class Boggle {
         validWords.add("nose");
         validWords.add("oat");
         validWords.add("old");
+        validWords.add("ore");
         validWords.add("part");
         validWords.add("parts");
         validWords.add("pin");
@@ -178,6 +190,10 @@ public class Boggle {
         validWords.add("rate");
         validWords.add("rated");
         validWords.add("rates");
+        validWords.add("ray");
+        validWords.add("rays");
+        validWords.add("rest");
+        validWords.add("rests");
         validWords.add("resume");
         validWords.add("return");
         validWords.add("rob");
@@ -222,6 +238,8 @@ public class Boggle {
         validWords.add("store");
         validWords.add("stores");
         validWords.add("stored");
+        validWords.add("stub");
+        validWords.add("stubs");
         validWords.add("tar");
         validWords.add("tare");
         validWords.add("tea");
@@ -233,6 +251,8 @@ public class Boggle {
         validWords.add("tees");
         validWords.add("ten");
         validWords.add("tens");
+        validWords.add("test");
+        validWords.add("tests");
         validWords.add("tomorrow");
         validWords.add("ton");
         validWords.add("tons");
@@ -262,6 +282,7 @@ public class Boggle {
         validWords.add("yaps");
         validWords.add("yell");
         validWords.add("yellow");
+        validWords.add("yes");
         validWords.add("yesterday");
         validWords.add("zap");
         validWords.add("zaps");

@@ -109,6 +109,46 @@ public class BoggleTest {
         assertResults(wordsExpectedToBeFound, wordsFound);
     }
 
+    /**
+     * Here, I just want to test that the searching finds : fast, faster, fastest, fasts. Just want to verify that
+     * after fast is found, the algorithm continues searching and finds faster, etc.
+     */
+    @Test
+    public void test4x4BoggleWordFindingLongerWordsBasedUponShorterWordsPresent() {
+        DieLetter[][] gameBoard = new DieLetter[4][];
+        gameBoard[0] = new DieLetter[4];
+        gameBoard[0][0] = new DieLetter('f');
+        gameBoard[0][1] = new DieLetter('o');
+        gameBoard[0][2] = new DieLetter('r');
+        gameBoard[0][3] = new DieLetter('e');
+        gameBoard[1] = new DieLetter[4];
+        gameBoard[1][0] = new DieLetter('x');
+        gameBoard[1][1] = new DieLetter('a');
+        gameBoard[1][2] = new DieLetter('y');
+        gameBoard[1][3] = new DieLetter('r');
+        gameBoard[2] = new DieLetter[4];
+        gameBoard[2][0] = new DieLetter('c');
+        gameBoard[2][1] = new DieLetter('b');
+        gameBoard[2][2] = new DieLetter('s');
+        gameBoard[2][3] = new DieLetter('e');
+        gameBoard[3] = new DieLetter[4];
+        gameBoard[3][0] = new DieLetter('u');
+        gameBoard[3][1] = new DieLetter('t');
+        gameBoard[3][2] = new DieLetter('s');
+        gameBoard[3][3] = new DieLetter('t');
+
+        String[] wordsExpectedToBeFound = new String[]
+                {
+                        "act", "acts", "bar", "bare", "base", "bases", "bay", "bays", "cub", "cubs", "cut", "cuts",
+                        "far", "fare", "fast", "faster", "fastest", "fasts", "fore", "ore", "ray", "rays",
+                        "rest", "rests", "set", "sets", "stub", "stubs", "test", "tests", "yes"
+                };
+
+        Boggle subject = new Boggle();
+        Set<String> wordsFound = subject.findWordsPresent(4, gameBoard);
+        assertResults(wordsExpectedToBeFound, wordsFound);
+    }
+
     @Test
     public void test5x5BoggleWordFindingNoQuPresent() {
         final int GAME_BOARD_SIZE = 5;
