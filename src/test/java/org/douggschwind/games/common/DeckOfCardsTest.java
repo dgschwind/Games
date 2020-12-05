@@ -4,6 +4,9 @@ import org.douggschwind.games.cardgames.common.FrenchSuitedPlayingCard;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * @author Doug Gschwind
+ */
 public class DeckOfCardsTest {
     @Test
     public void testDeckOfCardsLifecycle() {

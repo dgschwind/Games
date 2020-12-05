@@ -5,6 +5,9 @@ import org.douggschwind.games.cardgames.common.Player;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * @author Doug Gschwind
+ */
 public class ClassicEuchreTest {
     @Test
     public void testHand() {
