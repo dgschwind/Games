@@ -104,7 +104,7 @@ public class Pawn extends ChessPiece {
                 } else {
                     // The square being moved to is unoccupied. The only way this move is possible for a Pawn is
                     // if the En Passant rule comes into play.
-                    Square possibleEnPassantSquare = getPossibleEnPassantSquare(chessBoard, from, to);
+                    Square possibleEnPassantSquare = getPossibleEnPassantSquare(chessBoard, proposedMove);
                     if (!possibleEnPassantSquare.isOccupied()) {
                         return false;
                     } else {
@@ -119,12 +119,11 @@ public class Pawn extends ChessPiece {
     /**
      * Finds the Square that could house an En Passant victim.
      * @param chessBoard
-     * @param from Must be non-null.
-     * @param to Must be non-null.
+     * @param commonMove Must be non-null and properly populated.
      * @return Will be non-null.
      */
-    private Square getPossibleEnPassantSquare(ChessBoard chessBoard, Square from, Square to) {
-        return chessBoard.getSquare(from.getRow(), to.getColumn());
+    private Square getPossibleEnPassantSquare(ChessBoard chessBoard, CommonMove commonMove) {
+        return chessBoard.getSquare(commonMove.getFrom().getRow(), commonMove.getTo().getColumn());
     }
 
     private void attemptCaptureDueToEnPassant(Square possibleEnPassantSquare) {
@@ -146,7 +145,7 @@ public class Pawn extends ChessPiece {
         final Square from = move.getFrom();
         final Square to = move.getTo();
 
-        attemptCaptureDueToEnPassant(getPossibleEnPassantSquare(chessBoard, from, to));
+        attemptCaptureDueToEnPassant(getPossibleEnPassantSquare(chessBoard, move));
 
         if (!hasEverBeenMoved()) {
             initialMoveWasTwoSquares = (move.getAbsNumRowsMovement() == 2);
