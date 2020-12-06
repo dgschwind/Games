@@ -52,7 +52,12 @@ public class Square {
         return getResident().isPresent();
     }
 
-    public boolean isOccupiedByMyOpponent(Square that) {
+    /**
+     * Determines if that square is occupied by the opponent that occupies this square.
+     * @param that Must be non-null.
+     * @return
+     */
+    public boolean isOccupiedByOpponent(Square that) {
         if (!this.isOccupied() || !that.isOccupied()) {
             return false;
         } else {

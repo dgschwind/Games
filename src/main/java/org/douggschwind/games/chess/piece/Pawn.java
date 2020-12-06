@@ -100,7 +100,7 @@ public class Pawn extends ChessPiece {
             } else {
                 // Capturing mode.
                 if (to.isOccupied()) {
-                    return to.isOccupiedByMyOpponent(from);
+                    return to.isOccupiedByOpponent(from);
                 } else {
                     // The square being moved to is unoccupied. The only way this move is possible for a Pawn is
                     // if the En Passant rule comes into play.

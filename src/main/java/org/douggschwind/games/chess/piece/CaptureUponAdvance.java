@@ -12,7 +12,7 @@ public interface CaptureUponAdvance {
     default boolean basicCanMoveTo(CommonMove proposedMove) {
         if (proposedMove.getTo().isOccupied()) {
             // Cannot move to a Square that is occupied by the same Player
-            return proposedMove.getFrom().isOccupiedByMyOpponent(proposedMove.getTo());
+            return proposedMove.getFrom().isOccupiedByOpponent(proposedMove.getTo());
         } else {
             return true;
         }
