@@ -408,7 +408,7 @@ public class Boggle {
         System.out.println(gameBoardSize == 4 ? GAME_BOARD_HEADER_4X4 : GAME_BOARD_HEADER_5x5);
     }
 
-    public void playGame(BoggleDice boggleDice) {
+    void playGame(BoggleDice boggleDice) {
         DieLetter[][] gameBoard = boggleDice.shake();
         displayGameBoard(boggleDice.size(), gameBoard);
 
