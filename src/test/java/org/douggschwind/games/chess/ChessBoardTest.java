@@ -168,6 +168,24 @@ public class ChessBoardTest {
         occupant = rightWhiteRook.getResident().get();
         Assert.assertEquals(Player.WHITE, occupant.getOwner());
         Assert.assertTrue(occupant.isRook());
+
+        String[] boardStateText = underTest.print();
+        Assert.assertEquals(20, boardStateText.length);
+        String rowDelimiter = boardStateText[0];
+        for (int i = 2;i < 20;i += 2) {
+            Assert.assertEquals(rowDelimiter, boardStateText[i]);
+        }
+        Assert.assertEquals("|   |a |b |c |d |e |f |g |h |", boardStateText[1]);
+        Assert.assertEquals("|   |a |b |c |d |e |f |g |h |", boardStateText[19]);
+
+        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|BK|Bb|Bk|Br|", boardStateText[3]);
+        Assert.assertEquals("| 7 |Bp|Bp|Bp|Bp|Bp|Bp|Bp|Bp|", boardStateText[5]);
+        Assert.assertEquals("| 6 |  |  |  |  |  |  |  |  |", boardStateText[7]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
+        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[11]);
+        Assert.assertEquals("| 3 |  |  |  |  |  |  |  |  |", boardStateText[13]);
+        Assert.assertEquals("| 2 |Wp|Wp|Wp|Wp|Wp|Wp|Wp|Wp|", boardStateText[15]);
+        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|WK|Wb|Wk|Wr|", boardStateText[17]);
     }
 
     private void testPlayerCanMoveFrom(Player player,
