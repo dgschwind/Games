@@ -15,6 +15,19 @@ import java.util.Optional;
  * @author Doug Gschwind
  */
 public class ChessBoard {
+    private static final String SQUARE_DELIMITER = "|";
+    private static String COLUMN_IDENTIFIERS_OUTPUT_ROW;
+
+    static {
+        // Column identifiers, used for printing the state of an instance of a ChessBoard are an invariant,
+        // so lets just compute these once.
+        COLUMN_IDENTIFIERS_OUTPUT_ROW = SQUARE_DELIMITER + "   ";
+        for (BoardPosition.Column column : BoardPosition.Column.values()) {
+            COLUMN_IDENTIFIERS_OUTPUT_ROW += SQUARE_DELIMITER + column.name() + " ";
+        }
+        COLUMN_IDENTIFIERS_OUTPUT_ROW += SQUARE_DELIMITER;
+    }
+
     private final Square[] squares;
 
     {
@@ -61,33 +74,40 @@ public class ChessBoard {
         setUpInitialState();
     }
 
-    /**
-     * Prints the current state of the board to System.out.
-     */
-    public void print() {
-        final String ROW_DELIMITER = "-----------------------------";
-        final String SQUARE_DELIMITER = "|";
-        System.out.println(ROW_DELIMITER);
-
-        String columnIdentifiersOutputRow = SQUARE_DELIMITER + "   ";
+    private String printBoardRow(BoardPosition.Row row) {
+        StringBuilder result = new StringBuilder(SQUARE_DELIMITER);
+        result.append(" ");
+        result.append(row.getId());
+        result.append(" ");
         for (BoardPosition.Column column : BoardPosition.Column.values()) {
-            columnIdentifiersOutputRow += SQUARE_DELIMITER + column.name() + " ";
+            result.append(SQUARE_DELIMITER);
+            Optional<String> printAbbreviation = getSquare(row, column).getPrintAbbreviation();
+            result.append(printAbbreviation.map(i -> i).orElse("  "));
         }
-        columnIdentifiersOutputRow += SQUARE_DELIMITER;
+        result.append(SQUARE_DELIMITER);
+        return result.toString();
+    }
 
-        System.out.println(columnIdentifiersOutputRow);
-        System.out.println(ROW_DELIMITER);
+    /**
+     * Prints the current state of the board into the returned array.
+     * @return An array of text, will be non-null and non-empty.
+     */
+    public String[] print() {
+        final String ROW_DELIMITER = "-----------------------------";
+
+        String[] result = new String[(2 * BoardPosition.Row.values().length) + 4];
+        int outputRowIndex = 0;
+        result[outputRowIndex++] = ROW_DELIMITER;
+        result[outputRowIndex++] = COLUMN_IDENTIFIERS_OUTPUT_ROW;
+        result[outputRowIndex++] = ROW_DELIMITER;
+
         for (BoardPosition.Row row : BoardPosition.Row.values()) {
-            System.out.print(SQUARE_DELIMITER + " " + row.getId() + " ");
-            for (BoardPosition.Column column : BoardPosition.Column.values()) {
-                System.out.print(SQUARE_DELIMITER);
-                Optional<String> printAbbreviation = getSquare(row, column).getPrintAbbreviation();
-                System.out.print(printAbbreviation.map(i -> i).orElse("  "));
-            }
-            System.out.println(SQUARE_DELIMITER);
-            System.out.println(ROW_DELIMITER);
+            result[outputRowIndex++] = printBoardRow(row);
+            result[outputRowIndex++] = ROW_DELIMITER;
         }
-        System.out.println(columnIdentifiersOutputRow);
+        result[outputRowIndex++] = COLUMN_IDENTIFIERS_OUTPUT_ROW;
+
+        return result;
     }
 
     public Square getSquare(BoardPosition.Row row, BoardPosition.Column column) {
