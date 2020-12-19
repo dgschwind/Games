@@ -25,6 +25,10 @@ public enum Player {
         return this == WHITE;
     }
 
+    public Player getOpponent() {
+        return isBlack() ? WHITE : BLACK;
+    }
+
     public String getAbbreviation() {
         return abbreviation;
     }

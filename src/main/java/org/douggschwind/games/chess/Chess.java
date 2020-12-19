@@ -17,6 +17,7 @@ import java.util.Optional;
 public class Chess {
     private static final String QUEEN_SIDE_CASTLING_MOVE_INSTRUCTION = "qsc";
     private static final String KING_SIDE_CASTLING_MOVE_INSTRUCTION = "ksc";
+    private static final String CONCEDE_INSTRUCTION = "x";
 
     private final ChessBoard chessBoard = new ChessBoard();
 
@@ -52,13 +53,9 @@ public class Chess {
     }
 
     private Optional<CommonMove<ChessPiece>> interpretCommonMoveInstruction(String moveInstruction) {
-        if ((moveInstruction == null) || (moveInstruction.isEmpty())) {
-            System.err.println("Move instruction malformed. Should be of form bp1 bp2");
-            return Optional.empty();
-        }
         String[] squareIdentifiers = moveInstruction.split(" ");
         if (squareIdentifiers.length != 2) {
-            System.err.println("Move instruction malformed, wrong number of board positions. Should be of form bp1 bp2");
+            printMalformedMoveInstructionFeedback();
             return Optional.empty();
         }
 
@@ -102,15 +99,29 @@ public class Chess {
         return Optional.empty();
     }
 
+    private void printMalformedMoveInstructionFeedback() {
+        String message = "Move instruction malformed. Valid move instructions are of the following forms:";
+        System.err.println(message);
+        System.err.println("\tbp1 bp2 (to move from BoardPosition 1 to BoardPosition 2. e.g. 8b 6c)");
+        System.err.println("\t" + QUEEN_SIDE_CASTLING_MOVE_INSTRUCTION + " (for Queen side Castling)");
+        System.err.println("\t" + KING_SIDE_CASTLING_MOVE_INSTRUCTION + " (for King side Castling)");
+        System.err.println("\t" + CONCEDE_INSTRUCTION + " (to concede game)");
+        System.err.println();
+    }
+
     private Optional<? extends ChessMove> interpretMoveInstruction(Player toMakeMove, String moveInstruction) {
-        if ((moveInstruction == null) || (moveInstruction.isEmpty())) {
-            String message = "Move instruction malformed. Should be of form " +
-                    QUEEN_SIDE_CASTLING_MOVE_INSTRUCTION +
-                    " or " +
-                    KING_SIDE_CASTLING_MOVE_INSTRUCTION +
-                    " or bp1 bp2";
-            System.err.println(message);
+        if ((moveInstruction == null) || moveInstruction.isEmpty() || moveInstruction.split(" ").length > 2) {
+            printMalformedMoveInstructionFeedback();
             return Optional.empty();
+        }
+
+        if (CONCEDE_INSTRUCTION.equals(moveInstruction)) {
+            String message = "Player " +
+                   toMakeMove.name() +
+                   " has conceded. Game has been won by Player " +
+                   toMakeMove.getOpponent().name();
+            System.out.println(message);
+            System.exit(0);
         }
 
         if (QUEEN_SIDE_CASTLING_MOVE_INSTRUCTION.equals(moveInstruction) ||
@@ -133,8 +144,14 @@ public class Chess {
     }
 
     private Optional<? extends ChessMove> getValidPlayerMoveInstruction(BufferedReader reader, Player toMakeMove) {
+        final String playerMoveInstructionPrompt = "Player " + toMakeMove.name() + " move : ";
+        System.out.print(playerMoveInstructionPrompt);
+
         Optional<? extends ChessMove> chessMoveOptional = getPlayerMoveInstruction(reader, toMakeMove);
         while (!chessMoveOptional.isPresent()) {
+            // Issue println against System.out for output alignment for end user.
+            System.out.println();
+            System.out.print(playerMoveInstructionPrompt);
             chessMoveOptional = getPlayerMoveInstruction(reader, toMakeMove);
         }
 
@@ -161,7 +178,6 @@ public class Chess {
         // TODO: Check for checkmate
         while (true) { // TODO
             printChessBoardState();
-            System.out.print("Player " + toMakeMove.name() + " move : ");
 
             Optional<? extends ChessMove> validPlayerMoveOptional = getValidPlayerMoveInstruction(reader, toMakeMove);
             System.out.println();
