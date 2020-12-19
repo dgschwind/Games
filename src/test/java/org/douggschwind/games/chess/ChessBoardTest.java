@@ -363,6 +363,16 @@ public class ChessBoardTest {
         Assert.assertFalse(fiveA.isOccupied());
         Assert.assertTrue(sixA.isOccupied());
         Assert.assertSame(whitePawn, sixA.getResident().get());
+
+        String[] boardStateText = underTest.print();
+        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|BK|Bb|Bk|Br|", boardStateText[3]);
+        Assert.assertEquals("| 7 |  |Bp|Bp|Bp|Bp|Bp|Bp|Bp|", boardStateText[5]);
+        Assert.assertEquals("| 6 |Wp|  |  |  |  |  |  |  |", boardStateText[7]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
+        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[11]);
+        Assert.assertEquals("| 3 |  |  |  |  |  |  |  |  |", boardStateText[13]);
+        Assert.assertEquals("| 2 |Wp|  |Wp|Wp|Wp|Wp|Wp|Wp|", boardStateText[15]);
+        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|WK|Wb|Wk|Wr|", boardStateText[17]);
     }
 
     @Test
@@ -404,6 +414,16 @@ public class ChessBoardTest {
         Assert.assertFalse(fiveC.isOccupied());
         Assert.assertTrue(sixC.isOccupied());
         Assert.assertSame(whitePawn, sixC.getResident().get());
+
+        String[] boardStateText = underTest.print();
+        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|BK|Bb|Bk|Br|", boardStateText[3]);
+        Assert.assertEquals("| 7 |Bp|Bp|  |Bp|Bp|Bp|Bp|Bp|", boardStateText[5]);
+        Assert.assertEquals("| 6 |  |  |Wp|  |  |  |  |  |", boardStateText[7]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
+        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[11]);
+        Assert.assertEquals("| 3 |  |  |  |  |  |  |  |  |", boardStateText[13]);
+        Assert.assertEquals("| 2 |Wp|  |Wp|Wp|Wp|Wp|Wp|Wp|", boardStateText[15]);
+        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|WK|Wb|Wk|Wr|", boardStateText[17]);
     }
 
     @Test
@@ -499,6 +519,16 @@ public class ChessBoardTest {
         Assert.assertFalse(oneE.isOccupied());
         final Square oneH = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.h);
         Assert.assertFalse(oneH.isOccupied());
+
+        String[] boardStateText = underTest.print();
+        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|  |Br|BK|  |", boardStateText[3]);
+        Assert.assertEquals("| 7 |Bp|Bp|Bp|Bp|Bp|Bp|  |Bp|", boardStateText[5]);
+        Assert.assertEquals("| 6 |  |  |  |  |  |Bk|Bp|Bb|", boardStateText[7]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
+        Assert.assertEquals("| 4 |  |  |Wb|  |  |  |  |  |", boardStateText[11]);
+        Assert.assertEquals("| 3 |  |  |  |  |Wp|  |  |Wk|", boardStateText[13]);
+        Assert.assertEquals("| 2 |Wp|Wp|Wp|Wp|  |Wp|Wp|Wp|", boardStateText[15]);
+        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|  |Wr|WK|  |", boardStateText[17]);
     }
 
     @Test
@@ -609,5 +639,15 @@ public class ChessBoardTest {
         Assert.assertFalse(oneE.isOccupied());
         final Square oneA = underTest.getSquare(BoardPosition.Row.R1, BoardPosition.Column.a);
         Assert.assertFalse(oneA.isOccupied());
+
+        String[] boardStateText = underTest.print();
+        Assert.assertEquals("| 8 |  |  |BK|Br|  |Bb|Bk|Br|", boardStateText[3]);
+        Assert.assertEquals("| 7 |Bp|Bp|Bp|BQ|Bp|Bp|Bp|Bp|", boardStateText[5]);
+        Assert.assertEquals("| 6 |Bk|  |  |Bp|Bb|  |  |  |", boardStateText[7]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
+        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[11]);
+        Assert.assertEquals("| 3 |Wk|  |  |Wp|Wb|  |  |  |", boardStateText[13]);
+        Assert.assertEquals("| 2 |Wp|Wp|Wp|WQ|Wp|Wp|Wp|Wp|", boardStateText[15]);
+        Assert.assertEquals("| 1 |  |  |WK|Wr|  |Wb|Wk|Wr|", boardStateText[17]);
     }
 }
