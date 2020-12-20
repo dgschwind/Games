@@ -93,11 +93,11 @@ public class ChessBoard {
      * @return An array of text, will be non-null and non-empty.
      */
     public String[] print() {
-        final String ROW_DELIMITER = "-----------------------------";
+        // final String ROW_DELIMITER = "-----------------------------";
+        final String ROW_DELIMITER = "=============================";
 
-        String[] result = new String[(2 * BoardPosition.Row.values().length) + 4];
+        String[] result = new String[(2 * BoardPosition.Row.values().length) + 3];
         int outputRowIndex = 0;
-        result[outputRowIndex++] = ROW_DELIMITER;
         result[outputRowIndex++] = COLUMN_IDENTIFIERS_OUTPUT_ROW;
         result[outputRowIndex++] = ROW_DELIMITER;
 

@@ -170,22 +170,22 @@ public class ChessBoardTest {
         Assert.assertTrue(occupant.isRook());
 
         String[] boardStateText = underTest.print();
-        Assert.assertEquals(20, boardStateText.length);
-        String rowDelimiter = boardStateText[0];
-        for (int i = 2;i < 20;i += 2) {
+        Assert.assertEquals(19, boardStateText.length);
+        String rowDelimiter = boardStateText[1];
+        for (int i = 3;i < 19;i += 2) {
             Assert.assertEquals(rowDelimiter, boardStateText[i]);
         }
-        Assert.assertEquals("|   |a |b |c |d |e |f |g |h |", boardStateText[1]);
-        Assert.assertEquals("|   |a |b |c |d |e |f |g |h |", boardStateText[19]);
+        Assert.assertEquals("|   |a |b |c |d |e |f |g |h |", boardStateText[0]);
+        Assert.assertEquals("|   |a |b |c |d |e |f |g |h |", boardStateText[18]);
 
-        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|BK|Bb|Bk|Br|", boardStateText[3]);
-        Assert.assertEquals("| 7 |Bp|Bp|Bp|Bp|Bp|Bp|Bp|Bp|", boardStateText[5]);
-        Assert.assertEquals("| 6 |  |  |  |  |  |  |  |  |", boardStateText[7]);
-        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
-        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[11]);
-        Assert.assertEquals("| 3 |  |  |  |  |  |  |  |  |", boardStateText[13]);
-        Assert.assertEquals("| 2 |Wp|Wp|Wp|Wp|Wp|Wp|Wp|Wp|", boardStateText[15]);
-        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|WK|Wb|Wk|Wr|", boardStateText[17]);
+        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|BK|Bb|Bk|Br|", boardStateText[2]);
+        Assert.assertEquals("| 7 |Bp|Bp|Bp|Bp|Bp|Bp|Bp|Bp|", boardStateText[4]);
+        Assert.assertEquals("| 6 |  |  |  |  |  |  |  |  |", boardStateText[6]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[8]);
+        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[10]);
+        Assert.assertEquals("| 3 |  |  |  |  |  |  |  |  |", boardStateText[12]);
+        Assert.assertEquals("| 2 |Wp|Wp|Wp|Wp|Wp|Wp|Wp|Wp|", boardStateText[14]);
+        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|WK|Wb|Wk|Wr|", boardStateText[16]);
     }
 
     private void testPlayerCanMoveFrom(Player player,
@@ -365,14 +365,14 @@ public class ChessBoardTest {
         Assert.assertSame(whitePawn, sixA.getResident().get());
 
         String[] boardStateText = underTest.print();
-        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|BK|Bb|Bk|Br|", boardStateText[3]);
-        Assert.assertEquals("| 7 |  |Bp|Bp|Bp|Bp|Bp|Bp|Bp|", boardStateText[5]);
-        Assert.assertEquals("| 6 |Wp|  |  |  |  |  |  |  |", boardStateText[7]);
-        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
-        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[11]);
-        Assert.assertEquals("| 3 |  |  |  |  |  |  |  |  |", boardStateText[13]);
-        Assert.assertEquals("| 2 |Wp|  |Wp|Wp|Wp|Wp|Wp|Wp|", boardStateText[15]);
-        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|WK|Wb|Wk|Wr|", boardStateText[17]);
+        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|BK|Bb|Bk|Br|", boardStateText[2]);
+        Assert.assertEquals("| 7 |  |Bp|Bp|Bp|Bp|Bp|Bp|Bp|", boardStateText[4]);
+        Assert.assertEquals("| 6 |Wp|  |  |  |  |  |  |  |", boardStateText[6]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[8]);
+        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[10]);
+        Assert.assertEquals("| 3 |  |  |  |  |  |  |  |  |", boardStateText[12]);
+        Assert.assertEquals("| 2 |Wp|  |Wp|Wp|Wp|Wp|Wp|Wp|", boardStateText[14]);
+        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|WK|Wb|Wk|Wr|", boardStateText[16]);
     }
 
     @Test
@@ -416,14 +416,14 @@ public class ChessBoardTest {
         Assert.assertSame(whitePawn, sixC.getResident().get());
 
         String[] boardStateText = underTest.print();
-        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|BK|Bb|Bk|Br|", boardStateText[3]);
-        Assert.assertEquals("| 7 |Bp|Bp|  |Bp|Bp|Bp|Bp|Bp|", boardStateText[5]);
-        Assert.assertEquals("| 6 |  |  |Wp|  |  |  |  |  |", boardStateText[7]);
-        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
-        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[11]);
-        Assert.assertEquals("| 3 |  |  |  |  |  |  |  |  |", boardStateText[13]);
-        Assert.assertEquals("| 2 |Wp|  |Wp|Wp|Wp|Wp|Wp|Wp|", boardStateText[15]);
-        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|WK|Wb|Wk|Wr|", boardStateText[17]);
+        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|BK|Bb|Bk|Br|", boardStateText[2]);
+        Assert.assertEquals("| 7 |Bp|Bp|  |Bp|Bp|Bp|Bp|Bp|", boardStateText[4]);
+        Assert.assertEquals("| 6 |  |  |Wp|  |  |  |  |  |", boardStateText[6]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[8]);
+        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[10]);
+        Assert.assertEquals("| 3 |  |  |  |  |  |  |  |  |", boardStateText[12]);
+        Assert.assertEquals("| 2 |Wp|  |Wp|Wp|Wp|Wp|Wp|Wp|", boardStateText[14]);
+        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|WK|Wb|Wk|Wr|", boardStateText[16]);
     }
 
     @Test
@@ -521,14 +521,14 @@ public class ChessBoardTest {
         Assert.assertFalse(oneH.isOccupied());
 
         String[] boardStateText = underTest.print();
-        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|  |Br|BK|  |", boardStateText[3]);
-        Assert.assertEquals("| 7 |Bp|Bp|Bp|Bp|Bp|Bp|  |Bp|", boardStateText[5]);
-        Assert.assertEquals("| 6 |  |  |  |  |  |Bk|Bp|Bb|", boardStateText[7]);
-        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
-        Assert.assertEquals("| 4 |  |  |Wb|  |  |  |  |  |", boardStateText[11]);
-        Assert.assertEquals("| 3 |  |  |  |  |Wp|  |  |Wk|", boardStateText[13]);
-        Assert.assertEquals("| 2 |Wp|Wp|Wp|Wp|  |Wp|Wp|Wp|", boardStateText[15]);
-        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|  |Wr|WK|  |", boardStateText[17]);
+        Assert.assertEquals("| 8 |Br|Bk|Bb|BQ|  |Br|BK|  |", boardStateText[2]);
+        Assert.assertEquals("| 7 |Bp|Bp|Bp|Bp|Bp|Bp|  |Bp|", boardStateText[4]);
+        Assert.assertEquals("| 6 |  |  |  |  |  |Bk|Bp|Bb|", boardStateText[6]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[8]);
+        Assert.assertEquals("| 4 |  |  |Wb|  |  |  |  |  |", boardStateText[10]);
+        Assert.assertEquals("| 3 |  |  |  |  |Wp|  |  |Wk|", boardStateText[12]);
+        Assert.assertEquals("| 2 |Wp|Wp|Wp|Wp|  |Wp|Wp|Wp|", boardStateText[14]);
+        Assert.assertEquals("| 1 |Wr|Wk|Wb|WQ|  |Wr|WK|  |", boardStateText[16]);
     }
 
     @Test
@@ -641,13 +641,13 @@ public class ChessBoardTest {
         Assert.assertFalse(oneA.isOccupied());
 
         String[] boardStateText = underTest.print();
-        Assert.assertEquals("| 8 |  |  |BK|Br|  |Bb|Bk|Br|", boardStateText[3]);
-        Assert.assertEquals("| 7 |Bp|Bp|Bp|BQ|Bp|Bp|Bp|Bp|", boardStateText[5]);
-        Assert.assertEquals("| 6 |Bk|  |  |Bp|Bb|  |  |  |", boardStateText[7]);
-        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[9]);
-        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[11]);
-        Assert.assertEquals("| 3 |Wk|  |  |Wp|Wb|  |  |  |", boardStateText[13]);
-        Assert.assertEquals("| 2 |Wp|Wp|Wp|WQ|Wp|Wp|Wp|Wp|", boardStateText[15]);
-        Assert.assertEquals("| 1 |  |  |WK|Wr|  |Wb|Wk|Wr|", boardStateText[17]);
+        Assert.assertEquals("| 8 |  |  |BK|Br|  |Bb|Bk|Br|", boardStateText[2]);
+        Assert.assertEquals("| 7 |Bp|Bp|Bp|BQ|Bp|Bp|Bp|Bp|", boardStateText[4]);
+        Assert.assertEquals("| 6 |Bk|  |  |Bp|Bb|  |  |  |", boardStateText[6]);
+        Assert.assertEquals("| 5 |  |  |  |  |  |  |  |  |", boardStateText[8]);
+        Assert.assertEquals("| 4 |  |  |  |  |  |  |  |  |", boardStateText[10]);
+        Assert.assertEquals("| 3 |Wk|  |  |Wp|Wb|  |  |  |", boardStateText[12]);
+        Assert.assertEquals("| 2 |Wp|Wp|Wp|WQ|Wp|Wp|Wp|Wp|", boardStateText[14]);
+        Assert.assertEquals("| 1 |  |  |WK|Wr|  |Wb|Wk|Wr|", boardStateText[16]);
     }
 }
